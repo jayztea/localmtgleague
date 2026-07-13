@@ -1,9 +1,14 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+import { jwtConfig } from "../config/jwt";
 
 import * as userRepository from "../repositories/userRepository";
 import * as playerRepository from "../repositories/playerRepository";
 
 import { ConflictError } from "../errors/ConflictError";
+import { UnauthorizedError } from "../errors/UnauthorizedError";
+
 
 
 export async function registerUser(
@@ -29,6 +34,8 @@ export async function registerUser(
         await bcrypt.hash(password, 10);
 
 
+    // Temporary default account type
+    // We can make this configurable later
     const accountTypeId = 2;
 
 
@@ -55,10 +62,54 @@ export async function registerUser(
 }
 
 
-export async function loginUser() {
 
-    throw new Error(
-        "Login not implemented yet"
+
+export async function loginUser(
+    email: string,
+    password: string
+) {
+
+    const user =
+        await userRepository.findByEmail(email);
+
+
+    if (!user) {
+
+        throw new UnauthorizedError(
+            "Invalid email or password."
+        );
+
+    }
+
+
+    const passwordMatches =
+        await bcrypt.compare(
+            password,
+            user.password_hash
+        );
+
+
+    if (!passwordMatches) {
+
+        throw new UnauthorizedError(
+            "Invalid email or password."
+        );
+
+    }
+
+
+    const token = jwt.sign(
+        {
+            user_id: user.user_id,
+            email_address: user.email_address
+        },
+        jwtConfig.secret,
+        jwtConfig.options
     );
+
+
+    return {
+        token
+    };
 
 }
