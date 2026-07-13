@@ -47,7 +47,6 @@ export async function register(
 
 
 
-
 export async function login(
     req: Request,
     res: Response,
@@ -56,9 +55,20 @@ export async function login(
 
     try {
 
-        return res.status(501).json({
-            message: "Login not implemented yet."
-        });
+        const {
+            email_address,
+            password
+        } = req.body;
+
+
+        const result =
+            await authService.loginUser(
+                email_address,
+                password
+            );
+
+
+        return res.json(result);
 
 
     } catch(error) {
