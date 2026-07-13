@@ -1,10 +1,18 @@
-import { Request, Response } from "express";
+import {
+    Request,
+    Response,
+    NextFunction
+} from "express";
+
 
 import * as authService from "../services/authService";
 
+
+
 export async function register(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
 ) {
 
     try {
@@ -15,31 +23,47 @@ export async function register(
             display_name
         } = req.body;
 
+
         const user = await authService.registerUser(
             email_address,
             password,
             display_name
         );
 
+
         return res.status(201).json({
             message: "User registered successfully.",
             user
         });
 
+
+    } catch (error) {
+
+        next(error);
+
     }
-    catch (error: any) {
 
-        if (error.message === "EMAIL_ALREADY_EXISTS") {
-            return res.status(409).json({
-                message: "An account with this email already exists."
-            });
-        }
+}
 
-        console.error(error);
 
-        return res.status(500).json({
-            message: "Registration failed."
+
+
+export async function login(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+
+    try {
+
+        return res.status(501).json({
+            message: "Login not implemented yet."
         });
+
+
+    } catch(error) {
+
+        next(error);
 
     }
 

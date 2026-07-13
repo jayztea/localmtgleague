@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import authRoutes from "./routes/auth";
-import testRoutes from "./routes/test";
+import healthRoutes from "./routes/health";
+
+import { errorHandler } from "./middleware/errorHandler";
 
 dotenv.config();
 
@@ -15,21 +17,17 @@ app.use(cors());
 app.use(express.json());
 
 
-// Health check
-app.get("/health", (req, res) => {
-    res.json({
-        status: "ok",
-        service: "mtg-league-api"
-    });
-});
-
-
-// API Routes
+// Routes
 app.use("/auth", authRoutes);
-app.use("/test", testRoutes);
+app.use("/health", healthRoutes);
 
 
-// Start server
+// Global Error Handler
+// MUST be after all routes
+app.use(errorHandler);
+
+
+// Start Server
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
