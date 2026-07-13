@@ -1,6 +1,5 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 import { db } from "../db";
 
@@ -8,101 +7,95 @@ import { db } from "../db";
 const router = Router();
 
 
+
 router.post("/register", async (req, res) => {
 
-    const {
-        email_address,
-        password
-    } = req.body;
+    try {
 
-
-    const password_hash = await bcrypt.hash(password, 10);
-
-
-    await db.query(
-        `
-        INSERT INTO users
-        (
+        const {
             email_address,
-            password_hash,
-            account_type_id
-        )
-        VALUES (?, ?, ?)
-        `,
-        [
-            email_address,
-            password_hash,
-            2
-        ]
-    );
+            password,
+            display_name
+        } = req.body;
 
-
-    res.json({
-        message: "User created"
-    });
-
-});
-
-
-router.post("/login", async (req,res)=>{
-
-    const {
-        email_address,
-        password
-    } = req.body;
-
-
-    const [rows]: any = await db.query(
-        `
-        SELECT *
-        FROM users
-        WHERE email_address = ?
-        `,
-        [
-            email_address
-        ]
-    );
-
-
-    if(rows.length === 0)
-    {
-        return res.status(401).json({
-            message:"Invalid login"
-        });
-    }
-
-
-    const user = rows[0];
-
-
-    const valid = await bcrypt.compare(
-        password,
-        user.password_hash
-    );
-
-
-    if(!valid)
-    {
-        return res.status(401).json({
-            message:"Invalid login"
-        });
-    }
-
-
-    const token = jwt.sign(
+        if(!email_address || !password || !display_name)
         {
-            user_id:user.user_id
-        },
-        process.env.JWT_SECRET!,
-        {
-            expiresIn:"1d"
+            return res.status(400).json({
+                message:"Email, password, and display name are required."
+            });
         }
-    );
+
+        // Hash password
+        const password_hash = await bcrypt.hash(password, 10);
 
 
-    res.json({
-        token
-    });
+
+        // Create user
+        const [userResult]: any = await db.query(
+            `
+            INSERT INTO users
+            (
+                email_address,
+                password_hash,
+                account_type_id
+            )
+            VALUES (?, ?, ?)
+            `,
+            [
+                email_address,
+                password_hash,
+                2
+            ]
+        );
+
+
+        const user_id = userResult.insertId;
+
+
+
+        // Create player profile
+        await db.query(
+            `
+            INSERT INTO players
+            (
+                user_id,
+                display_name
+            )
+            VALUES (?, ?)
+            `,
+            [
+                user_id,
+                display_name
+            ]
+        );
+
+
+
+        res.status(201).json({
+            message:"User created",
+            user_id
+        });
+
+
+    } catch(error:any) {
+
+        console.error(error);
+
+
+        if(error.code === "ER_DUP_ENTRY") {
+
+            return res.status(409).json({
+                message:"An account with this information already exists."
+            });
+
+        }
+
+
+        res.status(500).json({
+            message:"Registration failed. Please try again later."
+        });
+
+    }
 
 });
 
