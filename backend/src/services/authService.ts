@@ -3,43 +3,62 @@ import bcrypt from "bcrypt";
 import * as userRepository from "../repositories/userRepository";
 import * as playerRepository from "../repositories/playerRepository";
 
+import { ConflictError } from "../errors/ConflictError";
+
+
 export async function registerUser(
     email: string,
     password: string,
     displayName: string
 ) {
 
-    // Validate
-    if (!email || !password || !displayName) {
-        throw new Error("Missing required fields.");
-    }
+    const existingUser =
+        await userRepository.findByEmail(email);
 
-    // Check if user already exists
-    const existingUser = await userRepository.findByEmail(email);
 
     if (existingUser) {
-        throw new Error("EMAIL_ALREADY_EXISTS");
+
+        throw new ConflictError(
+            "An account with this email already exists."
+        );
+
     }
 
-    // Hash password
-    const passwordHash = await bcrypt.hash(password, 10);
 
-    // Create user
-    const userId = await userRepository.createUser(
-        email,
-        passwordHash,
-        2
-    );
+    const passwordHash =
+        await bcrypt.hash(password, 10);
 
-    // Create player profile
+
+    const accountTypeId = 2;
+
+
+    const userId =
+        await userRepository.createUser(
+            email,
+            passwordHash,
+            accountTypeId
+        );
+
+
     await playerRepository.createPlayer(
         userId,
         displayName
     );
+
 
     return {
         userId,
         email,
         displayName
     };
+
+}
+
+
+export async function loginUser() {
+
+    throw new Error(
+        "Login not implemented yet"
+    );
+
 }
