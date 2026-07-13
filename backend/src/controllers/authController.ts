@@ -2,31 +2,45 @@ import { Request, Response } from "express";
 
 import * as authService from "../services/authService";
 
-
-export const register = async (
+export async function register(
     req: Request,
     res: Response
-) => {
+) {
 
-    await authService.registerUser();
+    try {
 
-    res.json({
-        message:"Register endpoint"
-    });
+        const {
+            email_address,
+            password,
+            display_name
+        } = req.body;
 
-};
+        const user = await authService.registerUser(
+            email_address,
+            password,
+            display_name
+        );
 
+        return res.status(201).json({
+            message: "User registered successfully.",
+            user
+        });
 
+    }
+    catch (error: any) {
 
-export const login = async (
-    req: Request,
-    res: Response
-) => {
+        if (error.message === "EMAIL_ALREADY_EXISTS") {
+            return res.status(409).json({
+                message: "An account with this email already exists."
+            });
+        }
 
-    await authService.loginUser();
+        console.error(error);
 
-    res.json({
-        message:"Login endpoint"
-    });
+        return res.status(500).json({
+            message: "Registration failed."
+        });
 
-};
+    }
+
+}

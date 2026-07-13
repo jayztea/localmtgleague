@@ -1,11 +1,45 @@
-export const registerUser = async () => {
+import bcrypt from "bcrypt";
 
-    console.log("Register User");
+import * as userRepository from "../repositories/userRepository";
+import * as playerRepository from "../repositories/playerRepository";
 
-};
+export async function registerUser(
+    email: string,
+    password: string,
+    displayName: string
+) {
 
-export const loginUser = async () => {
+    // Validate
+    if (!email || !password || !displayName) {
+        throw new Error("Missing required fields.");
+    }
 
-    console.log("Login User");
+    // Check if user already exists
+    const existingUser = await userRepository.findByEmail(email);
 
-};
+    if (existingUser) {
+        throw new Error("EMAIL_ALREADY_EXISTS");
+    }
+
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Create user
+    const userId = await userRepository.createUser(
+        email,
+        passwordHash,
+        2
+    );
+
+    // Create player profile
+    await playerRepository.createPlayer(
+        userId,
+        displayName
+    );
+
+    return {
+        userId,
+        email,
+        displayName
+    };
+}
