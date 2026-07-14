@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth";
 import testRoutes from "./routes/test";
 import healthRoutes from "./routes/health";
-
+import leagueRoutes from "./routes/leagues";
 import { errorHandler } from "./middleware/errorHandler";
 
 
@@ -25,6 +25,7 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/test", testRoutes);
 app.use("/health", healthRoutes);
+app.use("/leagues",leagueRoutes);
 
 
 // Global Error Handler
