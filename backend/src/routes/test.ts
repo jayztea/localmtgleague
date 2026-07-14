@@ -1,28 +1,23 @@
 import { Router } from "express";
-import { db } from "../db";
+
+import { authenticateToken } from "../middleware/authMiddleware";
+
 
 const router = Router();
 
-router.get("/database", async (req, res) => {
 
-    try {
+router.get(
+    "/protected",
+    authenticateToken,
+    (req, res) => {
 
-        const [rows] = await db.query(
-            "SELECT 1 AS connected"
-        );
-
-        res.json(rows);
-
-    } catch(error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            error:"Database connection failed"
+        res.json({
+            message: "You are authenticated!",
+            user: (req as any).user
         });
 
     }
+);
 
-});
 
 export default router;
