@@ -3,12 +3,7 @@ import jwt from "jsonwebtoken";
 
 import { jwtConfig } from "../config/jwt";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
-
-
-interface JwtPayload {
-    user_id: number;
-    email_address: string;
-}
+import { AuthUser } from "../types/AuthUser";
 
 
 export function authenticateToken(
@@ -43,10 +38,10 @@ export function authenticateToken(
             jwt.verify(
                 token,
                 jwtConfig.secret
-            ) as JwtPayload;
+            ) as AuthUser;
 
 
-        (req as Request & { user?: JwtPayload }).user = decoded;
+        (req as Request & { user?: AuthUser }).user = decoded;
 
 
         next();
