@@ -1,0 +1,2 @@
+ALTER TABLE leagues
+ADD COLUMN description VARCHAR(500) NULL;
