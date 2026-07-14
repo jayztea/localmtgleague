@@ -1,25 +1,25 @@
-import { db } from "../db";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 
+import { db } from "../db";
+import { User } from "../models/User";
 
 export async function findByEmail(
     email: string
-) {
+): Promise<User | null> {
 
-    const [rows]: any = await db.execute(
+    const [rows] = await db.execute<(User & RowDataPacket)[]>(
         `
         SELECT
             user_id,
             email_address,
             password_hash,
-            account_type_id
+            account_type_id,
+            created_date
         FROM users
         WHERE email_address = ?
         `,
-        [
-            email
-        ]
+        [email]
     );
-
 
     return rows.length
         ? rows[0]
@@ -27,38 +27,39 @@ export async function findByEmail(
 
 }
 
-
-
 export async function createUser(
     email: string,
     passwordHash: string,
     accountTypeId: number
-) {
+): Promise<number> {
 
-    const [result]: any = await db.execute(
-        `
-        INSERT INTO users
-        (
-            email_address,
-            password_hash,
-            account_type_id
-        )
-        VALUES (?, ?, ?)
-        `,
-        [
-            email,
-            passwordHash,
-            accountTypeId
-        ]
-    );
-
+    const [result] =
+        await db.execute<ResultSetHeader>(
+            `
+            INSERT INTO users
+            (
+                email_address,
+                password_hash,
+                account_type_id
+            )
+            VALUES (?, ?, ?)
+            `,
+            [
+                email,
+                passwordHash,
+                accountTypeId
+            ]
+        );
 
     return result.insertId;
 
 }
 
-export async function findById(userId: number) {
-    const [rows]: any = await db.execute(
+export async function findById(
+    userId: number
+): Promise<User | null> {
+
+    const [rows] = await db.execute<(User & RowDataPacket)[]>(
         `
         SELECT
             user_id,
@@ -71,5 +72,8 @@ export async function findById(userId: number) {
         [userId]
     );
 
-    return rows[0] ?? null;
+    return rows.length
+        ? rows[0]
+        : null;
+
 }

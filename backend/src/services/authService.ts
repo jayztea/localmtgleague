@@ -11,8 +11,6 @@ import { ConflictError } from "../errors/ConflictError";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
 import { NotFoundError } from "../errors/NotFoundError";
 
-
-
 export async function registerUser(
     email: string,
     password: string,
@@ -22,24 +20,18 @@ export async function registerUser(
     const existingUser =
         await userRepository.findByEmail(email);
 
-
     if (existingUser) {
-
         throw new ConflictError(
             "An account with this email already exists."
         );
-
     }
-
 
     const passwordHash =
         await bcrypt.hash(password, 10);
 
-
-    // Temporary default account type
-    // We can make this configurable later
+    // TODO:
+    // Replace with lookup from account_types table
     const accountTypeId = 2;
-
 
     const userId =
         await userRepository.createUser(
@@ -48,22 +40,18 @@ export async function registerUser(
             accountTypeId
         );
 
-
     await playerRepository.createPlayer(
         userId,
         displayName
     );
 
-
     return {
-        userId,
-        email,
-        displayName
+        user_id: userId,
+        email_address: email,
+        display_name: displayName
     };
 
 }
-
-
 
 export async function loginUser(
     email: string,
@@ -108,12 +96,17 @@ export async function loginUser(
 
 }
 
-export async function getCurrentUser(userId: number) {
+export async function getCurrentUser(
+    userId: number
+) {
 
-    const user = await userRepository.findById(userId);
+    const user =
+        await userRepository.findById(userId);
 
     if (!user) {
-        throw new NotFoundError("User not found.");
+        throw new NotFoundError(
+            "User not found."
+        );
     }
 
     return {
