@@ -3,9 +3,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import authRoutes from "./routes/auth";
+import testRoutes from "./routes/test";
 import healthRoutes from "./routes/health";
 
 import { errorHandler } from "./middleware/errorHandler";
+
+
+
 
 dotenv.config();
 
@@ -19,6 +23,7 @@ app.use(express.json());
 
 // Routes
 app.use("/auth", authRoutes);
+app.use("/test", testRoutes);
 app.use("/health", healthRoutes);
 
 
@@ -32,4 +37,6 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+
+
 });
