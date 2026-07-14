@@ -2,12 +2,14 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { jwtConfig } from "../config/jwt";
+import { AuthUser } from "../types/AuthUser";
 
 import * as userRepository from "../repositories/userRepository";
 import * as playerRepository from "../repositories/playerRepository";
 
 import { ConflictError } from "../errors/ConflictError";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
+import { NotFoundError } from "../errors/NotFoundError";
 
 
 
@@ -63,7 +65,6 @@ export async function registerUser(
 
 
 
-
 export async function loginUser(
     email: string,
     password: string
@@ -72,15 +73,11 @@ export async function loginUser(
     const user =
         await userRepository.findByEmail(email);
 
-
     if (!user) {
-
         throw new UnauthorizedError(
             "Invalid email or password."
         );
-
     }
-
 
     const passwordMatches =
         await bcrypt.compare(
@@ -88,28 +85,42 @@ export async function loginUser(
             user.password_hash
         );
 
-
     if (!passwordMatches) {
-
         throw new UnauthorizedError(
             "Invalid email or password."
         );
-
     }
 
+    const payload: AuthUser = {
+        user_id: user.user_id,
+        email_address: user.email_address
+    };
 
     const token = jwt.sign(
-        {
-            user_id: user.user_id,
-            email_address: user.email_address
-        },
+        payload,
         jwtConfig.secret,
         jwtConfig.options
     );
 
-
     return {
         token
+    };
+
+}
+
+export async function getCurrentUser(userId: number) {
+
+    const user = await userRepository.findById(userId);
+
+    if (!user) {
+        throw new NotFoundError("User not found.");
+    }
+
+    return {
+        user_id: user.user_id,
+        email_address: user.email_address,
+        account_type_id: user.account_type_id,
+        created_date: user.created_date
     };
 
 }

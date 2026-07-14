@@ -9,6 +9,8 @@ import {
     loginSchema
 } from "../schemas/authSchemas";
 
+import { authenticateToken } from "../middleware/authMiddleware";
+
 const router = Router();
 
 router.post(
@@ -21,6 +23,12 @@ router.post(
     "/login",
     validateRequest(loginSchema),
     authController.login
+);
+
+router.get(
+    "/me",
+    authenticateToken,
+    authController.me
 );
 
 export default router;

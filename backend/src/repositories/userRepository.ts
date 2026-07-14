@@ -56,3 +56,20 @@ export async function createUser(
     return result.insertId;
 
 }
+
+export async function findById(userId: number) {
+    const [rows]: any = await db.execute(
+        `
+        SELECT
+            user_id,
+            email_address,
+            account_type_id,
+            created_date
+        FROM users
+        WHERE user_id = ?
+        `,
+        [userId]
+    );
+
+    return rows[0] ?? null;
+}

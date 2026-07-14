@@ -78,3 +78,25 @@ export async function login(
     }
 
 }
+
+export async function me(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+
+    try {
+
+        const user = await authService.getCurrentUser(
+            (req as any).user!.user_id
+        );
+
+        res.json(user);
+
+    } catch (error) {
+
+        next(error);
+
+    }
+
+}

@@ -1,17 +1,9 @@
 import { AppError } from "./AppError";
 
-
 export class NotFoundError extends AppError {
 
-    constructor(message: string) {
-
+    constructor(message = "Resource not found.") {
         super(message, 404);
-
-        Object.setPrototypeOf(
-            this,
-            NotFoundError.prototype
-        );
-
     }
 
 }
