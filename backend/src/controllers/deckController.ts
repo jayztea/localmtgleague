@@ -1,8 +1,16 @@
-import { Request, Response, NextFunction } from "express";
+import {
+    Request,
+    Response,
+    NextFunction
+} from "express";
 
-import * as deckService from "../services/deckService";
 
-export async function create(
+import * as deckService
+    from "../services/deckService";
+
+
+
+export async function createDeck(
     req: Request,
     res: Response,
     next: NextFunction
@@ -10,23 +18,19 @@ export async function create(
 
     try {
 
-        const user = (req as any).user;
+        const playerId =
+            (req as any).user.user_id;
 
-        const deck = await deckService.createDeck(
 
-            user.user_id,
+        const deck =
+            await deckService.createDeck(
+                playerId,
+                req.body
+            );
 
-            req.body.commander_id,
-
-            req.body.deck_name,
-
-            req.body.color_identity,
-
-            req.body.power_level
-
-        );
 
         res.status(201).json(deck);
+
 
     } catch (error) {
 
@@ -36,7 +40,10 @@ export async function create(
 
 }
 
-export async function getMine(
+
+
+
+export async function getMyDecks(
     req: Request,
     res: Response,
     next: NextFunction
@@ -44,13 +51,18 @@ export async function getMine(
 
     try {
 
-        const user = (req as any).user;
+        const playerId =
+            (req as any).user.user_id;
 
-        const decks = await deckService.getMyDecks(
-            user.user_id
-        );
+
+        const decks =
+            await deckService.getMyDecks(
+                playerId
+            );
+
 
         res.json(decks);
+
 
     } catch (error) {
 

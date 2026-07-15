@@ -49,6 +49,7 @@ Thumbs.db
 
 *.sqlite
 *.db
+data/
 
 # =========================
 # Temporary Files
