@@ -7,6 +7,7 @@ import testRoutes from "./routes/test";
 import healthRoutes from "./routes/health";
 import leagueRoutes from "./routes/leagues";
 import leaguePlayerRoutes from "./routes/leaguePlayers";
+import deckRoutes from "./routes/deck";
 import { errorHandler } from "./middleware/errorHandler";
 
 
@@ -28,6 +29,7 @@ app.use("/test", testRoutes);
 app.use("/health", healthRoutes);
 app.use("/leagues",leagueRoutes);
 app.use("/leagues", leaguePlayerRoutes);
+app.use("/decks", deckRoutes);
 
 // Global Error Handler
 // MUST be after all routes

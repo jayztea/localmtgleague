@@ -32,8 +32,8 @@ export async function findByUserId(
         `
         SELECT
             player_id,
-            user_id,
-            display_name
+            display_name,
+            user_id
         FROM players
         WHERE user_id = ?
         `,
