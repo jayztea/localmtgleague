@@ -1,54 +1,79 @@
-import * as deckRepository from "../repositories/deckRepository";
-import * as playerRepository from "../repositories/playerRepository";
+import * as deckRepository
+    from "../repositories/deckRepository";
 
-import { NotFoundError } from "../errors/NotFoundError";
+
+import * as commanderRepository
+    from "../repositories/commanderRepository";
+
+
+import {
+    NotFoundError
+} from "../errors/NotFoundError";
+
+
 
 export async function createDeck(
-    userId: number,
-    commanderId: number,
-    deckName: string,
-    colorIdentity?: string,
-    powerLevel?: number
+    playerId: number,
+    data: {
+
+        deck_name: string;
+
+        commander_id: number;
+
+        power_level?: number | null;
+
+        bracket_level?: number | null;
+
+    }
 ) {
 
-    // Find the player's record from the logged-in user
-    const player = await playerRepository.findByUserId(userId);
 
-    if (!player) {
-        throw new NotFoundError("Player not found.");
+    const commander =
+        await commanderRepository.findById(
+            data.commander_id
+        );
+
+
+    if (!commander) {
+
+        throw new NotFoundError(
+            "Commander not found."
+        );
+
     }
 
-    const deckId = await deckRepository.createDeck(
-        player.player_id,
-        commanderId,
-        deckName,
-        colorIdentity ?? null,
-        powerLevel ?? null
-    );
+
+
+    const deckId =
+        await deckRepository.createDeck(
+            playerId,
+            data.commander_id,
+            data.deck_name,
+            data.power_level ?? null,
+            data.bracket_level ?? null
+        );
+
+
 
     return {
-        deck_id: deckId,
-        player_id: player.player_id,
-        commander_id: commanderId,
-        deck_name: deckName,
-        color_identity: colorIdentity ?? null,
-        power_level: powerLevel ?? null
+
+        deck_id: deckId
+
     };
 
 }
 
+
+
+
 export async function getMyDecks(
-    userId: number
+    playerId: number
 ) {
 
-    const player = await playerRepository.findByUserId(userId);
 
-    if (!player) {
-        throw new NotFoundError("Player not found.");
-    }
-
-    return await deckRepository.getDecksByPlayer(
-        player.player_id
+    return await deckRepository.findByPlayerId(
+        playerId
     );
+
 
 }

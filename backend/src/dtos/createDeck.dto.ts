@@ -6,7 +6,7 @@ export const createDeckSchema =
 
         deck_name:
             z.string()
-            .min(1)
+            .min(1, "Deck name is required.")
             .max(100),
 
 
@@ -18,9 +18,10 @@ export const createDeckSchema =
 
         power_level:
             z.number()
-            .int()
             .min(1)
-            .max(10),
+            .max(10)
+            .nullable()
+            .optional(),
 
 
         bracket_level:
@@ -28,6 +29,8 @@ export const createDeckSchema =
             .int()
             .min(1)
             .max(5)
+            .nullable()
+            .optional()
 
     });
 

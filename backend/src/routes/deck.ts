@@ -1,26 +1,31 @@
 import { Router } from "express";
 
-import * as deckController from "../controllers/deckController";
+import * as deckController
+    from "../controllers/deckController";
 
-import { authenticateToken } from "../middleware/authMiddleware";
+import {
+    authenticateToken
+} from "../middleware/authMiddleware";
 
-import { validateRequest } from "../middleware/validateRequest";
-
-import { createDeckSchema } from "../dtos/deckDto";
 
 const router = Router();
+
+
 
 router.post(
     "/",
     authenticateToken,
-    validateRequest(createDeckSchema),
-    deckController.create
+    deckController.createDeck
 );
 
+
+
 router.get(
-    "/",
+    "/my",
     authenticateToken,
-    deckController.getMine
+    deckController.getMyDecks
 );
+
+
 
 export default router;
