@@ -1,28 +1,45 @@
-import { ResultSetHeader } from "mysql2";
-
 import { db } from "../db";
 
 export async function createPlayer(
     userId: number,
     displayName: string
-): Promise<number> {
+) {
 
-    const [result] =
-        await db.execute<ResultSetHeader>(
-            `
-            INSERT INTO players
-            (
-                user_id,
-                display_name
-            )
-            VALUES (?, ?)
-            `,
-            [
-                userId,
-                displayName
-            ]
-        );
+    const [result]: any = await db.execute(
+        `
+        INSERT INTO players
+        (
+            user_id,
+            display_name
+        )
+        VALUES (?, ?)
+        `,
+        [
+            userId,
+            displayName
+        ]
+    );
 
-    return result.insertId;
+    return result;
+
+}
+
+export async function findByUserId(
+    userId: number
+) {
+
+    const [rows]: any = await db.execute(
+        `
+        SELECT
+            player_id,
+            user_id,
+            display_name
+        FROM players
+        WHERE user_id = ?
+        `,
+        [userId]
+    );
+
+    return rows[0] ?? null;
 
 }

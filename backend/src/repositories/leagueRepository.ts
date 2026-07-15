@@ -36,33 +36,21 @@ export async function createLeague(
 
 export async function findById(
     leagueId: number
-): Promise<League | null> {
+) {
 
-    const [rows] =
-        await db.execute<(League & RowDataPacket)[]>(
+    const [rows]: any =
+        await db.execute(
             `
-            SELECT
-                league_id,
-                league_name,
-                created_by_user_id,
-                created_date,
-                modified_date,
-                descripton
+            SELECT *
             FROM leagues
             WHERE league_id = ?
             `,
-            [
-                leagueId
-            ]
+            [leagueId]
         );
 
-
-    return rows.length
-        ? rows[0]
-        : null;
+    return rows[0] ?? null;
 
 }
-
 
 
 export async function findByUserId(
