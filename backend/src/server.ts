@@ -8,6 +8,7 @@ import healthRoutes from "./routes/health";
 import leagueRoutes from "./routes/leagues";
 import leaguePlayerRoutes from "./routes/leaguePlayers";
 import deckRoutes from "./routes/deck";
+import matchRoutes from "./routes/match";
 import { errorHandler } from "./middleware/errorHandler";
 
 
@@ -30,6 +31,7 @@ app.use("/health", healthRoutes);
 app.use("/leagues",leagueRoutes);
 app.use("/leagues", leaguePlayerRoutes);
 app.use("/decks", deckRoutes);
+app.use("/matches",matchRoutes);
 
 // Global Error Handler
 // MUST be after all routes

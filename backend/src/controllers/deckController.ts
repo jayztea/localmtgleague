@@ -18,13 +18,13 @@ export async function createDeck(
 
     try {
 
-        const playerId =
+        const userId =
             (req as any).user.user_id;
 
 
         const deck =
             await deckService.createDeck(
-                playerId,
+                userId,
                 req.body
             );
 

@@ -17,9 +17,7 @@ export async function addPlayerToLeague(
         );
 
     if (!league) {
-        throw new NotFoundError(
-            "League not found."
-        );
+        throw new NotFoundError("League not found.");
     }
 
     const user =
@@ -28,9 +26,7 @@ export async function addPlayerToLeague(
         );
 
     if (!user) {
-        throw new NotFoundError(
-            "User not found."
-        );
+        throw new NotFoundError("User not found.");
     }
 
     const player =
@@ -39,9 +35,7 @@ export async function addPlayerToLeague(
         );
 
     if (!player) {
-        throw new NotFoundError(
-            "Player profile not found."
-        );
+        throw new NotFoundError("Player profile not found.");
     }
 
     const membership =
@@ -50,30 +44,37 @@ export async function addPlayerToLeague(
             player.player_id
         );
 
-    if (membership) {
+    if (!membership) {
+
+        const leaguePlayerId =
+            await leaguePlayerRepository.createMembership(
+                leagueId,
+                player.player_id
+            );
+
+        return {
+            league_player_id: leaguePlayerId,
+            player
+        };
+
+    }
+
+    if (membership.status === "ACTIVE") {
+
         throw new ConflictError(
             "Player is already a member of this league."
         );
+
     }
 
-    const leaguePlayerId =
-        await leaguePlayerRepository.addPlayerToLeague(
-            leagueId,
-            player.player_id
-        );
+    await leaguePlayerRepository.reactivateMembership(
+        leagueId,
+        player.player_id
+    );
 
     return {
-
-        league_player_id: leaguePlayerId,
-
-        player: {
-
-            player_id: player.player_id,
-
-            display_name: player.display_name
-
-        }
-
+        message: "Player reactivated successfully.",
+        player
     };
 
 }
@@ -82,7 +83,7 @@ export async function getLeaguePlayers(
     leagueId: number
 ) {
 
-    return await leaguePlayerRepository.findPlayersByLeague(
+    return leaguePlayerRepository.findPlayersByLeague(
         leagueId
     );
 
@@ -94,14 +95,14 @@ export async function removePlayer(
 ) {
 
     const membership =
-        await leaguePlayerRepository.findMembership(
+        await leaguePlayerRepository.findActiveMembership(
             leagueId,
             playerId
         );
 
     if (!membership) {
         throw new NotFoundError(
-            "Player is not a member of this league."
+            "Player is not an active member of this league."
         );
     }
 
