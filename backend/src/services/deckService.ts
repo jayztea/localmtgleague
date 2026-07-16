@@ -1,6 +1,8 @@
 import * as deckRepository
     from "../repositories/deckRepository";
 
+import * as playerRepository
+    from "../repositories/playerRepository";
 
 import * as commanderRepository
     from "../repositories/commanderRepository";
@@ -12,20 +14,42 @@ import {
 
 
 
+interface CreateDeckRequest {
+
+    deck_name: string;
+
+    commander_id: number;
+
+    power_level?: number;
+
+    bracket_level?: number;
+
+    color_identity?: string;
+
+}
+
+
+
 export async function createDeck(
-    playerId: number,
-    data: {
+    userId: number,
+    data: CreateDeckRequest
+) {
 
-        deck_name: string;
 
-        commander_id: number;
+    const player =
+        await playerRepository.findByUserId(
+            userId
+        );
 
-        power_level?: number | null;
 
-        bracket_level?: number | null;
+    if (!player) {
+
+        throw new NotFoundError(
+            "Player profile not found."
+        );
 
     }
-) {
+
 
 
     const commander =
@@ -46,19 +70,19 @@ export async function createDeck(
 
     const deckId =
         await deckRepository.createDeck(
-            playerId,
-            data.commander_id,
-            data.deck_name,
-            data.power_level ?? null,
-            data.bracket_level ?? null
+            {
+                player_id: player.player_id,
+                commander_id: data.commander_id,
+                deck_name: data.deck_name,
+                power_level: data.power_level,
+                bracket_level: data.bracket_level,
+                color_identity: data.color_identity
+            }
         );
 
 
-
     return {
-
         deck_id: deckId
-
     };
 
 }
@@ -66,14 +90,30 @@ export async function createDeck(
 
 
 
+
 export async function getMyDecks(
-    playerId: number
+    userId: number
 ) {
 
 
-    return await deckRepository.findByPlayerId(
-        playerId
-    );
+    const player =
+        await playerRepository.findByUserId(
+            userId
+        );
 
+
+    if (!player) {
+
+        throw new NotFoundError(
+            "Player profile not found."
+        );
+
+    }
+
+
+
+    return await deckRepository.findByPlayerId(
+        player.player_id
+    );
 
 }
