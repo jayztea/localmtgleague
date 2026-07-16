@@ -54,3 +54,32 @@ export async function findByUserId(
         : null;
 
 }
+export async function findById(
+    playerId:number
+){
+
+    const [rows]:any =
+        await db.execute(
+            `
+            SELECT
+
+                player_id,
+                user_id,
+                display_name
+
+            FROM players
+
+            WHERE player_id = ?
+
+            `,
+            [
+                playerId
+            ]
+        );
+
+
+    return rows.length
+        ? rows[0]
+        : null;
+
+}
