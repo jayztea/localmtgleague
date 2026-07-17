@@ -6,6 +6,10 @@ import * as playerRepository
     from "../repositories/playerRepository";
 
 
+import * as statisticsAuthorizationRepository
+    from "../repositories/statisticsAuthorizationRepository";
+
+
 import {
     calculatePlayerStats
 }
@@ -34,12 +38,85 @@ import {
 from "../errors/NotFoundError";
 
 
+import {
+    UnauthorizedError
+}
+from "../errors/UnauthorizedError";
+
+
 
 
 export async function getPlayerStatistics(
+    requestingUserId:number,
     playerId:number
 ) {
 
+
+
+    /*
+        Find authenticated user's player profile
+
+        user_id
+            |
+            v
+        player_id
+    */
+
+    const requestingPlayer =
+        await playerRepository.findByUserId(
+            requestingUserId
+        );
+
+
+
+    if (
+        !requestingPlayer
+    ) {
+
+        throw new UnauthorizedError(
+            "Authenticated user does not have a player profile."
+        );
+
+    }
+
+
+
+
+    /*
+        Verify viewing permissions
+
+        Allowed:
+        - own statistics
+        - players in same league
+
+    */
+
+
+    const canView =
+        await statisticsAuthorizationRepository.canViewPlayerStatistics(
+            requestingPlayer.player_id,
+            playerId
+        );
+
+
+
+    if (
+        !canView
+    ) {
+
+        throw new UnauthorizedError(
+            "You do not have permission to view this player's statistics."
+        );
+
+    }
+
+
+
+
+    /*
+        Load target player
+
+    */
 
 
     const player =
@@ -62,6 +139,12 @@ export async function getPlayerStatistics(
 
 
 
+    /*
+        Load match history
+
+    */
+
+
     const games =
         await statisticsRepository.findPlayerMatchHistory(
             playerId
@@ -69,6 +152,12 @@ export async function getPlayerStatistics(
 
 
 
+
+
+    /*
+        Calculate statistics
+
+    */
 
 
     const summary =
