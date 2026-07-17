@@ -51,13 +51,13 @@ export async function getMyDecks(
 
     try {
 
-        const playerId =
+        const userID =
             (req as any).user.user_id;
 
 
         const decks =
             await deckService.getMyDecks(
-                playerId
+                userID
             );
 
 

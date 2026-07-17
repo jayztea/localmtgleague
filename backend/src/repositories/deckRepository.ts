@@ -41,7 +41,6 @@ export async function createDeck(
             `,
             [
                 data.player_id,
-                data.player_id,
                 data.commander_id,
                 data.deck_name,
                 data.color_identity ?? null,
