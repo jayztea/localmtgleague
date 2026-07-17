@@ -1,0 +1,3 @@
+ALTER TABLE leagues
+ADD COLUMN league_code VARCHAR(8) NOT NULL UNIQUE
+AFTER league_name;
