@@ -1,16 +1,23 @@
 import * as statisticsRepository
     from "./statisticsRepository";
 
-
 import * as playerRepository
     from "../repositories/playerRepository";
-
 
 import {
     calculatePlayerStats
 }
 from "./calculators/playerStatsCalculator";
 
+import {
+    calculateCommanderStats
+}
+from "./calculators/commanderStatsCalculator";
+
+import {
+    calculateColorStats
+}
+from "./calculators/colorStatsCalculator";
 
 import {
     NotFoundError
@@ -20,15 +27,13 @@ from "../errors/NotFoundError";
 
 
 export async function getPlayerStatistics(
-    playerId:number
+    playerId: number
 ) {
-
 
     const player =
         await playerRepository.findById(
             playerId
         );
-
 
     if (!player) {
 
@@ -38,161 +43,51 @@ export async function getPlayerStatistics(
 
     }
 
-
-
     const games =
         await statisticsRepository.findPlayerMatchHistory(
             playerId
         );
 
-
-
-    const playerStats =
+    const summary =
         calculatePlayerStats(
             games
         );
 
-
-
-    const favoriteDeck =
-        calculateFavoriteDeck(
+    const commanderStats =
+        calculateCommanderStats(
             games
         );
 
-
-
-    const favoriteCommander =
-        calculateFavoriteCommander(
+    const colorStats =
+        calculateColorStats(
             games
         );
-
-
 
     return {
 
-        player_id:
-            player.player_id,
+        player: {
 
+            player_id:
+                player.player_id,
 
-        display_name:
-            player.display_name,
+            display_name:
+                player.display_name
 
+        },
 
-        summary:
-            playerStats,
-
-
-        favorite_deck:
-            favoriteDeck,
-
+        summary,
 
         favorite_commander:
-            favoriteCommander
+            commanderStats[0]
+            ??
+            null,
+
+        commander_stats:
+            commanderStats,
+
+        color_stats:
+            colorStats
 
     };
-
-}
-
-
-
-
-
-function calculateFavoriteDeck(
-    games:any[]
-) {
-
-
-    const decks:any = {};
-
-
-
-    for (const game of games) {
-
-
-        if (!decks[game.deck_id]) {
-
-            decks[game.deck_id] = {
-
-                deck_id:
-                    game.deck_id,
-
-                deck_name:
-                    game.deck_name,
-
-                games:0
-
-            };
-
-        }
-
-
-        decks[game.deck_id].games++;
-
-    }
-
-
-
-    return (
-        Object.values(decks)
-            .sort(
-                (a:any,b:any)=>
-                    b.games -
-                    a.games
-            )[0]
-        ??
-        null
-    );
-
-}
-
-
-
-
-
-function calculateFavoriteCommander(
-    games:any[]
-) {
-
-
-    const commanders:any = {};
-
-
-
-    for (const game of games) {
-
-
-        if (!commanders[game.commander_id]) {
-
-            commanders[game.commander_id] = {
-
-                commander_id:
-                    game.commander_id,
-
-                commander_name:
-                    game.commander_name,
-
-                games:0
-
-            };
-
-        }
-
-
-        commanders[game.commander_id].games++;
-
-    }
-
-
-
-    return (
-        Object.values(commanders)
-            .sort(
-                (a:any,b:any)=>
-                    b.games -
-                    a.games
-            )[0]
-        ??
-        null
-    );
 
 }
