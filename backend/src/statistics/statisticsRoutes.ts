@@ -8,6 +8,12 @@ import * as statisticsController
     from "./statisticsController";
 
 
+import {
+    authenticateToken
+}
+from "../middleware/authMiddleware";
+
+
 
 const router =
     Router();
@@ -15,8 +21,13 @@ const router =
 
 
 router.get(
+
     "/players/:playerId/statistics",
+
+    authenticateToken,
+
     statisticsController.getPlayerStatistics
+
 );
 
 

@@ -6,8 +6,8 @@ import {
 from "express";
 
 
-import * as statisticsService
-    from "./statisticsService";
+import * as playerStatisticsService
+from "./StatisticsService";
 
 
 
@@ -21,6 +21,13 @@ export async function getPlayerStatistics(
     try {
 
 
+        const userId =
+            (req as any)
+            .user
+            .user_id;
+
+
+
         const playerId =
             Number(
                 req.params.playerId
@@ -29,7 +36,8 @@ export async function getPlayerStatistics(
 
 
         const statistics =
-            await statisticsService.getPlayerStatistics(
+            await playerStatisticsService.getPlayerStatistics(
+                userId,
                 playerId
             );
 
