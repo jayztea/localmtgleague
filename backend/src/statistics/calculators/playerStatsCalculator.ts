@@ -1,7 +1,14 @@
-export function calculatePlayerStats(
-    games:any[]
-) {
+import {
+    PlayerMatchHistory,
+    SummaryStatistics
+}
+from "../types/StatisticsTypes";
 
+
+
+export function calculatePlayerStats(
+    games: PlayerMatchHistory[]
+): SummaryStatistics {
 
     const gamesPlayed =
         games.length;
@@ -10,10 +17,9 @@ export function calculatePlayerStats(
 
     const wins =
         games.filter(
-            (game:any) =>
+            game =>
                 game.finish_position === 1
-        )
-        .length;
+        ).length;
 
 
 
@@ -25,14 +31,12 @@ export function calculatePlayerStats(
     const winRate =
         gamesPlayed === 0
             ? 0
-            :
-            Number(
+            : Number(
                 (
-                    (wins / gamesPlayed)
-                    *
+                    wins /
+                    gamesPlayed *
                     100
-                )
-                .toFixed(2)
+                ).toFixed(2)
             );
 
 
@@ -40,22 +44,19 @@ export function calculatePlayerStats(
     const averageFinish =
         gamesPlayed === 0
             ? 0
-            :
-            Number(
+            : Number(
                 (
                     games.reduce(
                         (
-                            sum:number,
-                            game:any
+                            total,
+                            game
                         ) =>
-                            sum +
+                            total +
                             game.finish_position,
                         0
-                    )
-                    /
+                    ) /
                     gamesPlayed
-                )
-                .toFixed(2)
+                ).toFixed(2)
             );
 
 
