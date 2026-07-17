@@ -1,12 +1,20 @@
 import { db } from "../db";
 
+import {
+    PlayerMatchHistory
+}
+from "./types/StatisticsTypes";
+
+
 
 export async function findPlayerMatchHistory(
-    playerId: number
-) {
+    playerId:number
+): Promise<PlayerMatchHistory[]> {
+
 
     const [rows]: any =
         await db.execute(
+
             `
             SELECT
 
@@ -18,11 +26,13 @@ export async function findPlayerMatchHistory(
 
                 m.match_date,
 
+
                 d.deck_id,
 
                 d.deck_name,
 
                 d.color_identity,
+
 
                 c.commander_id,
 
@@ -33,28 +43,36 @@ export async function findPlayerMatchHistory(
 
 
             JOIN matches m
+
                 ON mp.match_id = m.match_id
 
 
             JOIN decks d
+
                 ON mp.deck_id = d.deck_id
 
 
             JOIN commanders c
+
                 ON d.commander_id = c.commander_id
 
 
             WHERE mp.player_id = ?
 
 
-            ORDER BY m.match_date DESC
+            ORDER BY 
+                m.match_date DESC
+
             `,
+
             [
                 playerId
             ]
+
         );
 
 
-    return rows;
+
+    return rows as PlayerMatchHistory[];
 
 }

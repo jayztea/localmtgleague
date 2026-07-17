@@ -1,73 +1,232 @@
-export function calculateColorStats(
-    games: any[]
-) {
+import {
+    PlayerMatchHistory,
+    ColorStatistics
+}
+from "../types/StatisticsTypes";
 
-    const colors: any = {};
+
+
+export function calculateColorStats(
+    games: PlayerMatchHistory[]
+): ColorStatistics[] {
+
+
+    const colors =
+        new Map<
+            string,
+            ColorStatistics
+        >();
+
+
 
     for (const game of games) {
+
 
         const color =
             game.color_identity
             ??
             "Colorless";
 
-        if (!colors[color]) {
 
-            colors[color] = {
 
-                color_identity: color,
+        if (
+            !colors.has(color)
+        ) {
 
-                games_played: 0,
 
-                wins: 0
+            colors.set(
+                color,
+                {
 
-            };
+                    color_identity:
+                        color,
+
+                    games_played:
+                        0,
+
+                    wins:
+                        0,
+
+                    losses:
+                        0,
+
+                    win_rate:
+                        0
+
+                }
+            );
 
         }
 
-        colors[color].games_played++;
 
-        if (game.finish_position === 1) {
 
-            colors[color].wins++;
+        const colorStat =
+            colors.get(color)!;
+
+
+
+        colorStat.games_played++;
+
+
+
+        if (
+            game.finish_position === 1
+        ) {
+
+            colorStat.wins++;
 
         }
 
     }
 
-    return Object.values(colors)
 
-        .map((color: any) => ({
 
-            ...color,
+    const statistics =
+        Array.from(
+            colors.values()
+        );
 
-            losses:
-                color.games_played
-                -
-                color.wins,
 
-            win_rate:
-                Number(
-                    (
-                        color.wins
-                        /
-                        color.games_played
-                        *
-                        100
-                    )
-                    .toFixed(2)
+
+    for (const color of statistics) {
+
+
+        color.losses =
+            color.games_played -
+            color.wins;
+
+
+
+        color.win_rate =
+            Number(
+                (
+                    color.wins /
+                    color.games_played *
+                    100
                 )
+                .toFixed(2)
+            );
 
-        }))
+    }
 
-        .sort(
 
-            (a: any, b: any) =>
 
-                b.games_played
-                -
-                a.games_played
+    statistics.sort(
+
+        (
+            a,
+            b
+        ) =>
+
+            b.games_played -
+            a.games_played
+
+    );
+
+
+
+    return statistics;
+
+}
+
+
+
+export function getBestColor(
+    colors: ColorStatistics[],
+    minimumGames:number = 5
+): ColorStatistics | null {
+
+
+    const eligible =
+        colors.filter(
+
+            color =>
+
+                color.games_played >=
+                minimumGames
 
         );
+
+
+
+    if (
+        eligible.length === 0
+    ) {
+
+        return null;
+
+    }
+
+
+
+    eligible.sort(
+
+        (
+            a,
+            b
+        ) =>
+
+            b.win_rate -
+            a.win_rate ||
+
+            b.games_played -
+            a.games_played
+
+    );
+
+
+
+    return eligible[0];
+
+}
+
+
+
+export function getWorstColor(
+    colors: ColorStatistics[],
+    minimumGames:number = 5
+): ColorStatistics | null {
+
+
+    const eligible =
+        colors.filter(
+
+            color =>
+
+                color.games_played >=
+                minimumGames
+
+        );
+
+
+
+    if (
+        eligible.length === 0
+    ) {
+
+        return null;
+
+    }
+
+
+
+    eligible.sort(
+
+        (
+            a,
+            b
+        ) =>
+
+            a.win_rate -
+            b.win_rate ||
+
+            b.games_played -
+            a.games_played
+
+    );
+
+
+
+    return eligible[0];
 
 }
