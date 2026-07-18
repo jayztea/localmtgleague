@@ -2,7 +2,8 @@ import { db } from "../db";
 
 export async function createMembership(
     leagueId: number,
-    playerId: number
+    playerId: number,
+    role: string = "PLAYER"
 ) {
 
     const [result]: any =
@@ -11,13 +12,15 @@ export async function createMembership(
             INSERT INTO league_players
             (
                 league_id,
-                player_id
+                player_id,
+                league_role
             )
-            VALUES (?, ?)
+            VALUES (?, ?, ?)
             `,
             [
                 leagueId,
-                playerId
+                playerId,
+                role
             ]
         );
 
@@ -141,6 +144,7 @@ export async function findPlayersByLeague(
                 ON lp.player_id = p.player_id
 
             WHERE lp.league_id = ?
+            AND lp.status = 'ACTIVE'
 
             ORDER BY p.display_name
             `,
