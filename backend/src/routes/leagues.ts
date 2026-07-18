@@ -1,29 +1,39 @@
-import { Router } from "express";
+import { Router }
+from "express";
+
 
 import {
     createLeague,
+    joinLeague,
     getLeague,
     getMyLeagues
-} from "../controllers/leagueController";
+}
+from "../controllers/leagueController";
 
 
 import {
     authenticateToken
-} from "../middleware/authMiddleware";
+}
+from "../middleware/authMiddleware";
 
 
 import {
     validateRequest
-} from "../middleware/validateRequest";
+}
+from "../middleware/validateRequest";
 
 
 import {
-    createLeagueSchema
-} from "../dtos/leagueDTO";
+    createLeagueSchema,
+    joinLeagueSchema
+}
+from "../dtos/leagueDTO";
 
 
 
-const router = Router();
+const router =
+    Router();
+
 
 
 
@@ -36,6 +46,17 @@ router.post(
 
 
 
+
+router.post(
+    "/join",
+    authenticateToken,
+    validateRequest(joinLeagueSchema),
+    joinLeague
+);
+
+
+
+
 router.get(
     "/mine",
     authenticateToken,
@@ -44,11 +65,13 @@ router.get(
 
 
 
+
 router.get(
     "/:leagueId",
     authenticateToken,
     getLeague
 );
+
 
 
 

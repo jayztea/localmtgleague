@@ -1,6 +1,24 @@
-import * as leagueRepository from "../repositories/leagueRepository";
+import * as leagueRepository
+    from "../repositories/leagueRepository";
 
-import { NotFoundError } from "../errors/NotFoundError";
+import * as leaguePlayerRepository
+    from "../repositories/leaguePlayerRepository";
+
+import * as playerRepository
+    from "../repositories/playerRepository";
+
+import { generateLeagueCode }
+    from "../utils/generateLeagueCode";
+
+import {
+    NotFoundError
+}
+from "../errors/NotFoundError";
+
+import {
+    ConflictError
+}
+from "../errors/ConflictError";
 
 
 export async function createLeague(
@@ -9,12 +27,65 @@ export async function createLeague(
     userId: number
 ) {
 
+
+    const player =
+        await playerRepository.findByUserId(
+            userId
+        );
+
+
+    if (!player) {
+
+        throw new NotFoundError(
+            "Player profile not found."
+        );
+
+    }
+
+
+
+    let leagueCode:string;
+
+
+
+    while(true) {
+
+        leagueCode =
+            generateLeagueCode();
+
+
+        const existing =
+            await leagueRepository.findByLeagueCode(
+                leagueCode
+            );
+
+
+        if(!existing) {
+
+            break;
+
+        }
+
+    }
+
+
+
     const leagueId =
         await leagueRepository.createLeague(
             leagueName,
+            leagueCode,
             description,
             userId
         );
+
+
+
+    await leaguePlayerRepository.createMembership(
+        leagueId,
+        player.player_id,
+        "OWNER"
+    );
+
 
 
     return await leagueRepository.findById(
@@ -25,9 +96,98 @@ export async function createLeague(
 
 
 
-export async function getLeagueById(
-    leagueId: number
+export async function joinLeague(
+    userId:number,
+    leagueCode:string
 ) {
+
+
+    const player =
+        await playerRepository.findByUserId(
+            userId
+        );
+
+
+
+    if(!player) {
+
+        throw new NotFoundError(
+            "Player profile not found."
+        );
+
+    }
+
+
+
+    const league =
+        await leagueRepository.findByLeagueCode(
+            leagueCode
+        );
+
+
+
+    if(!league) {
+
+        throw new NotFoundError(
+            "League not found."
+        );
+
+    }
+
+
+
+
+    const existingMembership =
+        await leaguePlayerRepository.findMembership(
+            league.league_id,
+            player.player_id
+        );
+
+
+
+    if(existingMembership) {
+
+
+        if(existingMembership.status === "ACTIVE") {
+
+            throw new ConflictError(
+                "You are already a member of this league."
+            );
+
+        }
+
+
+
+        await leaguePlayerRepository.reactivateMembership(
+            league.league_id,
+            player.player_id
+        );
+
+    }
+    else {
+
+
+        await leaguePlayerRepository.createMembership(
+            league.league_id,
+            player.player_id,
+            "PLAYER"
+        );
+
+
+    }
+
+
+
+    return league;
+
+}
+
+
+
+export async function getLeagueById(
+    leagueId:number
+) {
+
 
     const league =
         await leagueRepository.findById(
@@ -35,7 +195,7 @@ export async function getLeagueById(
         );
 
 
-    if (!league) {
+    if(!league) {
 
         throw new NotFoundError(
             "League not found."
@@ -51,7 +211,7 @@ export async function getLeagueById(
 
 
 export async function getUserLeagues(
-    userId: number
+    userId:number
 ) {
 
     return await leagueRepository.findByUserId(

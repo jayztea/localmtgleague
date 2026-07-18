@@ -2,12 +2,11 @@ import {
     Request,
     Response,
     NextFunction
-} from "express";
+}
+from "express";
 
-
-import * as leagueService from "../services/leagueService";
-
-
+import * as leagueService
+    from "../services/leagueService";
 
 export async function createLeague(
     req: Request,
@@ -20,7 +19,6 @@ export async function createLeague(
         const userId =
             (req as any).user.user_id;
 
-
         const league =
             await leagueService.createLeague(
                 req.body.league_name,
@@ -32,8 +30,8 @@ export async function createLeague(
             league
         );
 
-
-    } catch(error) {
+    }
+    catch (error) {
 
         next(error);
 
@@ -41,7 +39,36 @@ export async function createLeague(
 
 }
 
+export async function joinLeague(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
 
+    try {
+
+        const userId =
+            (req as any).user.user_id;
+
+        const league =
+            await leagueService.joinLeague(
+                userId,
+                req.body.league_code
+            );
+
+        res.json({
+            message: "Successfully joined league.",
+            league
+        });
+
+    }
+    catch (error) {
+
+        next(error);
+
+    }
+
+}
 
 export async function getLeague(
     req: Request,
@@ -54,27 +81,23 @@ export async function getLeague(
         const leagueId =
             Number(req.params.leagueId);
 
-
         const league =
             await leagueService.getLeagueById(
                 leagueId
             );
 
-
         res.json(
             league
         );
 
-
-    } catch(error) {
+    }
+    catch (error) {
 
         next(error);
 
     }
 
 }
-
-
 
 export async function getMyLeagues(
     req: Request,
@@ -87,19 +110,17 @@ export async function getMyLeagues(
         const userId =
             (req as any).user.user_id;
 
-
         const leagues =
             await leagueService.getUserLeagues(
                 userId
             );
 
-
         res.json(
             leagues
         );
 
-
-    } catch(error) {
+    }
+    catch (error) {
 
         next(error);
 
