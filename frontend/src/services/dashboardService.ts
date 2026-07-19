@@ -1,6 +1,12 @@
-import api from "./api";
+import api
+from "../api/axios";
 
-import { Dashboard } from "../types/dashboard";
+import type {
+    Dashboard
+}
+from "../types/dashboard";
+
+
 
 export async function getDashboard() {
 
@@ -8,6 +14,7 @@ export async function getDashboard() {
         await api.get<Dashboard>(
             "/dashboard"
         );
+
 
     return response.data;
 
