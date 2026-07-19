@@ -1,46 +1,243 @@
 import {
+    useEffect,
+    useState
+}
+from "react";
+
+
+import {
     useAuth
 }
 from "../auth/AuthContext";
 
 
+import {
+    getDashboard
+}
+from "../services/dashboardService";
 
-export default function Dashboard() {
 
+import type {
+    Dashboard as DashboardType
+}
+from "../types/dashboard";
+
+
+import StatCard
+from "../components/StatCard";
+
+
+import LeagueCard
+from "../components/LeagueCard";
+
+
+import RecentGamesTable
+from "../components/RecentGamesTable";
+
+
+
+
+export default function Dashboard(){
 
     const {
-        user,
         logout
-    }
-    =
+    } =
     useAuth();
+
+
+
+    const [
+        dashboard,
+        setDashboard
+    ] =
+    useState<DashboardType | null>(null);
+
+
+
+    useEffect(
+        ()=>{
+
+            async function load(){
+
+                const data =
+                    await getDashboard();
+
+                setDashboard(data);
+
+            }
+
+
+            load();
+
+
+        },
+        []
+    );
+
+
+
+    if(!dashboard){
+
+        return (
+
+            <div className="p-8">
+
+                Loading dashboard...
+
+            </div>
+
+        );
+
+    }
 
 
 
     return (
 
-        <div className="p-8">
+        <div className="p-8 space-y-8">
 
 
-            <h1 className="text-3xl">
+            <div>
 
-                Commander Dashboard
+                <h1 className="text-3xl font-bold">
 
-            </h1>
+                    Commander Dashboard
+
+                </h1>
 
 
-            <p>
+                <p>
 
-                Welcome:
-                {" "}
-                {user?.email_address}
+                    Welcome,
+                    {" "}
+                    {dashboard.player.display_name}
 
-            </p>
+                </p>
+
+
+            </div>
+
+
+
+            <div className="grid grid-cols-4 gap-4">
+
+
+                <StatCard
+
+                    title="Games Played"
+
+                    value={
+                        dashboard.summary.games_played
+                    }
+
+                />
+
+
+                <StatCard
+
+                    title="Wins"
+
+                    value={
+                        dashboard.summary.wins
+                    }
+
+                />
+
+
+                <StatCard
+
+                    title="Win Rate"
+
+                    value={
+                        `${dashboard.summary.win_rate}%`
+                    }
+
+                />
+
+
+                <StatCard
+
+                    title="Average Finish"
+
+                    value={
+                        dashboard.summary.average_finish
+                    }
+
+                />
+
+
+            </div>
+
+
+
+
+
+            <section>
+
+                <h2 className="text-2xl font-bold mb-4">
+
+                    Your Leagues
+
+                </h2>
+
+
+                <div className="grid grid-cols-3 gap-4">
+
+
+                    {
+                        dashboard.leagues.map(
+                            league =>
+                            (
+
+                                <LeagueCard
+
+                                    key={
+                                        league.league_id
+                                    }
+
+                                    league={league}
+
+                                />
+
+                            )
+                        )
+                    }
+
+
+                </div>
+
+            </section>
+
+
+
+
+
+            <section>
+
+                <h2 className="text-2xl font-bold mb-4">
+
+                    Recent Games
+
+                </h2>
+
+
+                <RecentGamesTable
+
+                    games={
+                        dashboard.recent_games
+                    }
+
+                />
+
+
+            </section>
+
+
 
 
             <button
 
-                className="border px-4 py-2 mt-4"
+                className="border px-4 py-2"
 
                 onClick={logout}
 

@@ -28,6 +28,8 @@ export interface Dashboard {
 
 }
 
+
+
 export interface RecentGame {
 
     match_id:number;
@@ -42,28 +44,12 @@ export interface RecentGame {
 
 }
 
+
+
 export interface League {
 
     league_id:number;
 
     league_name:string;
-
-    leaderboard: LeaderboardPlayer[];
-
-}
-
-export interface LeaderboardPlayer {
-
-    rank:number;
-
-    player_id:number;
-
-    display_name:string;
-
-    games_played:number;
-
-    wins:number;
-
-    win_rate:number;
 
 }
