@@ -3,19 +3,16 @@ import {
 }
 from "express";
 
-
 import {
     authenticateToken
 }
 from "../middleware/authMiddleware";
 
-
 import {
-    getDashboard
+    getDashboard,
+    getLeagueDashboard
 }
 from "../controllers/dashboardController";
-
-
 
 const router =
     Router();
@@ -29,5 +26,11 @@ router.get(
 );
 
 
+
+router.get(
+    "/dashboard/league/:leagueId",
+    authenticateToken,
+    getLeagueDashboard
+);
 
 export default router;
