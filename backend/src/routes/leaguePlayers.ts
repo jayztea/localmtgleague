@@ -27,4 +27,9 @@ router.patch(
     leaguePlayerController.removePlayer
 );
 
+router.get(
+    "/:leagueId/players-with-commanders",
+    leaguePlayerController.getPlayersWithCommanders
+);
+
 export default router;
