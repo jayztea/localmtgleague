@@ -12,7 +12,7 @@ import matchRoutes from "./routes/match";
 import { errorHandler } from "./middleware/errorHandler";
 import statisticsRoutes from "./statistics/statisticsRoutes";
 import dashboardRoutes from "./routes/dashboard";
-
+import commanderRoutes from "./routes/commander";
 
 
 
@@ -36,6 +36,7 @@ app.use("/decks", deckRoutes);
 app.use("/matches",matchRoutes);
 app.use(statisticsRoutes);
 app.use(dashboardRoutes);
+app.use("/commanders",commanderRoutes);
 
 // Global Error Handler
 // MUST be after all routes
