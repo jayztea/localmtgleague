@@ -4,6 +4,7 @@ import type {
     CreateMatchRequest
 } from "../types/match";
 
+
 export async function createMatch(
     data: CreateMatchRequest
 ) {
@@ -14,5 +15,7 @@ export async function createMatch(
             data
         );
 
+
     return response.data;
+
 }
