@@ -71,3 +71,33 @@ export async function getMyDecks(
     }
 
 }
+
+export async function getPlayerDecks(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+
+    try {
+
+
+        const playerId =
+            Number(req.params.playerId);
+
+
+        const decks =
+            await deckService.getPlayerDecks(
+                playerId
+            );
+
+
+        res.json(decks);
+
+
+    } catch(error) {
+
+        next(error);
+
+    }
+
+}

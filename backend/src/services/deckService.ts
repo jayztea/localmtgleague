@@ -117,3 +117,69 @@ export async function getMyDecks(
     );
 
 }
+
+export async function getPlayerDecks(
+    playerId:number
+) {
+
+
+    return await deckRepository.findByPlayerId(
+        playerId
+    );
+
+}
+export async function getOrCreateCommanderDeck(
+    playerId:number,
+    commanderId:number
+){
+
+    const existing =
+        await deckRepository.findByPlayerAndCommander(
+            playerId,
+            commanderId
+        );
+
+
+    if(existing){
+
+        return existing;
+
+    }
+
+
+    const commander =
+        await commanderRepository.findById(
+            commanderId
+        );
+
+
+    if(!commander){
+
+        throw new NotFoundError(
+            "Commander not found."
+        );
+
+    }
+
+
+    const deckId =
+        await deckRepository.createDeck(
+            {
+                player_id: playerId,
+
+                commander_id: commanderId,
+
+                deck_name:
+                    commander.commander_name,
+
+                color_identity:
+                    commander.color_identity
+            }
+        );
+
+
+    return await deckRepository.findById(
+        deckId
+    );
+
+}

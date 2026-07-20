@@ -7,27 +7,29 @@ import * as matchPlayerRepository
 import * as playerRepository
     from "../repositories/playerRepository";
 
-import * as deckRepository
-    from "../repositories/deckRepository";
-
 import * as leaguePlayerRepository
     from "../repositories/leaguePlayerRepository";
 
-import { CreateMatchDTO } 
-    from "../dtos/createMatch.dto";
+import * as deckService
+    from "./deckService";
 
-import { NotFoundError } 
-    from "../errors/NotFoundError";
+import {
+    CreateMatchDTO
+}
+from "../dtos/createMatch.dto";
 
-import { UnauthorizedError }
-    from "../errors/UnauthorizedError";
+import {
+    UnauthorizedError
+}
+from "../errors/UnauthorizedError";
+
 
 
 
 export async function createMatch(
-    userId: number,
-    data: CreateMatchDTO
-) {
+    userId:number,
+    data:CreateMatchDTO
+){
 
 
     /*
@@ -41,7 +43,8 @@ export async function createMatch(
         );
 
 
-    if (!submittingPlayer) {
+
+    if(!submittingPlayer){
 
         throw new UnauthorizedError(
             "Authenticated user does not have a player profile."
@@ -51,11 +54,11 @@ export async function createMatch(
 
 
 
+
     /*
         Verify submitting player
         belongs to league
     */
-
 
     const membership =
         await leaguePlayerRepository.findMembership(
@@ -64,7 +67,8 @@ export async function createMatch(
         );
 
 
-    if (!membership) {
+
+    if(!membership){
 
         throw new UnauthorizedError(
             "You are not a member of this league."
@@ -74,39 +78,15 @@ export async function createMatch(
 
 
 
+
     /*
-        Verify every submitted deck
-        belongs to its player
+        Validate players and
+        create commander records
+        when needed.
     */
 
+    for(const matchPlayer of data.players){
 
-    for (const matchPlayer of data.players) {
-
-
-        const deck =
-            await deckRepository.findById(
-                matchPlayer.deck_id
-            );
-
-
-        if (!deck) {
-
-            throw new NotFoundError(
-                `Deck ${matchPlayer.deck_id} not found.`
-            );
-
-        }
-
-
-        if (
-            deck.player_id !== matchPlayer.player_id
-        ) {
-
-            throw new UnauthorizedError(
-                "A player cannot use another player's deck."
-            );
-
-        }
 
 
         const playerMembership =
@@ -116,7 +96,8 @@ export async function createMatch(
             );
 
 
-        if (!playerMembership) {
+
+        if(!playerMembership){
 
             throw new UnauthorizedError(
                 `Player ${matchPlayer.player_id} is not in this league.`
@@ -124,14 +105,30 @@ export async function createMatch(
 
         }
 
+
+
+
+        const deck =
+            await deckService.getOrCreateCommanderDeck(
+                matchPlayer.player_id,
+                matchPlayer.commander_id
+            );
+
+
+
+        matchPlayer.deck_id =
+            deck.deck_id;
+
+
     }
+
+
 
 
 
     /*
         Create match
     */
-
 
     const matchId =
         await matchRepository.createMatch(
@@ -143,48 +140,70 @@ export async function createMatch(
 
 
 
+
+
     /*
         Create match participants
     */
 
+    for(const matchPlayer of data.players){
 
-    for (const matchPlayer of data.players) {
 
 
         await matchPlayerRepository.createMatchPlayer(
+
             {
-                match_id: matchId,
+
+                match_id:
+                    matchId,
+
 
                 player_id:
                     matchPlayer.player_id,
 
+
                 deck_id:
-                    matchPlayer.deck_id,
+                    matchPlayer.deck_id!,
+
 
                 finish_position:
                     matchPlayer.finish_position,
 
+
                 starting_life:
                     matchPlayer.starting_life,
 
+
                 ending_life:
                     matchPlayer.ending_life
+
             }
+
         );
 
     }
 
 
 
+
     return {
-        match_id: matchId
+
+        match_id:
+            matchId
+
     };
 
 }
+
+
+
+
+
+
+
 export async function getMatchesByLeague(
     leagueId:number
-) {
-
+){
 
     const matches =
         await matchRepository.findByLeagueId(
