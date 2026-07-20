@@ -7,158 +7,450 @@ import {
     useNavigate
 } from "react-router-dom";
 
-import {
-    getDashboard
-} from "../services/dashboardService";
 
-import type {
-    getPlayersWithCommanders
+import {
+    getMyLeagues,
+    getLeaguePlayersWithCommanders
 } from "../services/leagueService";
 
-import type {
-    Dashboard
-} from "../types/dashboard";
+
+import {
+    createMatch
+} from "../services/matchService";
+
+
+import {
+    searchCommanders,
+    addCommanderToPlayer
+} from "../services/commanderService";
+
 
 import type {
-    LeaguePlayerCommander
+    LeaguePlayer,
+    MatchPlayerInput
 } from "../types/match";
 
-export default function CreateMatch() {
+
+
+interface League {
+
+    league_id:number;
+
+    league_name:string;
+
+}
+
+
+
+export default function CreateMatch(){
+
 
     const navigate =
         useNavigate();
 
-    const [
-        dashboard,
-        setDashboard
-    ] =
-    useState<Dashboard>();
 
-    const [
-        selectedLeagueId,
-        setSelectedLeagueId
-    ] =
-    useState<number>();
 
-    const [
-        players,
-        setPlayers
-    ] =
-    useState<LeaguePlayerCommander[]>([]);
+    const [leagues,setLeagues] =
+        useState<League[]>([]);
 
-    const [
-        loading,
-        setLoading
-    ] =
-    useState(true);
 
-    useEffect(() => {
 
-        loadDashboard();
+    const [selectedLeague,setSelectedLeague] =
+        useState<number | null>(null);
 
-    }, []);
 
-    async function loadDashboard() {
 
-        const data =
-            await getDashboard();
+    const [players,setPlayers] =
+        useState<LeaguePlayer[]>([]);
 
-        setDashboard(data);
 
-        if (data.leagues.length > 0) {
 
-            setSelectedLeagueId(
-                data.leagues[0].league_id
-            );
+    const [selectedPlayers,setSelectedPlayers] =
+        useState<Record<number,MatchPlayerInput>>({});
+
+
+
+    const [commanderSearch,setCommanderSearch] =
+        useState("");
+
+
+
+    const [searchResults,setSearchResults] =
+        useState<any[]>([]);
+
+
+
+    const [activePlayer,setActivePlayer] =
+        useState<number | null>(null);
+
+
+
+    const [loading,setLoading] =
+        useState(false);
+
+
+
+
+
+    useEffect(()=>{
+
+        async function loadLeagues(){
+
+            try {
+
+                const result =
+                    await getMyLeagues();
+
+
+                console.log(
+                    "MY LEAGUES RESPONSE:",
+                    result
+                );
+
+
+                setLeagues(
+                    result
+                );
+
+
+            } catch(error){
+
+                console.error(
+                    "FAILED LOADING LEAGUES:",
+                    error
+                );
+
+            }
 
         }
 
-        setLoading(false);
+
+        loadLeagues();
+
+
+    },[]);
+
+
+
+
+
+    async function handleLeagueChange(
+        leagueId:number
+    ){
+
+
+        setSelectedLeague(
+            leagueId
+        );
+
+
+        const result =
+            await getLeaguePlayersWithCommanders(
+                leagueId
+            );
+
+
+        setPlayers(
+            result
+        );
+
+
+        setSelectedPlayers({});
+
 
     }
 
-    useEffect(() => {
 
-        if (!selectedLeagueId) {
+
+
+
+
+    function addPlayer(
+        player:LeaguePlayer
+    ){
+
+
+        setSelectedPlayers(
+            current=>({
+
+                ...current,
+
+
+                [player.player_id]:{
+
+                    player_id:
+                        player.player_id,
+
+
+                    commander_id:
+                        0,
+
+
+                    finish_position:
+                        Object.keys(current).length + 1,
+
+
+                    starting_life:
+                        40
+
+                }
+
+            })
+        );
+
+
+    }
+
+
+
+
+
+
+    function removePlayer(
+        playerId:number
+    ){
+
+
+        const copy =
+            {
+                ...selectedPlayers
+            };
+
+
+        delete copy[playerId];
+
+
+        setSelectedPlayers(
+            copy
+        );
+
+    }
+
+
+
+
+
+
+    function selectCommander(
+        playerId:number,
+        commanderId:number
+    ){
+
+
+        setSelectedPlayers(
+            current=>({
+
+                ...current,
+
+
+                [playerId]:{
+
+                    ...current[playerId],
+
+                    commander_id:
+                        commanderId
+
+                }
+
+            })
+        );
+
+
+    }
+
+
+
+
+
+
+
+
+    async function searchCommandersHandler(){
+
+
+        if(
+            !commanderSearch.trim()
+        ){
 
             return;
 
         }
 
-        loadPlayers(
-            selectedLeagueId
-        );
 
-    }, [selectedLeagueId]);
 
-    async function loadPlayers(
-        leagueId:number
-    ) {
-
-        const response =
-            await getPlayersWithCommanders(
-                leagueId
+        const result =
+            await searchCommanders(
+                commanderSearch
             );
 
-        setPlayers(response);
 
-    }
 
-    if (loading) {
-
-        return (
-
-            <div className="p-8">
-
-                Loading...
-
-            </div>
-
+        setSearchResults(
+            result
         );
 
     }
+
+
+
+
+
+
+
+
+    async function addCommander(
+        playerId:number,
+        commanderId:number
+    ){
+
+
+        await addCommanderToPlayer(
+            playerId,
+            commanderId
+        );
+
+
+
+        if(selectedLeague){
+
+
+            const refreshed =
+                await getLeaguePlayersWithCommanders(
+                    selectedLeague
+                );
+
+
+            setPlayers(
+                refreshed
+            );
+
+
+        }
+
+
+
+        selectCommander(
+            playerId,
+            commanderId
+        );
+
+
+    }
+
+
+
+
+
+
+
+
+    async function submitMatch(){
+
+
+        if(!selectedLeague){
+
+            return;
+
+        }
+
+
+
+        const payload = {
+
+
+            league_id:
+                selectedLeague,
+
+
+            players:
+                Object.values(
+                    selectedPlayers
+                )
+
+
+        };
+
+
+
+        setLoading(true);
+
+
+
+        try{
+
+
+            await createMatch(
+                payload
+            );
+
+
+            navigate(
+                "/dashboard"
+            );
+
+
+        }
+        finally{
+
+
+            setLoading(false);
+
+
+        }
+
+
+    }
+
+
+
+
+
+
 
     return (
 
-        <div className="max-w-6xl mx-auto p-8">
+        <div>
 
-            <h1 className="text-3xl font-bold mb-6">
 
-                Create Match
-
+            <h1>
+                Create Commander Match
             </h1>
 
-            <div className="mb-6">
 
-                <label className="block mb-2">
 
+
+
+            <div>
+
+                <label>
                     League
-
                 </label>
+
 
                 <select
 
-                    className="border rounded px-3 py-2"
+                    value={
+                        selectedLeague ?? ""
+                    }
 
-                    value={selectedLeagueId}
 
-                    onChange={(e)=>
-
-                        setSelectedLeagueId(
-                            Number(
-                                e.target.value
+                    onChange={
+                        e =>
+                            handleLeagueChange(
+                                Number(e.target.value)
                             )
-                        )
-
                     }
 
                 >
 
+                    <option value="">
+                        Select League
+                    </option>
+
+
                     {
-
-                        dashboard?.leagues.map(
-
-                            league=>
+                        leagues.map(
+                            league=>(
 
                                 <option
 
@@ -178,87 +470,381 @@ export default function CreateMatch() {
 
                                 </option>
 
+                            )
                         )
-
                     }
+
 
                 </select>
 
+
             </div>
 
-            <div className="border rounded p-6">
 
-                <h2 className="text-xl font-semibold mb-4">
 
-                    League Players
 
-                </h2>
 
-                {
 
-                    players.map(
 
-                        player=>
+            <hr/>
 
-                            <div
 
-                                key={
-                                    player.player_id
+
+
+
+            {
+                players.map(
+                    player=>(
+
+
+                        <div
+
+                            key={
+                                player.player_id
+                            }
+
+                            style={{
+
+                                border:"1px solid black",
+
+                                padding:"10px",
+
+                                margin:"10px"
+
+                            }}
+
+                        >
+
+
+                            <h3>
+
+                                {
+                                    player.display_name
                                 }
 
-                                className="border-b py-3"
+                            </h3>
 
-                            >
 
-                                <div className="font-medium">
 
-                                    {
-                                        player.display_name
+
+
+                            {
+                                !selectedPlayers[player.player_id]
+
+                                ?
+
+                                <button
+
+                                    onClick={()=>
+                                        addPlayer(player)
                                     }
 
-                                </div>
+                                >
 
-                                <div className="text-sm text-gray-500">
+                                    Add To Match
 
-                                    {
+                                </button>
 
-                                        player.commanders.length
 
-                                    }
+                                :
 
-                                    {" "}Commander(s)
 
-                                </div>
+                                <>
 
-                            </div>
+
+                                    <select
+
+                                        onChange={
+                                            e =>
+                                                selectCommander(
+                                                    player.player_id,
+                                                    Number(e.target.value)
+                                                )
+                                        }
+
+                                    >
+
+                                        <option>
+                                            Select Commander
+                                        </option>
+
+
+                                        {
+                                            player.commanders.map(
+                                                commander=>(
+
+                                                    <option
+
+                                                        key={
+                                                            commander.commander_id
+                                                        }
+
+                                                        value={
+                                                            commander.commander_id
+                                                        }
+
+                                                    >
+
+                                                        {
+                                                            commander.commander_name
+                                                        }
+
+
+                                                    </option>
+
+                                                )
+                                            )
+                                        }
+
+
+                                    </select>
+
+
+
+
+                                    <button
+
+                                        onClick={()=>
+                                            setActivePlayer(
+                                                player.player_id
+                                            )
+                                        }
+
+                                    >
+
+                                        Search/Add Commander
+
+                                    </button>
+
+
+
+
+
+                                    <button
+
+                                        onClick={()=>
+                                            removePlayer(
+                                                player.player_id
+                                            )
+                                        }
+
+                                    >
+
+                                        Remove
+
+                                    </button>
+
+
+                                </>
+
+
+                            }
+
+
+
+                        </div>
+
 
                     )
 
-                }
+                )
 
-            </div>
+            }
 
-            <div className="mt-8">
 
-                <button
 
-                    className="border rounded px-5 py-2"
 
-                    onClick={()=>
 
-                        navigate(
-                            "/dashboard"
+
+
+            {
+                activePlayer &&
+
+
+                <div>
+
+
+                    <h3>
+                        Add Commander
+                    </h3>
+
+
+
+                    <input
+
+                        value={
+                            commanderSearch
+                        }
+
+                        onChange={
+                            e =>
+                                setCommanderSearch(
+                                    e.target.value
+                                )
+                        }
+
+
+                        placeholder="Search Commander"
+
+                    />
+
+
+
+                    <button
+
+                        onClick={
+                            searchCommandersHandler
+                        }
+
+                    >
+
+                        Search
+
+                    </button>
+
+
+
+
+
+                    {
+                        searchResults.map(
+                            commander=>(
+
+
+                                <div
+
+                                    key={
+                                        commander.commander_id
+                                    }
+
+                                >
+
+                                    {
+                                        commander.commander_name
+                                    }
+
+
+
+                                    <button
+
+                                        onClick={()=>
+                                            addCommander(
+                                                activePlayer,
+                                                commander.commander_id
+                                            )
+                                        }
+
+                                    >
+
+                                        Add
+
+                                    </button>
+
+
+                                </div>
+
+
+                            )
                         )
 
                     }
 
-                >
 
-                    Cancel
 
-                </button>
+                </div>
 
-            </div>
+            }
+
+
+
+
+
+
+
+            <hr/>
+
+
+
+
+
+            <h2>
+                Match Players
+            </h2>
+
+
+
+            {
+                Object.values(
+                    selectedPlayers
+                )
+                .map(
+                    player=>(
+
+                        <div
+
+                            key={
+                                player.player_id
+                            }
+
+                        >
+
+                            Player ID:
+                            {
+                                player.player_id
+                            }
+
+                            <br/>
+
+                            Commander ID:
+                            {
+                                player.commander_id
+                            }
+
+                            <br/>
+
+                            Starting Life:
+                            {
+                                player.starting_life
+                            }
+
+
+                        </div>
+
+
+                    )
+                )
+
+            }
+
+
+
+
+
+            <button
+
+                disabled={
+                    loading
+                }
+
+                onClick={
+                    submitMatch
+                }
+
+            >
+
+                {
+                    loading
+                    ?
+                    "Creating..."
+                    :
+                    "Create Match"
+                }
+
+
+            </button>
+
+
+
 
         </div>
 

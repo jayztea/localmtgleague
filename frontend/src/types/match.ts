@@ -1,47 +1,53 @@
 export interface LeaguePlayerCommander {
 
-    deck_id: number;
+    deck_id:number;
 
-    commander_id: number;
+    commander_id:number;
 
-    commander_name: string;
+    commander_name:string;
 
-    color_identity?: string;
+    color_identity?:string;
 
 }
+
+
 
 export interface LeaguePlayer {
 
-    player_id: number;
+    player_id:number;
 
-    display_name: string;
+    display_name:string;
 
-    commanders: LeaguePlayerCommander[];
+    commanders:LeaguePlayerCommander[];
 
 }
+
+
 
 export interface MatchPlayerInput {
 
-    player_id: number;
+    player_id:number;
 
-    commander_id: number;
+    commander_id:number;
 
-    finish_position: number;
+    finish_position?:number;
 
-    starting_life?: number;
+    starting_life?:number;
 
-    ending_life?: number;
+    ending_life?:number;
 
 }
 
+
+
 export interface CreateMatchRequest {
 
-    league_id: number;
+    league_id:number;
 
-    game_length_minutes?: number;
+    game_length_minutes?:number;
 
-    notes?: string;
+    notes?:string;
 
-    players: MatchPlayerInput[];
+    players:MatchPlayerInput[];
 
 }
