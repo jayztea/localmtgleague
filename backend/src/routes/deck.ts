@@ -26,6 +26,10 @@ router.get(
     deckController.getMyDecks
 );
 
-
+router.get(
+    "/player/:playerId",
+    authenticateToken,
+    deckController.getPlayerDecks
+);
 
 export default router;

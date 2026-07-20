@@ -7,7 +7,7 @@ export const createMatchPlayerSchema = z.object({
         .int()
         .positive(),
 
-    deck_id: z.number()
+    commander_id: z.number()
         .int()
         .positive(),
 
@@ -51,4 +51,22 @@ export const createMatchSchema = z.object({
 
 
 export type CreateMatchDTO =
-    z.infer<typeof createMatchSchema>;
+    z.infer<typeof createMatchSchema> & {
+
+        players: Array<{
+
+            player_id:number;
+
+            commander_id:number;
+
+            deck_id?:number;
+
+            finish_position?:number;
+
+            starting_life?:number;
+
+            ending_life?:number;
+
+        }>;
+
+    };

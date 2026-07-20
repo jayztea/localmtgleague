@@ -130,3 +130,42 @@ export async function findById(
         : null;
 
 }
+export async function findByPlayerAndCommander(
+    playerId:number,
+    commanderId:number
+){
+
+    const [rows]:any =
+        await db.execute(
+            `
+            SELECT
+
+                d.deck_id,
+                d.player_id,
+                d.commander_id,
+                d.deck_name,
+                d.color_identity,
+                d.power_level,
+                d.bracket_level,
+
+                c.commander_name
+
+            FROM decks d
+
+            JOIN commanders c
+                ON d.commander_id = c.commander_id
+
+            WHERE d.player_id = ?
+            AND d.commander_id = ?
+
+            `,
+            [
+                playerId,
+                commanderId
+            ]
+        );
+
+
+    return rows[0] ?? null;
+
+}
