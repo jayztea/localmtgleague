@@ -21,27 +21,46 @@ export async function findById(
 }
 
 export async function search(
-    query: string,
-    limit: number = 20
-) {
+    query:string,
+    limit:number = 20
+){
 
-    const [rows]: any =
+    const [rows]:any =
+
         await db.execute(
+
             `
             SELECT
+
                 commander_id,
+
                 commander_name,
+
                 color_identity
+
+
             FROM commanders
+
+
             WHERE commander_name LIKE ?
+
+
             ORDER BY commander_name
-            LIMIT ?
+
+
+            LIMIT ${limit}
+
             `,
+
             [
-                `%${query}%`,
-                limit
+
+                `%${query}%`
+
             ]
+
         );
 
+
     return rows;
+
 }

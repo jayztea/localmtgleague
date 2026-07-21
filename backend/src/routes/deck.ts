@@ -9,16 +9,11 @@ import {
 
 
 const router = Router();
-
-
-
 router.post(
     "/",
     authenticateToken,
     deckController.createDeck
 );
-
-
 
 router.get(
     "/my",
@@ -33,3 +28,9 @@ router.get(
 );
 
 export default router;
+
+router.post(
+    "/player/:playerId/commander/:commanderId",
+    authenticateToken,
+    deckController.getOrCreateCommanderDeck
+);
