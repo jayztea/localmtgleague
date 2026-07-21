@@ -106,16 +106,30 @@ export async function findById(
             SELECT
 
                 d.deck_id,
+
                 d.player_id,
+
                 d.deck_name,
+
                 d.color_identity,
+
                 d.power_level,
+
                 d.bracket_level,
+
                 d.is_active,
-                c.commander_id
+
+                c.commander_id,
+
+                c.commander_name,
+
+                c.color_identity
+
             FROM decks d
+
             JOIN commanders c
                 ON d.commander_id = c.commander_id
+
             WHERE d.deck_id = ?
 
             `,

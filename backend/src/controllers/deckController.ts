@@ -101,3 +101,33 @@ export async function getPlayerDecks(
     }
 
 }
+export async function getOrCreateCommanderDeck(
+    req: Request,
+    res: Response,
+    next: NextFunction
+){
+
+    try{
+
+        const playerId =
+            Number(req.params.playerId);
+
+        const commanderId =
+            Number(req.params.commanderId);
+
+        const deck =
+            await deckService.getOrCreateCommanderDeck(
+                playerId,
+                commanderId
+            );
+
+        res.json(deck);
+
+    }
+    catch(error){
+
+        next(error);
+
+    }
+
+}

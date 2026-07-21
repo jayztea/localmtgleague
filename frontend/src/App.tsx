@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 
 import Dashboard from "./pages/Dashboard";
 
-import CreateMatch from "./pages/CreateMatch";
+import CreateMatch from "./pages/CreateMatch/CreateMatch";
 
 import ProtectedRoute from "./auth/ProtectedRoute";
 
