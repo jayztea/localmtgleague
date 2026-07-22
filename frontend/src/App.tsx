@@ -7,12 +7,13 @@ import {
 
 
 import Login from "./pages/Login";
-
 import Dashboard from "./pages/Dashboard";
-
 import CreateMatch from "./pages/CreateMatch/CreateMatch";
-
+import CreateLeague from "./pages/CreateLeague/CreateLeague";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import JoinLeague from "./pages/JoinLeague/JoinLeague";
+
+
 
 
 
@@ -21,10 +22,12 @@ export default function App() {
 
     return (
 
+
         <BrowserRouter>
 
 
             <Routes>
+
 
 
                 <Route
@@ -34,6 +37,8 @@ export default function App() {
                     element={<Login />}
 
                 />
+
+
 
 
 
@@ -55,19 +60,9 @@ export default function App() {
 
 
 
-                {/*
 
-                    Match creation
 
-                    Optional leagueId parameter.
 
-                    Examples:
-
-                    /matches/create
-
-                    /matches/create?leagueId=9
-
-                */}
 
                 <Route
 
@@ -84,6 +79,51 @@ export default function App() {
                     }
 
                 />
+
+
+
+
+
+
+
+                <Route
+
+                    path="/leagues/create"
+
+                    element={
+
+                        <ProtectedRoute>
+
+                            <CreateLeague />
+
+                        </ProtectedRoute>
+
+                    }
+
+                />
+
+
+
+
+                <Route
+
+                    path="/leagues/join"
+
+                    element={
+
+                        <ProtectedRoute>
+
+                            <JoinLeague />
+
+                        </ProtectedRoute>
+
+                    }
+
+                />
+
+
+
+
 
 
 
@@ -107,6 +147,8 @@ export default function App() {
 
 
 
+
+
                 <Route
 
                     path="*"
@@ -126,11 +168,14 @@ export default function App() {
                 />
 
 
+
             </Routes>
 
 
         </BrowserRouter>
 
+
     );
+
 
 }

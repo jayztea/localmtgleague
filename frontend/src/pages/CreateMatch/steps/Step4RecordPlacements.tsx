@@ -1,12 +1,9 @@
-import React from "react";
-
-
 import type {
     CreateMatchState
 }
 from "../types";
 
-
+import "../CreateMatch.css";
 
 interface Props {
 
@@ -17,13 +14,11 @@ interface Props {
         React.SetStateAction<CreateMatchState>
     >;
 
-    nextStep:()=>void;
+    nextStep: () => void;
 
-    previousStep:()=>void;
+    previousStep: () => void;
 
 }
-
-
 
 export default function Step4RecordPlacements({
 
@@ -35,19 +30,12 @@ export default function Step4RecordPlacements({
 
     previousStep
 
-
-}:Props){
-
-
+}: Props) {
 
     function updatePlacement(
-
-        playerId:number,
-
-        placement:number
-
-    ){
-
+        playerId: number,
+        placement: number
+    ) {
 
         setMatchState({
 
@@ -55,378 +43,232 @@ export default function Step4RecordPlacements({
 
             players:
 
-            matchState.players.map(player=>
+                matchState.players.map(player =>
 
+                    player.player_id === playerId
 
-                player.player_id === playerId
+                        ? {
+                            ...player,
+                            placement
+                        }
 
-                ?
+                        : player
 
-                {
-
-                    ...player,
-
-                    placement
-
-                }
-
-                :
-
-                player
-
-
-            )
+                )
 
         });
 
-
     }
 
-
-
-
-
-    function getPlacementOptions(){
-
-        return Array.from(
-
-            {
-                length:
-                matchState.players.length
-            },
-
-            (_,index)=>index + 1
-
-        );
-
-    }
-
-
-
-
-
-    function getPlacementLabel(
-
-        placement:number
-
-    ){
-
-
-        if(placement === 1)
-            return "1st";
-
-
-        if(placement === 2)
-            return "2nd";
-
-
-        if(placement === 3)
-            return "3rd";
-
-
-        return `${placement}th`;
-
-    }
-
-
-
-
-
-    function getCommanderName(
-
-        player:any
-
-    ){
-
+    function getCommanderName(player: any) {
 
         const commander =
 
             player.commanders.find(
 
-                (commander:any)=>
+                (commander: any) =>
 
                     commander.commander_id ===
                     player.selected_commander_id
 
             );
 
-
         return commander?.commander_name ?? "";
 
     }
 
+    function getPlacementOptions() {
 
+        return Array.from(
 
+            {
+                length: matchState.players.length
+            },
 
+            (_, index) => index + 1
+
+        );
+
+    }
+
+    function placementLabel(value: number) {
+
+        if (value === 1) return "1st";
+        if (value === 2) return "2nd";
+        if (value === 3) return "3rd";
+
+        return `${value}th`;
+
+    }
 
     return (
 
-        <div
+        <div className="create-match-page">
 
-        style={{
+            <div className="create-match-card">
 
-            padding:"40px"
+                <h1 className="page-title">
 
-        }}
+                    (4) Record Placements
 
-        >
+                </h1>
 
+                <p className="page-subtitle">
 
+                    Select the final placement for each player.
 
-            <h1>
-                (4) Record Placements
-            </h1>
+                </p>
 
+                <div className="info-banner">
 
+                    🏆 1st Place is the winner.
 
-            <p>
-                Select the final placement for each player.
-            </p>
+                </div>
 
+                <table className="match-table">
 
-            <p>
-                <strong>
-                    Note: 1st is the winner
-                </strong>
-            </p>
+                    <thead>
 
+                        <tr>
 
+                            <th>Player</th>
 
+                            <th>Commander</th>
 
-            <table
+                            <th>Placement</th>
 
-            style={{
+                        </tr>
 
-                marginTop:"30px",
+                    </thead>
 
-                width:"700px",
+                    <tbody>
 
-                borderCollapse:"collapse"
+                        {
 
-            }}
+                            matchState.players.map(player => (
 
-            >
+                                <tr
+                                    key={player.player_id}
+                                >
 
+                                    <td>
 
-                <thead>
+                                        {player.display_name}
 
-                    <tr>
+                                    </td>
 
-                        <th>
-                            Player
-                        </th>
+                                    <td>
 
+                                        {getCommanderName(player)}
 
-                        <th>
-                            Commander
-                        </th>
+                                    </td>
 
+                                    <td>
 
-                        <th>
-                            Placement
-                        </th>
+                                        <select
 
-                    </tr>
+                                            className="placement-select"
 
-                </thead>
+                                            value={player.placement ?? ""}
 
+                                            onChange={(event) =>
 
+                                                updatePlacement(
 
+                                                    player.player_id,
 
-                <tbody>
+                                                    Number(event.target.value)
 
+                                                )
 
-                {
+                                            }
 
-                matchState.players.map(player=>(
+                                        >
 
+                                            <option value="">
 
-                    <tr
+                                                Select
 
-                    key={
-                        player.player_id
-                    }
+                                            </option>
+
+                                            {
+
+                                                getPlacementOptions()
+
+                                                    .map(position => (
+
+                                                        <option
+
+                                                            key={position}
+
+                                                            value={position}
+
+                                                        >
+
+                                                            {placementLabel(position)}
+
+                                                        </option>
+
+                                                    ))
+
+                                            }
+
+                                        </select>
+
+                                    </td>
+
+                                </tr>
+
+                            ))
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+                <div className="wizard-footer">
+
+                    <button
+
+                        className="secondary-button"
+
+                        onClick={previousStep}
 
                     >
 
+                        ← Back
 
-                        <td>
+                    </button>
 
-                            {
-                                player.display_name
-                            }
+                    <button
 
-                        </td>
+                        className="primary-button"
 
+                        disabled={
 
+                            matchState.players.some(
 
+                                player => !player.placement
 
-                        <td>
+                            )
 
-                            {
-                                getCommanderName(player)
-                            }
+                        }
 
-                        </td>
+                        onClick={nextStep}
 
+                    >
 
+                        Next →
 
+                    </button>
 
-
-                        <td>
-
-
-                            <select
-
-
-                            value={
-
-                                player.placement ?? ""
-
-                            }
-
-
-                            onChange={(event)=>{
-
-
-                                updatePlacement(
-
-                                    player.player_id,
-
-                                    Number(
-                                        event.target.value
-                                    )
-
-                                );
-
-
-                            }}
-
-
-                            >
-
-
-                                <option value="">
-
-                                    Select Placement
-
-                                </option>
-
-
-
-                                {
-
-                                getPlacementOptions()
-
-                                .map(position=>(
-
-
-                                    <option
-
-                                    key={position}
-
-                                    value={position}
-
-                                    >
-
-                                        {
-                                            getPlacementLabel(
-                                                position
-                                            )
-                                        }
-
-                                    </option>
-
-
-                                ))
-
-                                }
-
-
-                            </select>
-
-
-
-                        </td>
-
-
-                    </tr>
-
-
-                ))
-
-                }
-
-
-                </tbody>
-
-
-            </table>
-
-
-
-
-
-            <div
-
-            style={{
-
-                marginTop:"50px",
-
-                display:"flex",
-
-                justifyContent:"space-between"
-
-            }}
-
-            >
-
-
-                <button
-
-                onClick={previousStep}
-
-                >
-
-                    ← Back
-
-                </button>
-
-
-
-
-
-                <button
-
-
-                disabled={
-
-                    matchState.players.some(
-
-                        player=>
-                        !player.placement
-
-                    )
-
-                }
-
-
-                onClick={nextStep}
-
-                >
-
-                    Next →
-
-                </button>
-
+                </div>
 
             </div>
-
-
 
         </div>
 
     );
-
 
 }

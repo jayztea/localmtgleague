@@ -71,8 +71,7 @@ export default function Step2AddPlayers({
 
                 setLoading(true);
 
-                const players:
-                    LeaguePlayer[] =
+                const players: LeaguePlayer[] =
 
                     await getLeaguePlayersWithCommanders(
 
@@ -80,13 +79,18 @@ export default function Step2AddPlayers({
 
                     );
 
-                setMatchState({
+                console.log(
+                    "PLAYERS RESPONSE",
+                    players
+                );
 
-                    ...matchState,
+                setMatchState(previous => ({
+
+                    ...previous,
 
                     leaguePlayers: players
 
-                });
+                }));
 
             }
             catch (error) {
@@ -182,13 +186,13 @@ export default function Step2AddPlayers({
 
                         setSelectedPlayers={(players) =>
 
-                            setMatchState({
+                            setMatchState(previous => ({
 
-                                ...matchState,
+                                ...previous,
 
                                 players
 
-                            })
+                            }))
 
                         }
 

@@ -112,7 +112,8 @@ export async function findPlayerLeagues(
 
                 l.league_id,
 
-                l.league_name
+                l.league_name,
+                l.league_code
 
             FROM leagues l
 
@@ -153,7 +154,8 @@ export async function findLeagueById(
 
                 league_id,
 
-                league_name
+                league_name,
+                league_code
 
             FROM leagues
 
