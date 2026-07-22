@@ -1,32 +1,20 @@
-import React,{useState} from "react";
+import { useState } from "react";
 
+import type { LeaguePlayer } from "../../../types/match";
 
-import type {
-    LeaguePlayer
-} from "../../../types/match";
-
-
+import "../CreateMatch.css";
 
 interface Props {
 
+    availablePlayers: LeaguePlayer[];
 
-    availablePlayers:LeaguePlayer[];
+    selectedPlayers: LeaguePlayer[];
 
+    setAvailablePlayers: (players: LeaguePlayer[]) => void;
 
-    selectedPlayers:LeaguePlayer[];
-
-
-    setAvailablePlayers:
-        (players:LeaguePlayer[])=>void;
-
-
-    setSelectedPlayers:
-        (players:LeaguePlayer[])=>void;
-
+    setSelectedPlayers: (players: LeaguePlayer[]) => void;
 
 }
-
-
 
 export default function PlayerSelector({
 
@@ -38,431 +26,134 @@ export default function PlayerSelector({
 
     setSelectedPlayers
 
+}: Props) {
 
-}:Props){
+    const [selectedAvailable, setSelectedAvailable] = useState<number[]>([]);
+    const [selectedSelected, setSelectedSelected] = useState<number[]>([]);
 
-
-
-    const [
-        selectedAvailable,
-        setSelectedAvailable
-    ]
-    =
-    useState<number[]>([]);
-
-
-
-    const [
-        selectedSelected,
-        setSelectedSelected
-    ]
-    =
-    useState<number[]>([]);
-
-
-
-
-    function toggleAvailable(
-        playerId:number
-    ){
-
+    function toggleAvailable(id: number) {
 
         setSelectedAvailable(
 
-            selectedAvailable.includes(playerId)
+            selectedAvailable.includes(id)
 
-            ?
+                ? selectedAvailable.filter(x => x !== id)
 
-            selectedAvailable.filter(
-                id=>id !== playerId
-            )
-
-            :
-
-            [
-                ...selectedAvailable,
-                playerId
-            ]
+                : [...selectedAvailable, id]
 
         );
 
-
     }
 
-
-
-
-    function toggleSelected(
-        playerId:number
-    ){
-
+    function toggleSelected(id: number) {
 
         setSelectedSelected(
 
-            selectedSelected.includes(playerId)
+            selectedSelected.includes(id)
 
-            ?
+                ? selectedSelected.filter(x => x !== id)
 
-            selectedSelected.filter(
-                id=>id !== playerId
-            )
-
-            :
-
-            [
-                ...selectedSelected,
-                playerId
-            ]
+                : [...selectedSelected, id]
 
         );
-
 
     }
 
+    function moveRight() {
 
-
-
-
-    function moveRight(){
-
-
-        const movingPlayers =
-            availablePlayers.filter(
-
-                player =>
-                selectedAvailable.includes(
-                    player.player_id
-                )
-
-            );
-
-
-
-        setSelectedPlayers([
-
-            ...selectedPlayers,
-
-            ...movingPlayers
-
-        ]);
-
-
-
-        setAvailablePlayers(
-
-            availablePlayers.filter(
-
-                player =>
-
-                !selectedAvailable.includes(
-                    player.player_id
-                )
-
-            )
-
+        const moving = availablePlayers.filter(p =>
+            selectedAvailable.includes(p.player_id)
         );
 
+        setSelectedPlayers([...selectedPlayers, ...moving]);
+
+        setAvailablePlayers([]);
 
         setSelectedAvailable([]);
 
-
     }
 
+    function moveLeft() {
 
-
-
-
-
-    function moveLeft(){
-
-
-        const movingPlayers =
-            selectedPlayers.filter(
-
-                player =>
-
-                selectedSelected.includes(
-                    player.player_id
-                )
-
-            );
-
-
-
-        setAvailablePlayers([
-
-            ...availablePlayers,
-
-            ...movingPlayers
-
-        ]);
-
-
-
-        setSelectedPlayers(
-
-            selectedPlayers.filter(
-
-                player =>
-
-                !selectedSelected.includes(
-                    player.player_id
-                )
-
-            )
-
+        const remaining = selectedPlayers.filter(
+            p => !selectedSelected.includes(p.player_id)
         );
 
+        setSelectedPlayers(remaining);
 
         setSelectedSelected([]);
 
-
     }
-
-
-
-
-
 
     return (
 
-        <div
+        <div className="player-transfer-container">
 
-            style={{
+            <div className="transfer-box">
 
-                display:"flex",
+                <h3>Available Players</h3>
 
-                gap:"30px",
+                <div className="transfer-list">
 
-                alignItems:"center"
+                    {availablePlayers.map(player => (
 
-            }}
-
-        >
-
-
-            {/* AVAILABLE */}
-
-
-            <div>
-
-
-                <h3>
-                    Available Players
-                </h3>
-
-
-                <div
-
-                    style={{
-
-                        border:"1px solid gray",
-
-                        width:"250px",
-
-                        minHeight:"300px",
-
-                        padding:"10px"
-
-                    }}
-
-                >
-
-
-                {
-                    availablePlayers.map(player=>(
-
-
-                        <div
-
-                            key={
-                                player.player_id
-                            }
-
+                        <label
+                            key={player.player_id}
+                            className="transfer-item"
                         >
 
                             <input
-
                                 type="checkbox"
-
-                                checked={
-                                    selectedAvailable.includes(
-                                        player.player_id
-                                    )
-                                }
-
-
-                                onChange={()=>
-
-
-                                    toggleAvailable(
-                                        player.player_id
-                                    )
-
-                                }
-
-
+                                checked={selectedAvailable.includes(player.player_id)}
+                                onChange={() => toggleAvailable(player.player_id)}
                             />
 
+                            {player.display_name}
 
-                            {
-                                player.display_name
-                            }
+                        </label>
 
-
-                        </div>
-
-
-                    ))
-
-                }
-
+                    ))}
 
                 </div>
 
+            </div>
+
+            <div className="transfer-buttons">
+
+                <button onClick={moveRight}>→</button>
+
+                <button onClick={moveLeft}>←</button>
 
             </div>
 
+            <div className="transfer-box">
 
+                <h3>Selected Players</h3>
 
+                <div className="transfer-list">
 
+                    {selectedPlayers.map(player => (
 
-            {/* BUTTONS */}
-
-
-            <div
-
-                style={{
-
-                    display:"flex",
-
-                    flexDirection:"column",
-
-                    gap:"20px"
-
-                }}
-
-            >
-
-
-                <button
-
-                    onClick={moveRight}
-
-                >
-
-                    →
-
-                </button>
-
-
-
-                <button
-
-                    onClick={moveLeft}
-
-                >
-
-                    ←
-
-                </button>
-
-
-            </div>
-
-
-
-
-
-            {/* SELECTED */}
-
-
-            <div>
-
-
-                <h3>
-                    Selected Players
-                </h3>
-
-
-                <div
-
-                    style={{
-
-                        border:"1px solid gray",
-
-                        width:"250px",
-
-                        minHeight:"300px",
-
-                        padding:"10px"
-
-                    }}
-
-                >
-
-
-                {
-                    selectedPlayers.map(player=>(
-
-
-                        <div
-
-                            key={
-                                player.player_id
-                            }
-
+                        <label
+                            key={player.player_id}
+                            className="transfer-item"
                         >
 
                             <input
-
                                 type="checkbox"
-
-
-                                checked={
-
-                                    selectedSelected.includes(
-
-                                        player.player_id
-
-                                    )
-
-                                }
-
-
-                                onChange={()=>
-
-
-                                    toggleSelected(
-
-                                        player.player_id
-
-                                    )
-
-                                }
-
-
+                                checked={selectedSelected.includes(player.player_id)}
+                                onChange={() => toggleSelected(player.player_id)}
                             />
 
+                            {player.display_name}
 
-                            {
-                                player.display_name
-                            }
+                        </label>
 
-
-                        </div>
-
-
-                    ))
-
-                }
-
+                    ))}
 
                 </div>
 
-
             </div>
-
 
         </div>
 

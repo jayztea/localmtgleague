@@ -1,53 +1,43 @@
-import React,{useEffect,useState} from "react";
-
+import React, { useEffect, useMemo, useState } from "react";
 
 import {
     getLeaguePlayersWithCommanders
 }
 from "../../../services/leagueService";
 
-
 import PlayerSelector
 from "../components/PlayerSelector";
 
+import StepHeader
+from "../../../components/ui/StepHeader";
+
+import StepNavigation
+from "../components/StepNavigation";
 
 import type {
     CreateMatchState
 }
 from "../types";
 
-
 import type {
     LeaguePlayer
 }
 from "../../../types/match";
 
-
-
-
 interface Props {
 
-
-    matchState:CreateMatchState;
-
+    matchState: CreateMatchState;
 
     setMatchState:
     React.Dispatch<
         React.SetStateAction<CreateMatchState>
     >;
 
+    nextStep: () => void;
 
-
-    nextStep:()=>void;
-
-
-    previousStep:()=>void;
-
+    previousStep: () => void;
 
 }
-
-
-
 
 export default function Step2AddPlayers({
 
@@ -59,47 +49,30 @@ export default function Step2AddPlayers({
 
     previousStep
 
-
-}:Props){
-
-
+}: Props) {
 
     const [
         loading,
         setLoading
-    ]
-    =
+    ] =
     useState(false);
 
+    useEffect(() => {
 
+        async function loadPlayers() {
 
-
-
-    useEffect(()=>{
-
-
-        async function loadPlayers(){
-
-
-            if(!matchState.league)
+            if (!matchState.league)
                 return;
 
-
-
-            if(matchState.leaguePlayers.length > 0)
+            if (matchState.leaguePlayers.length > 0)
                 return;
-
-
 
             try {
 
-
                 setLoading(true);
 
-
-
                 const players:
-                LeaguePlayer[] =
+                    LeaguePlayer[] =
 
                     await getLeaguePlayersWithCommanders(
 
@@ -107,237 +80,138 @@ export default function Step2AddPlayers({
 
                     );
 
-
-
                 setMatchState({
 
                     ...matchState,
 
-                    leaguePlayers:players
+                    leaguePlayers: players
 
                 });
 
-
-
             }
-            catch(error){
-
+            catch (error) {
 
                 console.error(
 
-                    "FAILED LOADING LEAGUE PLAYERS",
+                    "FAILED LOADING PLAYERS",
 
                     error
 
                 );
 
-
             }
             finally {
 
-
                 setLoading(false);
 
-
             }
-
 
         }
 
-
-
         loadPlayers();
 
-
-
-    },[
+    }, [
         matchState.league
     ]);
 
-
-
-
-
-
     const availablePlayers =
+        useMemo(() => {
 
-        matchState.leaguePlayers.filter(
+            return matchState.leaguePlayers.filter(
 
-            player =>
+                player =>
 
+                    !matchState.players.some(
 
-            !matchState.players.some(
+                        selected =>
 
-                selected =>
+                            selected.player_id === player.player_id
 
-                selected.player_id === player.player_id
+                    )
 
-            )
+            );
 
-        );
-
-
-
-
-
-
+        }, [
+            matchState.leaguePlayers,
+            matchState.players
+        ]);
 
     return (
 
-        <div
+        <div className="create-match-page">
 
-            style={{
+            <div className="create-match-card">
 
-                padding:"40px",
+                <StepHeader
 
-                minHeight:"600px",
+                    step={2}
 
-                display:"flex",
+                    title="Add Players"
 
-                flexDirection:"column"
-
-            }}
-
-        >
-
-
-            <h1>
-                (2) Add Players
-            </h1>
-
-
-
-            <p>
-                Select players from your league to play in this match
-            </p>
-
-
-
-
-            {
-                loading &&
-
-                <p>
-                    Loading players...
-                </p>
-
-            }
-
-
-
-
-            {
-                !loading &&
-
-
-                <PlayerSelector
-
-
-                    availablePlayers={
-                        availablePlayers
-                    }
-
-
-
-                    selectedPlayers={
-                        matchState.players
-                    }
-
-
-
-                    setAvailablePlayers={
-                        ()=>{}
-                    }
-
-
-
-                    setSelectedPlayers={
-
-                        (players)=>
-
-
-                        setMatchState({
-
-                            ...matchState,
-
-                            players
-
-                        })
-
-                    }
-
-
+                    description="Select players from your league to play in this match."
 
                 />
 
+                {
 
-            }
+                    loading &&
 
+                    <p>
 
+                        Loading players...
 
+                    </p>
 
+                }
 
+                {
 
+                    !loading &&
 
-            <div
+                    <PlayerSelector
 
-                style={{
+                        availablePlayers={
+                            availablePlayers
+                        }
 
-                    marginTop:"auto",
+                        selectedPlayers={
+                            matchState.players
+                        }
 
-                    display:"flex",
+                        setAvailablePlayers={() => { }}
 
-                    justifyContent:"flex-end",
+                        setSelectedPlayers={(players) =>
 
-                    gap:"10px"
+                            setMatchState({
 
-                }}
+                                ...matchState,
 
-            >
+                                players
 
+                            })
 
-                <button
+                        }
 
-                    onClick={
-                        previousStep
-                    }
+                    />
 
-                >
+                }
 
-                    ← Back
+                <StepNavigation
 
-                </button>
+                    previousStep={previousStep}
 
+                    nextStep={nextStep}
 
-
-
-
-                <button
-
-                    disabled={
+                    disableNext={
                         matchState.players.length === 0
                     }
 
-
-
-                    onClick={
-                        nextStep
-                    }
-
-
-                >
-
-                    Next →
-
-                </button>
-
+                />
 
             </div>
-
 
         </div>
 
     );
-
 
 }

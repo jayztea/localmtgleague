@@ -1,177 +1,374 @@
 import {
-    useState
+
+useState
+
 }
 from "react";
 
 
 import {
-    useNavigate
+
+useNavigate
+
 }
 from "react-router-dom";
 
 
 import {
-    useAuth
+
+useAuth
+
 }
 from "../auth/AuthContext";
 
 
 
-export default function Login() {
 
+export default function Login(){
 
-    const {
-        login
-    } =
-        useAuth();
 
+const {
 
+login,
 
-    const navigate =
-        useNavigate();
+register
 
+}
+=
+useAuth();
 
 
-    const [email,setEmail] =
-        useState("");
 
+const navigate =
+useNavigate();
 
 
-    const [password,setPassword] =
-        useState("");
 
+const [mode,setMode] =
+useState<
+"login"|"register"
+>(
+"login"
+);
 
 
-    const [error,setError] =
-        useState("");
 
+const [email,setEmail] =
+useState("");
 
 
 
+const [password,setPassword] =
+useState("");
 
-    async function handleSubmit(
-        e:React.FormEvent
-    ) {
 
 
-        e.preventDefault();
+const [displayName,setDisplayName] =
+useState("");
 
 
 
-        try {
+const [error,setError] =
+useState("");
 
 
-            await login(
-                email,
-                password
-            );
 
 
-            navigate(
-                "/dashboard"
-            );
 
 
-        }
-        catch(error) {
 
+async function handleSubmit(
 
-            setError(
-                "Invalid login."
-            );
+e:React.FormEvent
 
+){
 
-        }
 
+e.preventDefault();
 
-    }
 
+try{
 
 
+setError("");
 
 
-    return (
 
-        <div className="min-h-screen flex items-center justify-center">
+if(mode==="login"){
 
-            <form
-                onSubmit={handleSubmit}
-                className="space-y-4"
-            >
 
-                <h1 className="text-2xl">
-                    MTG League Login
-                </h1>
+await login(
 
+email,
 
-                {error &&
+password
 
-                    <div>
-                        {error}
-                    </div>
+);
 
-                }
 
+}
+else{
 
 
-                <input
+await register(
 
-                    className="border p-2"
+email,
 
-                    placeholder="Email"
+password,
 
-                    value={email}
+displayName
 
-                    onChange={
-                        e =>
-                            setEmail(
-                                e.target.value
-                            )
-                    }
+);
 
-                />
 
+}
 
 
-                <input
 
-                    className="border p-2"
+navigate(
+"/dashboard"
+);
 
-                    type="password"
 
-                    placeholder="Password"
 
-                    value={password}
+}
+catch(error){
 
-                    onChange={
-                        e =>
-                            setPassword(
-                                e.target.value
-                            )
-                    }
 
-                />
+console.error(error);
 
 
+setError(
 
-                <button
+mode==="login"
 
-                    className="border px-4 py-2"
+?
 
-                    type="submit"
+"Invalid email or password."
 
-                >
+:
 
-                    Login
+"Unable to create account."
 
-                </button>
+);
 
 
-            </form>
+}
 
 
-        </div>
 
-    );
+}
+
+
+
+
+
+
+
+return (
+
+<div className="min-h-screen flex items-center justify-center">
+
+
+<form
+
+onSubmit={handleSubmit}
+
+className="space-y-4"
+
+>
+
+
+<h1 className="text-2xl">
+
+{
+
+mode==="login"
+
+?
+
+"MTG League Login"
+
+:
+
+"Create Account"
+
+}
+
+</h1>
+
+
+
+
+{error &&
+
+<div>
+
+{error}
+
+</div>
+
+}
+
+
+
+
+{
+
+mode==="register" &&
+
+
+<input
+
+className="border p-2"
+
+placeholder="Display Name"
+
+value={displayName}
+
+onChange={
+e=>
+setDisplayName(
+e.target.value
+)
+}
+
+/>
+
+
+}
+
+
+
+
+
+<input
+
+className="border p-2"
+
+placeholder="Email"
+
+value={email}
+
+onChange={
+e=>
+setEmail(
+e.target.value
+)
+}
+
+/>
+
+
+
+
+
+
+<input
+
+className="border p-2"
+
+type="password"
+
+placeholder="Password"
+
+value={password}
+
+onChange={
+e=>
+setPassword(
+e.target.value
+)
+}
+
+/>
+
+
+
+
+
+
+<button
+
+className="border px-4 py-2"
+
+type="submit"
+
+>
+
+{
+
+mode==="login"
+
+?
+
+"Login"
+
+:
+
+"Create Account"
+
+}
+
+</button>
+
+
+
+
+
+
+<button
+
+type="button"
+
+className="underline"
+
+onClick={()=>{
+
+setMode(
+
+mode==="login"
+
+?
+
+"register"
+
+:
+
+"login"
+
+);
+
+}}
+
+>
+
+{
+
+mode==="login"
+
+?
+
+"Create Account"
+
+:
+
+"Back to Login"
+
+}
+
+
+</button>
+
+
+
+</form>
+
+
+</div>
+
+
+);
+
 
 }

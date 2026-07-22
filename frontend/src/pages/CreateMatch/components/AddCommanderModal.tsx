@@ -1,317 +1,255 @@
-import React,{useState} from "react";
-
+import { useState } from "react";
 
 import {
     searchCommanders
-}
-from "../../../services/commanderService";
-
+} from "../../../services/commanderService";
 
 import {
     getOrCreateCommanderDeck
-}
-from "../../../services/deckService";
-
-
+} from "../../../services/deckService";
 
 import type {
     LeaguePlayer
-}
-from "../../../types/match";
+} from "../../../types/match";
 
-
+import "../CreateMatch.css";
 
 interface Props {
 
+    player: LeaguePlayer;
 
-    player:LeaguePlayer;
+    onClose: () => void;
 
-
-    closeModal:()=>void;
-
-
-    onCommanderAdded:
-    (
-        commander:any
-    )=>void;
-
+    onCommanderAdded: (commander: any) => void;
 
 }
-
-
-
-
 
 export default function AddCommanderModal({
 
     player,
 
-    closeModal,
+    onClose,
 
     onCommanderAdded
 
+}: Props) {
 
-}:Props){
+    const [query, setQuery] = useState("");
 
+    const [loading, setLoading] = useState(false);
 
+    const [results, setResults] = useState<any[]>([]);
 
-    const [
-        search,
-        setSearch
-    ]
-    =
-    useState("");
+    async function handleSearch() {
 
+        if (!query.trim()) return;
 
+        try {
 
-    const [
-        results,
-        setResults
-    ]
-    =
-    useState<any[]>([]);
+            setLoading(true);
 
+            const commanders =
+                await searchCommanders(query);
 
+            setResults(commanders);
 
-    const [
-        selectedCommander,
-        setSelectedCommander
-    ]
-    =
-    useState<any|null>(null);
+        }
+        catch (error) {
 
+            console.error(error);
 
+            alert("Failed to search commanders.");
 
+        }
+        finally {
 
-async function handleSearch(){
+            setLoading(false);
 
-    try {
-
-        console.log(
-            "SEARCHING COMMANDERS:",
-            search
-        );
-
-
-        const commanders =
-            await searchCommanders(
-                search
-            );
-
-
-        console.log(
-            "COMMANDER SEARCH RESULTS:",
-            commanders
-        );
-
-
-        setResults(
-            commanders
-        );
-
-
-    }
-    catch(error){
-
-        console.error(
-            "COMMANDER SEARCH FAILED:",
-            error
-        );
+        }
 
     }
 
-}
+    async function selectCommander(
+        commander: any
+    ) {
 
+        try {
 
-
-
-
-
-    async function addCommander(){
-
-
-        if(!selectedCommander)
-            return;
-
-
-
-        const deck =
-            await getOrCreateCommanderDeck(
+            const deck = await getOrCreateCommanderDeck(
 
                 player.player_id,
 
-                selectedCommander.commander_id
+                commander.commander_id
 
             );
 
+            onCommanderAdded({
 
+                deck_id: deck.deck_id,
 
-        onCommanderAdded({
+                commander_id: commander.commander_id,
 
-            deck_id:deck.deck_id,
+                commander_name: commander.commander_name,
 
-            commander_id:
-                selectedCommander.commander_id,
+                color_identity: commander.color_identity
 
-            commander_name:
-                selectedCommander.commander_name,
+            });
 
-            color_identity:
-                selectedCommander.color_identity
+        }
+        catch (error) {
 
-        });
+            console.error(error);
 
+            alert("Unable to add commander.");
+
+        }
 
     }
 
-
-
-
-
-
     return (
 
-        <div
+        <div className="modal-overlay">
 
-        style={{
-
-            position:"fixed",
-
-            top:0,
-
-            left:0,
-
-            right:0,
-
-            bottom:0,
-
-            background:"rgba(0,0,0,.3)",
-
-            display:"flex",
-
-            justifyContent:"center",
-
-            alignItems:"center"
-
-        }}
-
-        >
-
-
-            <div
-
-            style={{
-
-                background:"white",
-
-                padding:"30px",
-
-                width:"400px"
-
-            }}
-
-            >
-
+            <div className="modal-card">
 
                 <h2>
+
                     Add Commander
+
                 </h2>
 
+                <p className="modal-subtitle">
 
+                    Search for a commander to add to
+                    {` ${player.display_name}`}'s decks.
 
-                <input
+                </p>
 
-                    value={search}
+                <div className="modal-search">
 
-                    onChange={
-                        e=>setSearch(e.target.value)
-                    }
+                    <input
 
+                        className="search-input"
 
-                    placeholder="Search commander"
+                        value={query}
 
-                />
-
-
-
-                <button
-
-                    onClick={handleSearch}
-
-                >
-
-                    Search
-
-                </button>
-
-
-
-
-                <div>
-
-
-                {
-                    results.map(commander=>(
-
-
-                        <div
-
-                        key={
-                            commander.commander_id
+                        onChange={(e) =>
+                            setQuery(e.target.value)
                         }
 
+                        placeholder="Search commander..."
 
-                        >
+                        onKeyDown={(e) => {
 
-                            <input
+                            if (e.key === "Enter") {
 
-                                type="radio"
+                                handleSearch();
 
-
-                                checked={
-
-                                    selectedCommander?.commander_id ===
-                                    commander.commander_id
-
-                                }
-
-
-                                onChange={()=>
-
-
-                                    setSelectedCommander(
-                                        commander
-                                    )
-
-                                }
-
-                            />
-
-
-                            {
-                                commander.commander_name
                             }
 
+                        }}
 
-                        </div>
-
-
-                    ))
-
-                }
-
-
-                </div>
-
-
-
-
-                <div>
-
+                    />
 
                     <button
 
-                        onClick={closeModal}
+                        className="primary-button"
+
+                        onClick={handleSearch}
+
+                    >
+
+                        Search
+
+                    </button>
+
+                </div>
+
+                {
+
+                    loading &&
+
+                    <div className="loading-text">
+
+                        Searching...
+
+                    </div>
+
+                }
+
+                <div className="search-results">
+
+                    {
+
+                        results.map(commander => (
+
+                            <div
+
+                                key={commander.commander_id}
+
+                                className="search-result-row"
+
+                            >
+
+                                <div>
+
+                                    <div className="commander-name">
+
+                                        {commander.commander_name}
+
+                                    </div>
+
+                                    <div className="commander-colors">
+
+                                        {commander.color_identity}
+
+                                    </div>
+
+                                </div>
+
+                                <button
+
+                                    className="primary-button"
+
+                                    onClick={() =>
+                                        selectCommander(commander)
+                                    }
+
+                                >
+
+                                    Add
+
+                                </button>
+
+                            </div>
+
+                        ))
+
+                    }
+
+                    {
+
+                        !loading &&
+                        results.length === 0 &&
+                        query !== "" &&
+
+                        <div className="empty-search">
+
+                            No commanders found.
+
+                        </div>
+
+                    }
+
+                </div>
+
+                <div className="modal-footer">
+
+                    <button
+
+                        className="secondary-button"
+
+                        onClick={onClose}
 
                     >
 
@@ -319,32 +257,11 @@ async function handleSearch(){
 
                     </button>
 
-
-
-                    <button
-
-                        disabled={
-                            !selectedCommander
-                        }
-
-
-                        onClick={addCommander}
-
-                    >
-
-                        Add Commander
-
-                    </button>
-
-
                 </div>
-
 
             </div>
 
-
         </div>
-
 
     );
 

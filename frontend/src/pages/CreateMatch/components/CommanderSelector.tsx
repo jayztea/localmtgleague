@@ -1,48 +1,31 @@
-import React,{useState} from "react";
+import { useState } from "react";
 
-
-import AddCommanderModal
-from "./AddCommanderModal";
-
+import AddCommanderModal from "./AddCommanderModal";
 
 import type {
     LeaguePlayer
 }
 from "../../../types/match";
 
-
+import "../CreateMatch.css";
 
 interface Props {
 
+    player: LeaguePlayer;
 
-    player:LeaguePlayer;
+    selectedCommanderId?: number;
 
+    onChange: (
+        playerId: number,
+        commanderId: number
+    ) => void;
 
-    selectedCommanderId?:number;
-
-
-    onChange:
-    (
-        playerId:number,
-        commanderId:number
-    )=>void;
-
-
-    onCommanderAdded:
-    (
-        playerId:number,
-        commander:any
-    )=>void;
-
+    onCommanderAdded: (
+        playerId: number,
+        commander: any
+    ) => void;
 
 }
-
-
-
-const ADD_COMMANDER =
-    "__ADD_COMMANDER__";
-
-
 
 export default function CommanderSelector({
 
@@ -54,160 +37,128 @@ export default function CommanderSelector({
 
     onCommanderAdded
 
+}: Props) {
 
-}:Props){
+    const [showModal, setShowModal] =
+        useState(false);
 
+    function handleChange(
 
+        event: React.ChangeEvent<HTMLSelectElement>
 
-    const [
-        showAddCommander,
-        setShowAddCommander
-    ]
-    =
-    useState(false);
+    ) {
 
+        const value = event.target.value;
 
+        if (value === "add") {
 
+            setShowModal(true);
 
+            return;
+
+        }
+
+        onChange(
+
+            player.player_id,
+
+            Number(value)
+
+        );
+
+    }
+
+    function handleCommanderAdded(
+
+        commander: any
+
+    ) {
+
+        onCommanderAdded(
+
+            player.player_id,
+
+            commander
+
+        );
+
+        setShowModal(false);
+
+    }
 
     return (
 
         <>
 
+            <select
 
-        <select
+                className="commander-select"
 
+                value={selectedCommanderId ?? ""}
 
-            value={
-                selectedCommanderId ?? ""
-            }
+                onChange={handleChange}
 
+            >
 
-            onChange={(event)=>{
+                <option value="">
 
-
-                if(
-                    event.target.value === ADD_COMMANDER
-                ){
-
-                    setShowAddCommander(true);
-
-                    return;
-
-                }
-
-
-
-                onChange(
-
-                    player.player_id,
-
-                    Number(event.target.value)
-
-                );
-
-
-            }}
-
-
-
-        >
-
-
-
-            <option value="">
-
-                Select Commander
-
-            </option>
-
-
-
-
-            {
-
-            player.commanders.map(commander=>(
-
-
-                <option
-
-                    key={
-                        commander.commander_id
-                    }
-
-
-                    value={
-                        commander.commander_id
-                    }
-
-                >
-
-                    {
-                        commander.commander_name
-                    }
+                    Select Commander
 
                 </option>
 
+                {
 
-            ))
+                    player.commanders.map(commander => (
+
+                        <option
+
+                            key={commander.commander_id}
+
+                            value={commander.commander_id}
+
+                        >
+
+                            {commander.commander_name}
+
+                        </option>
+
+                    ))
+
+                }
+
+                <option value="add">
+
+                    + Add Commander...
+
+                </option>
+
+            </select>
+
+            {
+
+                showModal &&
+
+                <AddCommanderModal
+
+                    player={player}
+
+                    onClose={() =>
+
+                        setShowModal(false)
+
+                    }
+
+                    onCommanderAdded={
+
+                        handleCommanderAdded
+
+                    }
+
+                />
 
             }
 
-
-
-
-            <option value={ADD_COMMANDER}>
-
-                + Add Commander...
-
-            </option>
-
-
-
-        </select>
-
-
-
-
-
-        {
-            showAddCommander &&
-
-
-            <AddCommanderModal
-
-
-                player={player}
-
-
-                closeModal={()=>setShowAddCommander(false)}
-
-
-                onCommanderAdded={(commander)=>{
-
-
-                    onCommanderAdded(
-
-                        player.player_id,
-
-                        commander
-
-                    );
-
-
-                    setShowAddCommander(false);
-
-
-                }}
-
-
-            />
-
-        }
-
-
         </>
-
 
     );
 

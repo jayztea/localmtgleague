@@ -1,38 +1,26 @@
-import React from "react";
-
-
-import CommanderSelector
-from "../components/CommanderSelector";
-
+import CommanderSelector from "../components/CommanderSelector";
 
 import type {
     CreateMatchState
 }
 from "../types";
 
-
+import "../CreateMatch.css";
 
 interface Props {
 
-
-    matchState:CreateMatchState;
-
+    matchState: CreateMatchState;
 
     setMatchState:
     React.Dispatch<
         React.SetStateAction<CreateMatchState>
     >;
 
+    nextStep: () => void;
 
-    nextStep:()=>void;
-
-
-    previousStep:()=>void;
-
+    previousStep: () => void;
 
 }
-
-
 
 export default function Step3AssignCommanders({
 
@@ -44,276 +32,198 @@ export default function Step3AssignCommanders({
 
     previousStep
 
+}: Props) {
 
-}:Props){
+    function updateCommander(
 
+        playerId: number,
 
+        commanderId: number
 
+    ) {
 
+        setMatchState({
 
-function updateCommander(
+            ...matchState,
 
-    playerId:number,
+            players:
 
-    commanderId:number
+                matchState.players.map(player =>
 
-){
+                    player.player_id === playerId
 
+                        ? {
 
-    setMatchState({
+                            ...player,
 
-        ...matchState,
+                            selected_commander_id: commanderId
 
-        players:
+                        }
 
-        matchState.players.map(player=>
+                        : player
 
+                )
 
-            player.player_id === playerId
+        });
 
-            ?
+    }
 
-            {
+    function commanderAdded(
 
-                ...player,
+        playerId: number,
 
-                selected_commander_id:
-                    commanderId
+        commander: any
 
-            }
+    ) {
 
+        setMatchState({
 
-            :
+            ...matchState,
 
-            player
+            players:
 
+                matchState.players.map(player =>
 
-        )
+                    player.player_id === playerId
 
+                        ? {
 
-    });
+                            ...player,
 
+                            commanders: [
 
-}
+                                ...player.commanders,
 
+                                commander
 
+                            ],
 
+                            selected_commander_id:
+                                commander.commander_id
 
+                        }
 
+                        : player
 
-function commanderAdded(
+                )
 
-    playerId:number,
+        });
 
-    commander:any
+    }
 
-){
+    const allPlayersHaveCommander =
 
+        matchState.players.every(
 
-    setMatchState({
+            player => player.selected_commander_id
 
-        ...matchState,
+        );
 
+    return (
 
-        players:
+        <div className="create-match-page">
 
-        matchState.players.map(player=>
+            <div className="create-match-card">
 
+                <h1 className="page-title">
 
-            player.player_id === playerId
+                    (3) Assign Commanders
 
-            ?
+                </h1>
 
-            {
+                <p className="page-subtitle">
 
-                ...player,
+                    Select a commander for each player.
 
+                </p>
 
-                commanders:[
+                <div className="assignment-table">
 
-                    ...player.commanders,
+                    <div className="assignment-header">
 
-                    commander
+                        <div>Player</div>
 
-                ],
+                        <div>Commander</div>
 
+                    </div>
 
-                selected_commander_id:
-                    commander.commander_id
+                    {
 
+                        matchState.players.map(player => (
 
-            }
+                            <div
+                                key={player.player_id}
+                                className="assignment-row"
+                            >
 
+                                <div className="assignment-player">
 
-            :
+                                    {player.display_name}
 
-            player
+                                </div>
 
+                                <div className="assignment-selector">
 
-        )
+                                    <CommanderSelector
 
+                                        player={player}
 
-    });
+                                        selectedCommanderId={
+                                            player.selected_commander_id
+                                        }
 
+                                        onChange={updateCommander}
 
-}
+                                        onCommanderAdded={
+                                            commanderAdded
+                                        }
 
+                                    />
 
+                                </div>
 
+                            </div>
 
+                        ))
 
+                    }
 
-return (
+                </div>
 
-<div
+                <div className="wizard-footer">
 
-style={{
+                    <button
 
-padding:"40px"
+                        className="secondary-button"
 
-}}
+                        onClick={previousStep}
 
->
+                    >
 
+                        ← Back
 
-<h1>
-(3) Assign Commanders
-</h1>
+                    </button>
 
+                    <button
 
-<p>
-Select a commander for each player.
-</p>
+                        className="primary-button"
 
+                        disabled={!allPlayersHaveCommander}
 
+                        onClick={nextStep}
 
+                    >
 
-{
+                        Next →
 
-matchState.players.map(player=>(
+                    </button>
 
+                </div>
 
-<div
+            </div>
 
-key={
-player.player_id
-}
+        </div>
 
-style={{
-
-display:"flex",
-
-gap:"40px",
-
-marginBottom:"20px"
-
-}}
-
->
-
-
-<div>
-
-{
-player.display_name
-}
-
-</div>
-
-
-
-<CommanderSelector
-
-
-player={player}
-
-
-selectedCommanderId={
-player.selected_commander_id
-}
-
-
-onChange={
-updateCommander
-}
-
-
-onCommanderAdded={
-commanderAdded
-}
-
-
-/>
-
-
-</div>
-
-
-))
-
-
-}
-
-
-
-
-
-<div
-
-style={{
-
-marginTop:"40px",
-
-display:"flex",
-
-justifyContent:"space-between"
-
-}}
-
->
-
-
-<button
-
-onClick={previousStep}
-
->
-
-← Back
-
-</button>
-
-
-
-<button
-
-disabled={
-
-matchState.players.some(
-
-player=>
-!player.selected_commander_id
-
-)
-
-}
-
-
-onClick={nextStep}
-
->
-
-Next →
-
-</button>
-
-
-</div>
-
-
-</div>
-
-);
-
+    );
 
 }
