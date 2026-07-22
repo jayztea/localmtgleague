@@ -1,11 +1,19 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+
+import {
+    useNavigate
+}
+from "react-router-dom";
 
 
 import {
     createMatch
 }
 from "../../../services/matchService";
+
+
+import StepNavigation
+from "../components/StepNavigation";
 
 
 import type {
@@ -15,11 +23,19 @@ from "../types";
 
 
 
+
+
 interface Props {
 
-    matchState: CreateMatchState;
+
+    matchState:CreateMatchState;
+
 
     previousStep:()=>void;
+
+
+    cancelMatch:()=>void;
+
 
 }
 
@@ -27,22 +43,42 @@ interface Props {
 
 
 
+
+
+
+
 export default function Step5ReviewMatch({
+
 
     matchState,
 
-    previousStep
+
+    previousStep,
+
+
+    cancelMatch
+
 
 }:Props){
 
 
 
-    const navigate = useNavigate();
+
+
+    const navigate =
+
+        useNavigate();
+
+
+
+
 
 
 
     const today =
+
         new Date()
+
         .toLocaleDateString();
 
 
@@ -51,28 +87,39 @@ export default function Step5ReviewMatch({
 
 
 
-    function getCommanderName(
 
-        player:any
 
-    ){
+    function getCommanderName(player:any){
+
 
 
         const commander =
 
+
             player.commanders?.find(
+
 
                 (commander:any)=>
 
+
                     commander.commander_id ===
+
                     player.selected_commander_id
+
+
 
             );
 
 
+
+
         return commander?.commander_name ?? "";
 
+
+
     }
+
+
 
 
 
@@ -84,13 +131,17 @@ export default function Step5ReviewMatch({
     function sortedPlayers(){
 
 
+
         return [
 
+
             ...matchState.players
+
 
         ]
 
         .sort(
+
 
             (a,b)=>
 
@@ -100,7 +151,10 @@ export default function Step5ReviewMatch({
 
                 (b.placement ?? 0)
 
+
+
         );
+
 
 
     }
@@ -116,6 +170,7 @@ export default function Step5ReviewMatch({
     async function recordMatch(){
 
 
+
         try {
 
 
@@ -126,7 +181,9 @@ export default function Step5ReviewMatch({
 
                 league_id:
 
+
                     matchState.league?.league_id,
+
 
 
 
@@ -140,17 +197,22 @@ export default function Step5ReviewMatch({
 
                         player_id:
 
+
                             player.player_id,
+
 
 
 
                         commander_id:
 
+
                             player.selected_commander_id,
 
 
 
+
                         finish_position:
+
 
                             player.placement
 
@@ -169,11 +231,16 @@ export default function Step5ReviewMatch({
 
             console.log(
 
+
                 "CREATE MATCH REQUEST",
+
 
                 request
 
+
             );
+
+
 
 
 
@@ -182,9 +249,12 @@ export default function Step5ReviewMatch({
 
             await createMatch(
 
+
                 request
 
+
             );
+
 
 
 
@@ -193,21 +263,31 @@ export default function Step5ReviewMatch({
 
             alert(
 
+
                 "Match recorded successfully!"
 
+
             );
+
+
+
 
 
 
             navigate(
 
+
                 "/dashboard"
+
 
             );
 
 
 
+
+
         }
+
 
 
         catch(error){
@@ -216,24 +296,31 @@ export default function Step5ReviewMatch({
 
             console.error(
 
+
                 "FAILED TO CREATE MATCH",
+
 
                 error
 
+
             );
+
 
 
 
 
             alert(
 
+
                 "Failed to record match."
+
 
             );
 
 
 
         }
+
 
 
     }
@@ -245,266 +332,323 @@ export default function Step5ReviewMatch({
 
 
 
-    return (
 
+    return(
 
-        <div
 
-        style={{
 
-            padding:"40px"
+        <div className="create-match-page">
 
-        }}
 
-        >
 
+            <div className="create-match-card">
 
 
-            <h1>
-                (5) Review & Record Match
-            </h1>
 
 
 
+                <h1 className="page-title">
 
-            <p>
-                Review the match details below and record the match results.
-            </p>
+                    (5) Review & Record Match
 
+                </h1>
 
 
 
 
 
+                <p>
 
-            <div
+                    Review the match details below and record the match results.
 
-            style={{
+                </p>
 
-                display:"flex",
 
-                gap:"50px",
 
-                marginTop:"40px"
 
-            }}
 
-            >
 
 
 
 
+                <div className="review-layout">
 
 
-                <div
 
-                style={{
 
-                    border:"1px solid black",
 
-                    padding:"20px",
 
-                    width:"300px"
 
-                }}
+                    <div className="summary-card">
 
-                >
 
 
+                        <h2>
 
-                    <h2>
-                        Match Summary
-                    </h2>
+                            Match Summary
 
+                        </h2>
 
 
 
-                    <p>
 
-                        <strong>
-                            League:
-                        </strong>
 
-                        {" "}
+                        <p>
 
-                        {
-                            matchState.league?.league_name
-                        }
 
-                    </p>
+                            <strong>
 
+                                League:
 
+                            </strong>
 
 
+                            {" "}
 
-                    <p>
 
-                        <strong>
-                            Date:
-                        </strong>
+                            {
 
-                        {" "}
-
-                        {
-                            today
-                        }
-
-                    </p>
-
-
-
-
-
-                    <p>
-
-                        <strong>
-                            Players:
-                        </strong>
-
-                        {" "}
-
-                        {
-                            matchState.players.length
-                        }
-
-                    </p>
-
-
-
-
-                </div>
-
-
-
-
-
-
-
-
-
-                <div>
-
-
-
-                    <table
-
-                    style={{
-
-                        width:"500px",
-
-                        borderCollapse:"collapse"
-
-                    }}
-
-                    >
-
-
-
-                        <thead>
-
-
-                            <tr>
-
-
-                                <th>
-                                    Placement
-                                </th>
-
-
-                                <th>
-                                    Player
-                                </th>
-
-
-                                <th>
-                                    Commander
-                                </th>
-
-
-                            </tr>
-
-
-
-                        </thead>
-
-
-
-
-
-
-
-                        <tbody>
-
-
-                        {
-
-                        sortedPlayers()
-
-                        .map(player=>(
-
-
-
-                            <tr
-
-                            key={
-
-                                player.player_id
+                                matchState.league?.league_name
 
                             }
 
-                            >
 
 
-
-                                <td>
-
-                                    {
-                                        player.placement
-                                    }
-
-                                </td>
+                        </p>
 
 
 
 
-                                <td>
-
-                                    {
-                                        player.display_name
-                                    }
-
-                                </td>
 
 
 
-
-                                <td>
-
-                                    {
-                                        getCommanderName(player)
-                                    }
-
-                                </td>
+                        <p>
 
 
+                            <strong>
+
+                                Date:
+
+                            </strong>
 
 
-                            </tr>
+                            {" "}
+
+
+                            {
+
+                                today
+
+                            }
 
 
 
-                        ))
-
-                        }
-
-
-
-                        </tbody>
+                        </p>
 
 
 
 
-                    </table>
+
+
+
+                        <p>
+
+
+                            <strong>
+
+                                Players:
+
+                            </strong>
+
+
+                            {" "}
+
+
+                            {
+
+                                matchState.players.length
+
+                            }
+
+
+
+                        </p>
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div>
+
+
+
+
+
+
+                        <table className="match-table">
+
+
+
+                            <thead>
+
+
+                                <tr>
+
+
+
+                                    <th>
+
+                                        Placement
+
+                                    </th>
+
+
+
+
+                                    <th>
+
+                                        Player
+
+                                    </th>
+
+
+
+
+                                    <th>
+
+                                        Commander
+
+                                    </th>
+
+
+
+
+                                </tr>
+
+
+
+                            </thead>
+
+
+
+
+
+
+
+
+                            <tbody>
+
+
+
+
+                            {
+
+
+                            sortedPlayers()
+
+                            .map(player=>(
+
+
+
+                                <tr
+
+                                    key={player.player_id}
+
+                                >
+
+
+
+                                    <td>
+
+
+                                        {
+
+                                            player.placement
+
+                                        }
+
+
+                                    </td>
+
+
+
+
+
+                                    <td>
+
+
+                                        {
+
+                                            player.display_name
+
+                                        }
+
+
+                                    </td>
+
+
+
+
+
+                                    <td>
+
+
+                                        {
+
+                                            getCommanderName(player)
+
+                                        }
+
+
+                                    </td>
+
+
+
+
+                                </tr>
+
+
+
+                            ))
+
+
+
+                            }
+
+
+
+
+
+                            </tbody>
+
+
+
+
+                        </table>
+
+
+
+
+
+
+                    </div>
+
+
+
+
 
 
 
@@ -515,59 +659,31 @@ export default function Step5ReviewMatch({
 
 
 
-            </div>
 
 
 
 
+                <StepNavigation
 
 
 
-
-
-            <div
-
-            style={{
-
-                marginTop:"50px",
-
-                display:"flex",
-
-                justifyContent:"space-between"
-
-            }}
-
-            >
+                    previousStep={previousStep}
 
 
 
-
-
-                <button
-
-                onClick={previousStep}
-
-                >
-
-                    ← Back
-
-                </button>
+                    cancelMatch={cancelMatch}
 
 
 
+                    nextStep={recordMatch}
 
 
 
+                    nextLabel="Record Match +"
 
-                <button
 
-                onClick={recordMatch}
 
-                >
-
-                    Record Match +
-
-                </button>
+                />
 
 
 
@@ -575,12 +691,11 @@ export default function Step5ReviewMatch({
 
 
             </div>
-
-
 
 
 
         </div>
+
 
 
     );

@@ -1,4 +1,5 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 import Step1SelectLeague
@@ -12,11 +13,14 @@ from "./steps/Step2AddPlayers";
 import Step3AssignCommanders
 from "./steps/Step3AssignCommanders";
 
+
 import Step4RecordPlacements
 from "./steps/Step4RecordPlacements";
 
+
 import Step5ReviewMatch
 from "./steps/Step5ReviewMatch";
+
 
 import type {
     CreateMatchState
@@ -27,6 +31,10 @@ from "./types";
 
 
 export default function CreateMatch(){
+
+
+    const navigate =
+        useNavigate();
 
 
 
@@ -59,6 +67,53 @@ export default function CreateMatch(){
 
 
 
+    function cancelMatch(){
+
+
+        const confirmed =
+
+            window.confirm(
+
+                "Are you sure you want to cancel this match? All entered data will be lost."
+
+            );
+
+
+        if(!confirmed)
+            return;
+
+
+
+        setMatchState({
+
+            league:null,
+
+            leaguePlayers:[],
+
+            players:[]
+
+        });
+
+
+
+        setStep(1);
+
+
+
+        navigate(
+
+            "/dashboard"
+
+        );
+
+
+    }
+
+
+
+
+
+
 
     return (
 
@@ -73,13 +128,15 @@ export default function CreateMatch(){
 
 
                     selectedLeague={
+
                         matchState.league
+
                     }
 
 
 
                     setSelectedLeague={
-                        
+
                         (league)=>
 
 
@@ -102,6 +159,9 @@ export default function CreateMatch(){
                     nextStep={()=>setStep(2)}
 
 
+                    cancelMatch={cancelMatch}
+
+
                 />
 
 
@@ -120,13 +180,17 @@ export default function CreateMatch(){
 
 
                     matchState={
+
                         matchState
+
                     }
 
 
 
                     setMatchState={
+
                         setMatchState
+
                     }
 
 
@@ -136,6 +200,9 @@ export default function CreateMatch(){
 
 
                     previousStep={()=>setStep(1)}
+
+
+                    cancelMatch={cancelMatch}
 
 
                 />
@@ -157,13 +224,17 @@ export default function CreateMatch(){
 
 
                     matchState={
+
                         matchState
+
                     }
 
 
 
                     setMatchState={
+
                         setMatchState
+
                     }
 
 
@@ -175,37 +246,71 @@ export default function CreateMatch(){
                     previousStep={()=>setStep(2)}
 
 
+                    cancelMatch={cancelMatch}
+
+
                 />
 
 
             }
+
+
+
+
+
             {
                 step===4 &&
 
+
                 <Step4RecordPlacements
 
+
                     matchState={matchState}
+
 
                     setMatchState={setMatchState}
 
+
                     previousStep={()=>setStep(3)}
+
 
                     nextStep={()=>setStep(5)}
 
+
+                    cancelMatch={cancelMatch}
+
+
                 />
+
             }
+
+
+
+
+
+
             {
                 step===5 &&
 
+
                 <Step5ReviewMatch
+
 
                     matchState={matchState}
 
+
                     previousStep={()=>setStep(4)}
+
+
+                    cancelMatch={cancelMatch}
+
 
                 />
 
+
             }
+
+
 
         </div>
 
