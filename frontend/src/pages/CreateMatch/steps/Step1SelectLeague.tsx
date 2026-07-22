@@ -1,38 +1,30 @@
-import React,{useEffect,useState} from "react";
-
+import React, { useEffect, useState } from "react";
 
 import {
     getMyLeagues
 } from "../../../services/leagueService";
 
-
 import type {
     League
 } from "../../../services/leagueService";
 
+import StepHeader
+from "../../../components/ui/StepHeader";
 
+import StepNavigation
+from "../components/StepNavigation";
 
 interface Props {
 
+    selectedLeague: League | null;
 
-    selectedLeague:League|null;
+    setSelectedLeague: (
+        league: League | null
+    ) => void;
 
-
-    setSelectedLeague:
-    (
-        league:League|null
-    )=>void;
-
-
-
-    nextStep:()=>void;
-
+    nextStep: () => void;
 
 }
-
-
-
-
 
 export default function Step1SelectLeague({
 
@@ -42,287 +34,196 @@ export default function Step1SelectLeague({
 
     nextStep
 
-
-}:Props){
-
-
+}: Props) {
 
     const [
         leagues,
         setLeagues
-    ]
-    =
+    ] =
     useState<League[]>([]);
-
-
 
     const [
         loading,
         setLoading
-    ]
-    =
+    ] =
     useState(false);
 
+    useEffect(() => {
 
+        async function loadLeagues() {
 
-
-
-    useEffect(()=>{
-
-
-        async function loadLeagues(){
-
-
-            try{
-
+            try {
 
                 setLoading(true);
-
-
 
                 const result =
                     await getMyLeagues();
 
-
-
-                setLeagues(
-                    result
-                );
-
+                setLeagues(result);
 
             }
-            catch(error){
-
+            catch (error) {
 
                 console.error(
                     "FAILED LOADING LEAGUES",
                     error
                 );
 
-
             }
-            finally{
-
+            finally {
 
                 setLoading(false);
 
-
             }
-
 
         }
 
-
-
         loadLeagues();
 
-
-    },[]);
-
-
-
-
-
+    }, []);
 
     return (
 
-        <div
+        <div className="create-match-page">
 
-            style={{
+            <div className="create-match-card">
 
-                padding:"40px",
+                <StepHeader
 
-                minHeight:"600px",
+                    step={1}
 
-                display:"flex",
+                    title="Select League"
 
-                flexDirection:"column"
+                    description="Choose a league for this match."
 
-            }}
+                />
 
-        >
+                {
 
+                    loading &&
 
-            <h1>
-                (1) Select League
-            </h1>
+                    <p>
 
+                        Loading leagues...
 
+                    </p>
 
-            <p>
-                Choose a league for this match.
-            </p>
+                }
 
+                {
 
+                    !loading &&
 
+                    <div className="form-group">
 
+                        <label className="form-label">
 
-            {
-                loading &&
+                            League
 
-                <p>
-                    Loading leagues...
-                </p>
+                        </label>
 
-            }
+                        <select
 
+                            value={
+                                selectedLeague
+                                    ? selectedLeague.league_id
+                                    : ""
+                            }
 
+                            onChange={(event) => {
 
+                                const leagueId =
+                                    Number(
+                                        event.target.value
+                                    );
 
+                                const league =
 
+                                    leagues.find(
 
-            {
-                !loading &&
+                                        league =>
 
+                                            league.league_id === leagueId
 
-                <select
+                                    ) ?? null;
 
+                                setSelectedLeague(
+                                    league
+                                );
 
-                    value={
+                            }}
 
-                        selectedLeague
+                        >
 
-                        ?
+                            <option value="">
 
-                        selectedLeague.league_id
-
-                        :
-
-                        ""
-
-                    }
-
-
-
-                    onChange={(event)=>{
-
-
-                        const leagueId =
-                            Number(
-                                event.target.value
-                            );
-
-
-
-                        const league =
-
-                            leagues.find(
-
-                                l =>
-
-                                l.league_id === leagueId
-
-                            )
-                            ??
-                            null;
-
-
-
-                        setSelectedLeague(
-                            league
-                        );
-
-
-                    }}
-
-
-
-                >
-
-
-                    <option value="">
-
-                        Select League
-
-                    </option>
-
-
-
-
-                    {
-                        leagues.map(league=>(
-
-
-                            <option
-
-                                key={
-                                    league.league_id
-                                }
-
-
-                                value={
-                                    league.league_id
-                                }
-
-                            >
-
-                                {
-                                    league.league_name
-                                }
-
+                                Select League
 
                             </option>
 
+                            {
 
-                        ))
+                                leagues.map(league => (
 
-                    }
+                                    <option
 
+                                        key={
+                                            league.league_id
+                                        }
 
+                                        value={
+                                            league.league_id
+                                        }
 
-                </select>
+                                    >
 
+                                        {
+                                            league.league_name
+                                        }
 
-            }
+                                    </option>
 
+                                ))
 
+                            }
 
+                        </select>
 
+                    </div>
 
+                }
 
+                <div
+                    style={{
+                        height: 260,
+                        border: "2px dashed #D9DCE3",
+                        borderRadius: 8,
+                        marginTop: 40,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#9CA3AF"
+                    }}
+                >
 
-            <div
+                    League Image Placeholder
 
-                style={{
+                </div>
 
-                    marginTop:"auto",
+                <StepNavigation
 
-                    display:"flex",
+                    nextStep={nextStep}
 
-                    justifyContent:"flex-end"
-
-                }}
-
-            >
-
-
-                <button
-
-
-                    disabled={
+                    disableNext={
                         selectedLeague === null
                     }
 
-
-
-                    onClick={
-                        nextStep
-                    }
-
-
-                >
-
-                    Next →
-
-                </button>
-
+                />
 
             </div>
-
 
         </div>
 
     );
-
 
 }

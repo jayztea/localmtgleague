@@ -1,0 +1,27 @@
+:root {
+
+    --cm-primary: #2D2F34;
+    --cm-primary-hover: #1F2125;
+
+    --cm-background: #F7F8FA;
+
+    --cm-card: #FFFFFF;
+
+    --cm-border: #D9DCE3;
+
+    --cm-text: #1F2937;
+
+    --cm-muted: #6B7280;
+
+    --cm-success: #16A34A;
+
+    --cm-info: #EAF3FF;
+
+    --cm-info-border: #60A5FA;
+
+    --cm-radius: 10px;
+
+    --cm-shadow:
+        0 4px 14px rgba(0,0,0,.08);
+
+}

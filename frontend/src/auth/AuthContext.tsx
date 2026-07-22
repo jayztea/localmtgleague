@@ -1,8 +1,13 @@
 import {
+
     createContext,
+
     useContext,
+
     useEffect,
+
     useState
+
 }
 from "react";
 
@@ -11,149 +16,221 @@ import api from "../api/axios";
 
 
 import type {
+
     User
+
 }
 from "../types/auth";
 
 
 
+
 interface AuthContextType {
 
-    user:User | null;
+
+    user: User | null;
+
 
     login:
-        (
-            email:string,
-            password:string
-        ) => Promise<void>;
+
+    (
+
+        email:string,
+
+        password:string
+
+    ) => Promise<void>;
+
+
+
+    register:
+
+    (
+
+        email:string,
+
+        password:string,
+
+        displayName:string
+
+    ) => Promise<void>;
+
+
 
     logout:
-        () => void;
+
+    () => void;
+
+
 
     loading:boolean;
+
 
 }
 
 
 
+
+
+
 const AuthContext =
-    createContext<AuthContextType | undefined>(
-        undefined
-    );
+createContext<AuthContextType | undefined>(
+
+    undefined
+
+);
+
+
 
 
 
 
 
 export function AuthProvider(
-    {
-        children
-    }:
-    {
-        children:React.ReactNode
-    }
+
+{
+
+children
+
+}:
+
+{
+
+children:React.ReactNode
+
+}
+
 ) {
 
 
-    const [user,setUser] =
-        useState<User | null>(
-            null
-        );
 
+    const [
 
-    const [loading,setLoading] =
-        useState(true);
+        user,
 
+        setUser
 
+    ] =
+    useState<User | null>(
 
+        null
 
-    useEffect(
-        () => {
-
-
-            async function loadUser() {
-
-
-                const token =
-                    localStorage.getItem(
-                        "token"
-                    );
-
-
-                if (!token) {
-
-                    setLoading(false);
-
-                    return;
-
-                }
+    );
 
 
 
-                try {
+    const [
+
+        loading,
+
+        setLoading
+
+    ] =
+    useState(true);
 
 
-                    const response =
-                        await api.get(
-                            "/auth/me"
-                        );
 
 
-                    setUser(
-                        response.data
-                    );
 
 
-                }
-                catch(error) {
+    useEffect(() => {
 
 
-                    localStorage.removeItem(
-                        "token"
-                    );
+        async function loadUser(){
 
 
-                }
-                finally {
+            const token =
+                localStorage.getItem(
+                    "token"
+                );
 
-                    setLoading(false);
 
-                }
+
+            if(!token){
+
+
+                setLoading(false);
+
+                return;
 
 
             }
 
 
 
-            loadUser();
+            try {
 
 
-        },
-        []
+                const response =
+                    await api.get(
+                        "/auth/me"
+                    );
 
-    );
+
+                setUser(
+                    response.data
+                );
+
+
+            }
+            catch(error){
+
+
+                localStorage.removeItem(
+                    "token"
+                );
+
+
+            }
+            finally{
+
+
+                setLoading(false);
+
+
+            }
+
+
+        }
+
+
+
+        loadUser();
+
+
+
+    }, []);
+
+
+
+
 
 
 
 
 
     async function login(
+
         email:string,
+
         password:string
-    ) {
+
+    ){
 
 
         const response =
             await api.post(
+
                 "/auth/login",
+
                 {
 
-                    email_address:
-                        email,
+                    email_address:email,
 
                     password
 
                 }
+
             );
 
 
@@ -186,7 +263,73 @@ export function AuthProvider(
 
 
 
-    function logout() {
+
+
+
+
+    async function register(
+
+        email:string,
+
+        password:string,
+
+        displayName:string
+
+    ){
+
+
+        const response =
+            await api.post(
+
+                "/auth/register",
+
+                {
+
+                    email_address:email,
+
+                    password,
+
+                    display_name:displayName
+
+                }
+
+            );
+
+
+
+        localStorage.setItem(
+
+            "token",
+
+            response.data.token
+
+        );
+
+
+
+        const userResponse =
+            await api.get(
+                "/auth/me"
+            );
+
+
+
+        setUser(
+            userResponse.data
+        );
+
+
+    }
+
+
+
+
+
+
+
+
+
+    function logout(){
 
 
         localStorage.removeItem(
@@ -196,7 +339,9 @@ export function AuthProvider(
 
         setUser(null);
 
+
     }
+
 
 
 
@@ -205,24 +350,30 @@ export function AuthProvider(
     return (
 
         <AuthContext.Provider
+
             value={{
 
                 user,
 
                 login,
 
+                register,
+
                 logout,
 
                 loading
 
             }}
+
         >
 
             {children}
 
         </AuthContext.Provider>
 
+
     );
+
 
 }
 
@@ -230,7 +381,9 @@ export function AuthProvider(
 
 
 
-export function useAuth() {
+
+
+export function useAuth(){
 
 
     const context =
@@ -239,15 +392,20 @@ export function useAuth() {
         );
 
 
-    if (!context) {
+
+    if(!context){
+
 
         throw new Error(
             "useAuth must be used inside AuthProvider"
         );
 
+
     }
 
 
+
     return context;
+
 
 }

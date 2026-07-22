@@ -1,96 +1,43 @@
-import React from "react";
-
+import "../CreateMatch.css";
 
 interface League {
-
-    league_id:number;
-
-    league_name:string;
-
+    league_id: number;
+    league_name: string;
 }
-
 
 interface LeagueCardProps {
-
-    league:League;
-
-    selected:boolean;
-
-    onSelect:(league:League)=>void;
-
+    league: League;
+    selected: boolean;
+    onSelect: (league: League) => void;
 }
 
-
-
-const LeagueCard = ({
+export default function LeagueCard({
     league,
     selected,
     onSelect
-
-}:LeagueCardProps)=>{
-
+}: LeagueCardProps) {
 
     return (
 
         <div
-
-            onClick={()=>onSelect(league)}
-
-            style={{
-
-                border:selected
-                    ? "2px solid blue"
-                    : "1px solid gray",
-
-                borderRadius:"8px",
-
-                padding:"20px",
-
-                cursor:"pointer",
-
-                width:"250px",
-
-                textAlign:"center"
-
-            }}
-
+            className={`league-card ${selected ? "selected" : ""}`}
+            onClick={() => onSelect(league)}
         >
 
-            <h3>
-                {league.league_name}
-            </h3>
+            <div className="league-image">
 
-
-            <div
-
-                style={{
-
-                    height:"120px",
-
-                    background:"#eee",
-
-                    display:"flex",
-
-                    alignItems:"center",
-
-                    justifyContent:"center",
-
-                    marginTop:"15px"
-
-                }}
-
-            >
-
-                League Image
+                🏆
 
             </div>
 
+            <div className="league-title">
+
+                {league.league_name}
+
+            </div>
 
         </div>
 
     );
 
-};
-
-
-export default LeagueCard;
+}

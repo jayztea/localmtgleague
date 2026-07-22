@@ -10,6 +10,8 @@ import {
 from "./auth/AuthContext";
 
 import "./index.css";
+import "./styles/variables.css";
+import "./pages/CreateMatch/CreateMatch.css";
 
 
 ReactDOM.createRoot(
