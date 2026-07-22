@@ -741,3 +741,17 @@ td{
     font-weight:600;
 
 }
+.cm-button-danger{
+
+    background:#dc2626;
+
+    color:white;
+
+}
+
+
+.cm-button-danger:hover{
+
+    background:#b91c1c;
+
+}

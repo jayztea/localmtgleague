@@ -1,24 +1,47 @@
+import StepNavigation
+from "../components/StepNavigation";
+
+
 import type {
     CreateMatchState
 }
 from "../types";
 
+
 import "../CreateMatch.css";
+
+
+
 
 interface Props {
 
-    matchState: CreateMatchState;
+
+    matchState:CreateMatchState;
+
 
     setMatchState:
     React.Dispatch<
         React.SetStateAction<CreateMatchState>
     >;
 
-    nextStep: () => void;
 
-    previousStep: () => void;
+
+    nextStep:()=>void;
+
+
+    previousStep:()=>void;
+
+
+    cancelMatch:()=>void;
+
 
 }
+
+
+
+
+
+
 
 export default function Step4RecordPlacements({
 
@@ -28,84 +51,189 @@ export default function Step4RecordPlacements({
 
     nextStep,
 
-    previousStep
+    previousStep,
 
-}: Props) {
+    cancelMatch
+
+
+}:Props){
+
+
+
+
+
 
     function updatePlacement(
-        playerId: number,
-        placement: number
-    ) {
+
+        playerId:number,
+
+        placement:number
+
+    ){
+
 
         setMatchState({
 
+
             ...matchState,
+
 
             players:
 
-                matchState.players.map(player =>
+
+                matchState.players.map(player=>
+
 
                     player.player_id === playerId
 
-                        ? {
-                            ...player,
-                            placement
-                        }
 
-                        : player
+                    ?
+
+
+                    {
+
+
+                        ...player,
+
+
+                        placement
+
+
+                    }
+
+
+                    :
+
+
+                    player
+
+
 
                 )
 
+
+
         });
+
 
     }
 
-    function getCommanderName(player: any) {
+
+
+
+
+
+
+
+
+    function getCommanderName(player:any){
+
+
 
         const commander =
 
+
             player.commanders.find(
 
-                (commander: any) =>
+
+                (commander:any)=>
+
 
                     commander.commander_id ===
+
                     player.selected_commander_id
+
+
 
             );
 
+
+
+
         return commander?.commander_name ?? "";
+
+
 
     }
 
-    function getPlacementOptions() {
+
+
+
+
+
+
+
+    function getPlacementOptions(){
+
 
         return Array.from(
 
+
             {
-                length: matchState.players.length
+
+                length:matchState.players.length
+
             },
 
-            (_, index) => index + 1
+
+            (_,index)=>index+1
+
 
         );
 
+
     }
 
-    function placementLabel(value: number) {
 
-        if (value === 1) return "1st";
-        if (value === 2) return "2nd";
-        if (value === 3) return "3rd";
+
+
+
+
+
+
+    function placementLabel(value:number){
+
+
+        if(value===1)
+
+            return "1st";
+
+
+        if(value===2)
+
+            return "2nd";
+
+
+        if(value===3)
+
+            return "3rd";
+
+
 
         return `${value}th`;
 
+
     }
 
-    return (
+
+
+
+
+
+
+
+
+    return(
+
+
 
         <div className="create-match-page">
 
+
+
             <div className="create-match-card">
+
+
 
                 <h1 className="page-title">
 
@@ -113,161 +241,278 @@ export default function Step4RecordPlacements({
 
                 </h1>
 
+
+
+
+
                 <p className="page-subtitle">
 
                     Select the final placement for each player.
 
                 </p>
 
+
+
+
+
                 <div className="info-banner">
+
 
                     🏆 1st Place is the winner.
 
+
                 </div>
+
+
+
+
+
 
                 <table className="match-table">
 
+
+
                     <thead>
+
 
                         <tr>
 
-                            <th>Player</th>
 
-                            <th>Commander</th>
+                            <th>
 
-                            <th>Placement</th>
+                                Player
+
+                            </th>
+
+
+                            <th>
+
+                                Commander
+
+                            </th>
+
+
+                            <th>
+
+                                Placement
+
+                            </th>
+
+
 
                         </tr>
 
+
                     </thead>
+
+
+
+
 
                     <tbody>
 
-                        {
 
-                            matchState.players.map(player => (
 
-                                <tr
-                                    key={player.player_id}
+                    {
+
+
+                    matchState.players.map(player=>(
+
+
+
+                        <tr
+
+                            key={player.player_id}
+
+                        >
+
+
+
+                            <td>
+
+
+                                {player.display_name}
+
+
+                            </td>
+
+
+
+
+                            <td>
+
+
+                                {getCommanderName(player)}
+
+
+                            </td>
+
+
+
+
+
+                            <td>
+
+
+
+                                <select
+
+
+                                    className="placement-select"
+
+
+                                    value={
+
+                                        player.placement ?? ""
+
+                                    }
+
+
+
+                                    onChange={(event)=>
+
+
+                                        updatePlacement(
+
+
+                                            player.player_id,
+
+
+                                            Number(
+
+                                                event.target.value
+
+                                            )
+
+
+                                        )
+
+
+                                    }
+
+
+
                                 >
 
-                                    <td>
 
-                                        {player.display_name}
 
-                                    </td>
+                                    <option value="">
 
-                                    <td>
+                                        Select
 
-                                        {getCommanderName(player)}
+                                    </option>
 
-                                    </td>
 
-                                    <td>
 
-                                        <select
 
-                                            className="placement-select"
+                                    {
 
-                                            value={player.placement ?? ""}
 
-                                            onChange={(event) =>
+                                    getPlacementOptions()
 
-                                                updatePlacement(
+                                    .map(position=>(
 
-                                                    player.player_id,
 
-                                                    Number(event.target.value)
 
-                                                )
+                                        <option
 
-                                            }
+
+                                            key={position}
+
+
+                                            value={position}
+
 
                                         >
 
-                                            <option value="">
 
-                                                Select
+                                            {placementLabel(position)}
 
-                                            </option>
 
-                                            {
+                                        </option>
 
-                                                getPlacementOptions()
 
-                                                    .map(position => (
 
-                                                        <option
+                                    ))
 
-                                                            key={position}
 
-                                                            value={position}
 
-                                                        >
+                                    }
 
-                                                            {placementLabel(position)}
 
-                                                        </option>
 
-                                                    ))
 
-                                            }
 
-                                        </select>
+                                </select>
 
-                                    </td>
 
-                                </tr>
 
-                            ))
+                            </td>
 
-                        }
+
+
+                        </tr>
+
+
+
+                    ))
+
+
+                    }
+
+
 
                     </tbody>
 
+
+
+
                 </table>
 
-                <div className="wizard-footer">
 
-                    <button
 
-                        className="secondary-button"
 
-                        onClick={previousStep}
 
-                    >
 
-                        ← Back
 
-                    </button>
+                <StepNavigation
 
-                    <button
 
-                        className="primary-button"
+                    previousStep={previousStep}
 
-                        disabled={
 
-                            matchState.players.some(
+                    nextStep={nextStep}
 
-                                player => !player.placement
 
-                            )
+                    cancelMatch={cancelMatch}
 
-                        }
 
-                        onClick={nextStep}
+                    disableNext={
 
-                    >
 
-                        Next →
+                        matchState.players.some(
 
-                    </button>
 
-                </div>
+                            player=>!player.placement
+
+
+                        )
+
+
+                    }
+
+
+                />
+
+
+
+
 
             </div>
 
+
         </div>
+
 
     );
 

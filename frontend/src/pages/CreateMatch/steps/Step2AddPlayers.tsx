@@ -1,43 +1,70 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+    useEffect,
+    useMemo,
+    useState
+}
+from "react";
+
 
 import {
     getLeaguePlayersWithCommanders
 }
 from "../../../services/leagueService";
 
+
 import PlayerSelector
 from "../components/PlayerSelector";
+
 
 import StepHeader
 from "../../../components/ui/StepHeader";
 
+
 import StepNavigation
 from "../components/StepNavigation";
+
 
 import type {
     CreateMatchState
 }
 from "../types";
 
+
 import type {
     LeaguePlayer
 }
 from "../../../types/match";
 
+
+
+
 interface Props {
 
+
     matchState: CreateMatchState;
+
 
     setMatchState:
     React.Dispatch<
         React.SetStateAction<CreateMatchState>
     >;
 
+
     nextStep: () => void;
+
 
     previousStep: () => void;
 
+
+    cancelMatch: () => void;
+
+
 }
+
+
+
+
+
 
 export default function Step2AddPlayers({
 
@@ -47,53 +74,87 @@ export default function Step2AddPlayers({
 
     nextStep,
 
-    previousStep
+    previousStep,
 
-}: Props) {
+    cancelMatch
+
+
+}: Props){
+
+
 
     const [
         loading,
         setLoading
-    ] =
+    ]
+    =
     useState(false);
 
-    useEffect(() => {
 
-        async function loadPlayers() {
 
-            if (!matchState.league)
+
+
+
+    useEffect(()=>{
+
+
+        async function loadPlayers(){
+
+
+            if(!matchState.league)
+
                 return;
 
-            if (matchState.leaguePlayers.length > 0)
+
+
+            if(matchState.leaguePlayers.length > 0)
+
                 return;
 
-            try {
+
+
+
+
+            try{
+
 
                 setLoading(true);
 
-                const players: LeaguePlayer[] =
+
+
+
+                const players:LeaguePlayer[] =
+
 
                     await getLeaguePlayersWithCommanders(
 
+
                         matchState.league.league_id
+
 
                     );
 
-                console.log(
-                    "PLAYERS RESPONSE",
-                    players
-                );
 
-                setMatchState(previous => ({
+
+
+
+                setMatchState(previous=>({
+
 
                     ...previous,
 
-                    leaguePlayers: players
+
+                    leaguePlayers:players
+
 
                 }));
 
+
             }
-            catch (error) {
+
+
+            catch(error){
+
 
                 console.error(
 
@@ -103,62 +164,112 @@ export default function Step2AddPlayers({
 
                 );
 
+
             }
-            finally {
+
+
+            finally{
+
 
                 setLoading(false);
 
+
             }
+
 
         }
 
+
+
         loadPlayers();
 
-    }, [
+
+
+    },[
+
         matchState.league
+
     ]);
 
+
+
+
+
+
+
     const availablePlayers =
-        useMemo(() => {
+
+        useMemo(()=>{
+
 
             return matchState.leaguePlayers.filter(
 
+
                 player =>
+
 
                     !matchState.players.some(
 
+
                         selected =>
+
 
                             selected.player_id === player.player_id
 
+
                     )
+
 
             );
 
-        }, [
+
+        },[
+
             matchState.leaguePlayers,
+
             matchState.players
+
         ]);
 
-    return (
+
+
+
+
+
+
+
+    return(
+
 
         <div className="create-match-page">
 
+
             <div className="create-match-card">
+
 
                 <StepHeader
 
+
                     step={2}
+
 
                     title="Add Players"
 
+
                     description="Select players from your league to play in this match."
+
 
                 />
 
+
+
+
+
                 {
 
-                    loading &&
+
+                loading &&
+
 
                     <p>
 
@@ -166,56 +277,91 @@ export default function Step2AddPlayers({
 
                     </p>
 
+
                 }
+
+
+
+
 
                 {
 
-                    !loading &&
+
+                !loading &&
+
 
                     <PlayerSelector
 
-                        availablePlayers={
-                            availablePlayers
-                        }
 
-                        selectedPlayers={
-                            matchState.players
-                        }
+                        availablePlayers={availablePlayers}
 
-                        setAvailablePlayers={() => { }}
 
-                        setSelectedPlayers={(players) =>
+                        selectedPlayers={matchState.players}
 
-                            setMatchState(previous => ({
+
+                        setAvailablePlayers={()=>{}}
+
+
+
+                        setSelectedPlayers={(players)=>
+
+
+                            setMatchState(previous=>({
+
 
                                 ...previous,
 
+
                                 players
+
 
                             }))
 
+
                         }
+
 
                     />
 
+
                 }
+
+
+
+
 
                 <StepNavigation
 
+
                     previousStep={previousStep}
+
 
                     nextStep={nextStep}
 
+
+                    cancelMatch={cancelMatch}
+
+
                     disableNext={
+
                         matchState.players.length === 0
+
                     }
+
 
                 />
 
+
+
+
+
             </div>
+
 
         </div>
 
+
     );
+
 
 }
