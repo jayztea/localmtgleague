@@ -52,4 +52,6 @@ export interface League {
 
     league_name:string;
 
+    league_code:string;
+
 }

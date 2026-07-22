@@ -652,3 +652,92 @@ td{
     margin-top:24px;
 
 }
+/* ==========================================
+   Shared Tables
+========================================== */
+
+.match-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:30px;
+
+}
+
+.match-table thead{
+
+    background:#f8fafc;
+
+}
+
+.match-table th{
+
+    text-align:left;
+
+    padding:16px;
+
+    font-weight:700;
+
+    border-bottom:2px solid #e5e7eb;
+
+}
+
+.match-table td{
+
+    padding:16px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.match-table tbody tr:hover{
+
+    background:#fafafa;
+
+}
+
+/* ==========================================
+   Placement Dropdown
+========================================== */
+
+.placement-select{
+
+    width:160px;
+
+    height:42px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    padding:0 12px;
+
+    background:white;
+
+    font-size:15px;
+
+}
+
+/* ==========================================
+   Info Banner
+========================================== */
+
+.info-banner{
+
+    margin-top:20px;
+
+    background:#eff6ff;
+
+    color:#1d4ed8;
+
+    border:1px solid #bfdbfe;
+
+    border-radius:10px;
+
+    padding:14px 18px;
+
+    font-weight:600;
+
+}

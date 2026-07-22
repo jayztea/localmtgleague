@@ -60,11 +60,13 @@ export default function Dashboard(){
 
 
 
+
     const [
         dashboard,
         setDashboard
     ] =
     useState<DashboardType | null>(null);
+
 
 
 
@@ -100,6 +102,7 @@ export default function Dashboard(){
 
 
 
+
     if(!dashboard){
 
 
@@ -119,6 +122,7 @@ export default function Dashboard(){
 
 
     }
+
 
 
 
@@ -174,6 +178,7 @@ export default function Dashboard(){
 
 
 
+
                 <button
 
 
@@ -200,6 +205,7 @@ export default function Dashboard(){
 
 
                 </button>
+
 
 
 
@@ -294,13 +300,93 @@ export default function Dashboard(){
             <section>
 
 
-                <h2 className="text-2xl font-bold mb-4">
+                <div className="flex justify-between items-center mb-4">
 
 
-                    Your Leagues
+                    <h2 className="text-2xl font-bold">
 
 
-                </h2>
+                        Your Leagues
+
+
+                    </h2>
+
+
+
+
+
+                    <div className="flex gap-3">
+
+
+
+                        <button
+
+
+                            className="border px-4 py-2"
+
+
+                            onClick={()=>
+
+
+                                navigate(
+
+                                    "/leagues/create"
+
+                                )
+
+
+                            }
+
+
+                        >
+
+
+                            Create League +
+
+
+                        </button>
+
+
+
+
+
+                        <button
+
+
+                            className="border px-4 py-2"
+
+
+                            onClick={()=>
+
+
+                                navigate(
+
+                                    "/leagues/join"
+
+                                )
+
+
+                            }
+
+
+                        >
+
+
+                            Join League +
+
+
+                        </button>
+
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
 
 
 
@@ -312,7 +398,9 @@ export default function Dashboard(){
 
                     {
 
+
                     dashboard.leagues.map(
+
 
                         league =>
 
@@ -326,7 +414,6 @@ export default function Dashboard(){
                                 key={
 
                                     league.league_id
-
                                 }
 
 
@@ -340,6 +427,7 @@ export default function Dashboard(){
 
 
                     )
+
 
                     }
 
