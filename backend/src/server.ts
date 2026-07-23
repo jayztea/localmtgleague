@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
+
 import { env } from "./config/env";
+
 import authRoutes from "./routes/auth";
 import testRoutes from "./routes/test";
 import healthRoutes from "./routes/health";
@@ -14,7 +16,9 @@ import commanderRoutes from "./routes/commander";
 
 import { errorHandler } from "./middleware/errorHandler";
 
+
 const app = express();
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +26,8 @@ const app = express();
 |--------------------------------------------------------------------------
 */
 
-const PORT = env.PORT;
+const PORT = Number(env.PORT) || 3000;
+
 
 const allowedOrigins =
     env.NODE_ENV === "production"
@@ -33,6 +38,7 @@ const allowedOrigins =
         : [
               "http://localhost:5173",
           ];
+
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +53,9 @@ app.use(
     })
 );
 
+
 app.use(express.json());
+
 
 /*
 |--------------------------------------------------------------------------
@@ -56,19 +64,29 @@ app.use(express.json());
 */
 
 app.use("/auth", authRoutes);
+
 app.use("/test", testRoutes);
+
 app.use("/health", healthRoutes);
 
+
 app.use("/leagues", leagueRoutes);
+
 app.use("/leagues", leaguePlayerRoutes);
 
+
 app.use("/decks", deckRoutes);
+
 app.use("/matches", matchRoutes);
 
+
 app.use(statisticsRoutes);
+
 app.use(dashboardRoutes);
 
+
 app.use("/commanders", commanderRoutes);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -78,18 +96,25 @@ app.use("/commanders", commanderRoutes);
 
 app.use(errorHandler);
 
+
 /*
 |--------------------------------------------------------------------------
 | Start Server
 |--------------------------------------------------------------------------
 */
 
-app.listen(PORT, () => {
-    console.log("========================================");
-    console.log(" MTG League API");
-    console.log("========================================");
-    console.log(`Environment : ${process.env.NODE_ENV ?? "development"}`);
-    console.log(`Port        : ${PORT}`);
-    console.log(`CORS Origins: ${allowedOrigins.join(", ")}`);
-    console.log("========================================");
-});
+app.listen(
+    PORT,
+    "0.0.0.0",
+    () => {
+
+        console.log("========================================");
+        console.log(" MTG League API");
+        console.log("========================================");
+        console.log(`Environment : ${env.NODE_ENV}`);
+        console.log(`Port        : ${PORT}`);
+        console.log(`CORS Origins: ${allowedOrigins.join(", ")}`);
+        console.log("========================================");
+
+    }
+);
