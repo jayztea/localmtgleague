@@ -1,0 +1,10 @@
+ALTER TABLE league_players
+DROP COLUMN membership_status;
+
+ALTER TABLE league_players
+MODIFY COLUMN league_role VARCHAR(50)
+NOT NULL DEFAULT 'PLAYER';
+
+ALTER TABLE league_players
+MODIFY COLUMN status ENUM('ACTIVE', 'INACTIVE')
+NOT NULL DEFAULT 'ACTIVE';
