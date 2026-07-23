@@ -19,11 +19,14 @@ from "../../services/leagueService";
 
 
 
+
+
 export default function JoinLeague(){
 
 
     const navigate =
         useNavigate();
+
 
 
 
@@ -39,6 +42,7 @@ export default function JoinLeague(){
 
 
 
+
     const [
         error,
         setError
@@ -49,11 +53,47 @@ export default function JoinLeague(){
 
 
 
+
     const [
         success,
         setSuccess
     ] =
     useState("");
+
+
+
+
+
+
+
+    function cancelJoin(){
+
+
+        const confirmed =
+
+            window.confirm(
+
+                "Are you sure you want to cancel joining this league?"
+
+            );
+
+
+
+        if(!confirmed)
+
+            return;
+
+
+
+        navigate(
+
+            "/dashboard"
+
+        );
+
+
+    }
+
 
 
 
@@ -73,7 +113,9 @@ export default function JoinLeague(){
 
 
 
+
         try {
+
 
 
             setError("");
@@ -82,8 +124,11 @@ export default function JoinLeague(){
 
             await joinLeague({
 
+
                 league_code:
+
                     leagueCode.toUpperCase()
+
 
             });
 
@@ -98,20 +143,29 @@ export default function JoinLeague(){
             );
 
 
+
         }
+
+
         catch(error:any){
+
 
 
             setError(
 
+
                 error.response?.data?.message
+
                 ??
+
                 "Unable to join league."
+
 
             );
 
 
         }
+
 
 
     }
@@ -123,10 +177,15 @@ export default function JoinLeague(){
 
 
 
+
     return (
 
 
+
         <div className="p-8 max-w-xl">
+
+
+
 
 
 
@@ -144,19 +203,19 @@ export default function JoinLeague(){
 
 
 
-
             {
+
 
             error &&
 
 
-            <div className="mb-4">
+                <div className="mb-4">
 
 
-                {error}
+                    {error}
 
 
-            </div>
+                </div>
 
 
             }
@@ -170,11 +229,15 @@ export default function JoinLeague(){
 
             {
 
+
             success ?
 
 
 
+
+
             <div className="space-y-6">
+
 
 
                 <p>
@@ -184,6 +247,8 @@ export default function JoinLeague(){
 
 
                 </p>
+
+
 
 
 
@@ -217,11 +282,18 @@ export default function JoinLeague(){
 
 
 
+
+
             </div>
 
 
 
+
+
             :
+
+
+
 
 
 
@@ -240,7 +312,10 @@ export default function JoinLeague(){
 
 
 
+
+
                 <div>
+
 
 
                     <label>
@@ -250,6 +325,9 @@ export default function JoinLeague(){
 
 
                     </label>
+
+
+
 
 
                     <input
@@ -264,7 +342,7 @@ export default function JoinLeague(){
                         maxLength={6}
 
 
-                        onChange={event =>
+                        onChange={event=>
 
 
                             setLeagueCode(
@@ -272,6 +350,7 @@ export default function JoinLeague(){
                                 event.target.value
 
                             )
+
 
                         }
 
@@ -286,22 +365,62 @@ export default function JoinLeague(){
 
 
 
-                <button
+
+                <div className="flex gap-3">
 
 
-                    className="border px-4 py-2"
 
 
-                    type="submit"
+
+                    <button
 
 
-                >
+                        className="border px-4 py-2"
 
 
-                    Join League
+                        type="submit"
 
 
-                </button>
+                    >
+
+
+                        Join League
+
+
+                    </button>
+
+
+
+
+
+                    <button
+
+
+                        className="border px-4 py-2"
+
+
+                        type="button"
+
+
+                        onClick={cancelJoin}
+
+
+                    >
+
+
+                        Cancel
+
+
+                    </button>
+
+
+
+
+
+                </div>
+
+
+
 
 
 
@@ -309,7 +428,12 @@ export default function JoinLeague(){
 
 
 
+
+
             }
+
+
+
 
 
 

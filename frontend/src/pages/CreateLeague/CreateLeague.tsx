@@ -19,50 +19,86 @@ from "../../services/leagueService";
 
 
 
+
+
 export default function CreateLeague(){
 
 
+
     const navigate =
+
         useNavigate();
 
 
 
 
 
+
+
     const [
+
         leagueName,
+
         setLeagueName
-    ] =
+
+    ]
+
+    =
+
     useState("");
 
 
 
 
 
+
+
     const [
+
         description,
+
         setDescription
-    ] =
+
+    ]
+
+    =
+
     useState("");
 
 
 
 
 
+
+
     const [
+
         leagueCode,
+
         setLeagueCode
-    ] =
+
+    ]
+
+    =
+
     useState<string | null>(null);
 
 
 
 
 
+
+
     const [
+
         error,
+
         setError
-    ] =
+
+    ]
+
+    =
+
     useState("");
 
 
@@ -72,55 +108,34 @@ export default function CreateLeague(){
 
 
 
-    async function handleSubmit(
-        event: React.FormEvent
-    ){
 
-
-        event.preventDefault();
+    function cancelCreate(){
 
 
 
-        try {
+        const confirmed =
 
+            window.confirm(
 
-            setError("");
-
-
-
-            const league =
-                await createLeague({
-
-                    league_name:
-                        leagueName,
-
-                    description
-
-                });
-
-
-
-            setLeagueCode(
-
-                league.league_code
+                "Are you sure you want to cancel creating this league?"
 
             );
 
 
-        }
-        catch(error:any){
+
+        if(!confirmed)
+
+            return;
 
 
-            setError(
-
-                error.response?.data?.message
-                ??
-                "Unable to create league."
-
-            );
 
 
-        }
+        navigate(
+
+            "/dashboard"
+
+        );
+
 
 
     }
@@ -132,13 +147,120 @@ export default function CreateLeague(){
 
 
 
+
+    async function handleSubmit(
+
+        event:React.FormEvent
+
+    ){
+
+
+
+        event.preventDefault();
+
+
+
+
+
+        try {
+
+
+
+            setError("");
+
+
+
+
+
+
+            const league =
+
+                await createLeague({
+
+
+
+                    league_name:
+
+                        leagueName,
+
+
+
+                    description
+
+
+
+                });
+
+
+
+
+
+
+            setLeagueCode(
+
+
+                league.league_code
+
+
+            );
+
+
+
+
+        }
+
+
+
+        catch(error:any){
+
+
+
+            setError(
+
+
+
+                error.response?.data?.message
+
+                ??
+
+                "Unable to create league."
+
+
+
+            );
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     if(leagueCode){
 
 
-        return (
+
+        return(
+
 
 
             <div className="p-8 space-y-6">
+
+
+
+
 
 
                 <h1 className="text-3xl font-bold">
@@ -148,6 +270,9 @@ export default function CreateLeague(){
 
 
                 </h1>
+
+
+
 
 
 
@@ -165,6 +290,8 @@ export default function CreateLeague(){
 
 
 
+
+
                 <div className="text-2xl font-bold">
 
 
@@ -177,39 +304,58 @@ export default function CreateLeague(){
 
 
 
+
+
+
                 <button
+
 
 
                     className="border px-4 py-2"
 
 
+
                     onClick={()=>
+
 
 
                         navigate(
 
+
+
                             "/dashboard"
 
+
+
                         )
+
 
 
                     }
 
 
+
                 >
 
 
+
                     Return Dashboard
+
 
 
                 </button>
 
 
 
+
+
+
             </div>
 
 
+
         );
+
 
 
     }
@@ -222,10 +368,19 @@ export default function CreateLeague(){
 
 
 
-    return (
+
+
+
+
+
+    return(
+
 
 
         <div className="p-8 max-w-xl">
+
+
+
 
 
 
@@ -242,18 +397,27 @@ export default function CreateLeague(){
 
 
 
+
+
+
             {
+
 
             error &&
 
 
-            <div className="mb-4">
+
+                <div className="mb-4">
 
 
-                {error}
+
+                    {error}
 
 
-            </div>
+
+                </div>
+
+
 
             }
 
@@ -263,17 +427,30 @@ export default function CreateLeague(){
 
 
 
+
+
             <form
+
+
 
                 onSubmit={handleSubmit}
 
+
+
                 className="space-y-4"
+
+
 
             >
 
 
 
+
+
+
+
                 <div>
+
 
 
                     <label>
@@ -285,27 +462,44 @@ export default function CreateLeague(){
                     </label>
 
 
+
+
+
+
                     <input
+
 
 
                         className="border w-full p-2"
 
 
+
                         value={leagueName}
+
 
 
                         onChange={event=>
 
+
+
                             setLeagueName(
+
+
 
                                 event.target.value
 
+
+
                             )
+
+
 
                         }
 
 
+
                     />
+
 
 
                 </div>
@@ -316,7 +510,10 @@ export default function CreateLeague(){
 
 
 
+
+
                 <div>
+
 
 
                     <label>
@@ -328,27 +525,45 @@ export default function CreateLeague(){
                     </label>
 
 
+
+
+
+
+
                     <textarea
+
 
 
                         className="border w-full p-2"
 
 
+
                         value={description}
+
 
 
                         onChange={event=>
 
+
+
                             setDescription(
+
+
 
                                 event.target.value
 
+
+
                             )
+
+
 
                         }
 
 
+
                     />
+
 
 
                 </div>
@@ -360,22 +575,80 @@ export default function CreateLeague(){
 
 
 
-                <button
+
+                <div className="flex gap-3">
 
 
-                    className="border px-4 py-2"
 
 
-                    type="submit"
 
 
-                >
+
+                    <button
 
 
-                    Create League
+
+                        className="border px-4 py-2"
 
 
-                </button>
+
+                        type="submit"
+
+
+
+                    >
+
+
+
+                        Create League
+
+
+
+                    </button>
+
+
+
+
+
+
+
+
+
+                    <button
+
+
+
+                        className="border px-4 py-2"
+
+
+
+                        type="button"
+
+
+
+                        onClick={cancelCreate}
+
+
+
+                    >
+
+
+
+                        Cancel
+
+
+
+                    </button>
+
+
+
+
+
+
+
+                </div>
+
+
 
 
 
@@ -386,10 +659,16 @@ export default function CreateLeague(){
 
 
 
+
+
+
+
         </div>
 
 
+
     );
+
 
 
 }
