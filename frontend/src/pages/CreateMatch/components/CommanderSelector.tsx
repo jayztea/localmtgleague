@@ -3,60 +3,106 @@ import { useState } from "react";
 import AddCommanderModal from "./AddCommanderModal";
 
 import type {
-    LeaguePlayer
+    MatchPlayer
 }
-from "../../../types/match";
+from "../types";
 
 import "../CreateMatch.css";
 
+
 interface Props {
 
-    player: LeaguePlayer;
 
-    selectedCommanderId?: number;
+    player: MatchPlayer;
+
+
+    selectedCommanderId?: number | null;
+
 
     onChange: (
-        playerId: number,
-        commanderId: number
+
+        playerId:number,
+
+        commanderId:number
+
     ) => void;
 
+
+
     onCommanderAdded: (
-        playerId: number,
-        commander: any
+
+        playerId:number,
+
+        commander:any
+
     ) => void;
+
 
 }
 
+
+
+
 export default function CommanderSelector({
+
 
     player,
 
+
     selectedCommanderId,
+
 
     onChange,
 
+
     onCommanderAdded
 
-}: Props) {
 
-    const [showModal, setShowModal] =
-        useState(false);
+
+}:Props){
+
+
+
+    const [
+
+        showModal,
+
+        setShowModal
+
+    ] =
+
+    useState(false);
+
+
+
+
+
 
     function handleChange(
 
-        event: React.ChangeEvent<HTMLSelectElement>
+        event:React.ChangeEvent<HTMLSelectElement>
 
-    ) {
+    ){
 
-        const value = event.target.value;
 
-        if (value === "add") {
+        const value =
+            event.target.value;
+
+
+
+        if(value === "add"){
+
 
             setShowModal(true);
 
+
             return;
 
+
         }
+
+
+
 
         onChange(
 
@@ -66,13 +112,20 @@ export default function CommanderSelector({
 
         );
 
+
     }
+
+
+
+
+
 
     function handleCommanderAdded(
 
-        commander: any
+        commander:any
 
-    ) {
+    ){
+
 
         onCommanderAdded(
 
@@ -82,71 +135,115 @@ export default function CommanderSelector({
 
         );
 
+
         setShowModal(false);
 
+
     }
+
+
+
+
+
 
     return (
 
         <>
 
+
             <select
+
 
                 className="commander-select"
 
+
                 value={selectedCommanderId ?? ""}
+
 
                 onChange={handleChange}
 
+
             >
+
 
                 <option value="">
 
+
                     Select Commander
 
+
                 </option>
+
+
 
                 {
 
-                    player.commanders.map(commander => (
 
-                        <option
+                player.commanders.map(commander => (
 
-                            key={commander.commander_id}
 
-                            value={commander.commander_id}
+                    <option
 
-                        >
 
-                            {commander.commander_name}
+                        key={commander.commander_id}
 
-                        </option>
 
-                    ))
+                        value={commander.commander_id}
+
+
+                    >
+
+
+                        {commander.commander_name}
+
+
+                    </option>
+
+
+                ))
+
 
                 }
 
+
+
+
                 <option value="add">
+
 
                     + Add Commander...
 
+
                 </option>
+
+
 
             </select>
 
+
+
+
+
+
             {
 
-                showModal &&
+
+            showModal &&
+
 
                 <AddCommanderModal
 
+
                     player={player}
 
-                    onClose={() =>
+
+                    onClose={()=>
+
 
                         setShowModal(false)
 
                     }
+
 
                     onCommanderAdded={
 
@@ -154,12 +251,17 @@ export default function CommanderSelector({
 
                     }
 
+
                 />
 
+
             }
+
+
 
         </>
 
     );
+
 
 }

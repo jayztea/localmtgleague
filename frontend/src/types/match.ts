@@ -1,6 +1,6 @@
 export interface LeaguePlayerCommander {
 
-    deck_id:number;
+    deck_id?: number;
 
     commander_id:number;
 
