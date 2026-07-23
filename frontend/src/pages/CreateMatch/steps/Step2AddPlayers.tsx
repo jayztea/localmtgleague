@@ -1,4 +1,4 @@
-import React, {
+import {
     useEffect,
     useMemo,
     useState
@@ -25,7 +25,8 @@ from "../components/StepNavigation";
 
 
 import type {
-    CreateMatchState
+    CreateMatchState,
+    MatchPlayer
 }
 from "../types";
 
@@ -34,7 +35,6 @@ import type {
     LeaguePlayer
 }
 from "../../../types/match";
-
 
 
 
@@ -68,13 +68,18 @@ interface Props {
 
 export default function Step2AddPlayers({
 
+
     matchState,
+
 
     setMatchState,
 
+
     nextStep,
 
+
     previousStep,
+
 
     cancelMatch
 
@@ -84,11 +89,17 @@ export default function Step2AddPlayers({
 
 
     const [
+
         loading,
+
         setLoading
+
     ]
+
     =
+
     useState(false);
+
 
 
 
@@ -114,7 +125,6 @@ export default function Step2AddPlayers({
 
 
 
-
             try{
 
 
@@ -122,32 +132,29 @@ export default function Step2AddPlayers({
 
 
 
+                const players:
 
-                const players:LeaguePlayer[] =
-
+                LeaguePlayer[] =
 
                     await getLeaguePlayersWithCommanders(
 
-
                         matchState.league.league_id
-
 
                     );
 
 
 
-
-
-                setMatchState(previous=>({
+                setMatchState(previous => ({
 
 
                     ...previous,
 
 
-                    leaguePlayers:players
+                    leaguePlayers: players
 
 
                 }));
+
 
 
             }
@@ -187,7 +194,11 @@ export default function Step2AddPlayers({
 
     },[
 
-        matchState.league
+        matchState.league,
+
+        matchState.leaguePlayers.length,
+
+        setMatchState
 
     ]);
 
@@ -197,39 +208,111 @@ export default function Step2AddPlayers({
 
 
 
-    const availablePlayers =
-
-        useMemo(()=>{
+    const availablePlayers = useMemo(()=>{
 
 
-            return matchState.leaguePlayers.filter(
+        return matchState.leaguePlayers
+
+            .filter(player =>
 
 
-                player =>
+                !matchState.players.some(
+
+                    selected =>
+
+                        selected.player_id === player.player_id
+
+                )
 
 
-                    !matchState.players.some(
+            )
+
+            .map(player => ({
 
 
-                        selected =>
+                player_id:
+
+                    player.player_id,
 
 
-                            selected.player_id === player.player_id
+                display_name:
+
+                    player.display_name,
 
 
-                    )
+                commanders:
+
+                    player.commanders.map(commander => ({
 
 
-            );
+                        deck_id:
+
+                            commander.deck_id,
 
 
-        },[
+                        commander_id:
 
-            matchState.leaguePlayers,
+                            commander.commander_id,
 
-            matchState.players
 
-        ]);
+                        commander_name:
+
+                            commander.commander_name,
+
+
+                        color_identity:
+
+                            commander.color_identity
+
+
+                    })),
+
+
+                selected_commander_id:
+
+                    null,
+
+
+                placement:
+
+                    null
+
+
+
+            }));
+
+
+
+    },[
+
+
+        matchState.leaguePlayers,
+
+
+        matchState.players
+
+
+    ]);
+
+
+
+
+
+
+
+
+
+    function convertSelectedPlayers(
+
+        players: MatchPlayer[]
+
+    ){
+
+
+        return players;
+
+
+    }
 
 
 
@@ -284,6 +367,7 @@ export default function Step2AddPlayers({
 
 
 
+
                 {
 
 
@@ -299,32 +383,38 @@ export default function Step2AddPlayers({
                         selectedPlayers={matchState.players}
 
 
+
                         setAvailablePlayers={()=>{}}
 
 
 
-                        setSelectedPlayers={(players)=>
+                        setSelectedPlayers={(players)=>{
 
 
-                            setMatchState(previous=>({
+                            setMatchState(previous => ({
 
 
                                 ...previous,
 
 
-                                players
+                                players:
+
+                                    convertSelectedPlayers(players)
 
 
-                            }))
+                            }));
 
 
-                        }
+                        }}
+
 
 
                     />
 
 
                 }
+
+
 
 
 

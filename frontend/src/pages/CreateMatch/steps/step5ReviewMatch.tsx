@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
     useNavigate
 }
@@ -175,52 +173,27 @@ export default function Step5ReviewMatch({
 
 
 
+            if (!matchState.league) {
+                throw new Error("League is required before creating a match");
+            }
+
+
             const request = {
 
+                league_id: matchState.league.league_id,
 
+                    players: matchState.players.map(player => ({
 
-                league_id:
-
-
-                    matchState.league?.league_id,
-
-
-
-
-
-                players:
-
-
-                    matchState.players.map(player=>({
-
-
-
-                        player_id:
-
-
-                            player.player_id,
-
-
-
+                        player_id: player.player_id,
 
                         commander_id:
-
-
-                            player.selected_commander_id,
-
-
-
+                            player.selected_commander_id
+                                ?? 0,
 
                         finish_position:
-
-
-                            player.placement
-
-
+                            player.placement ?? undefined
 
                     }))
-
-
 
             };
 

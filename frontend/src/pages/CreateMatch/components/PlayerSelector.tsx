@@ -1,18 +1,18 @@
 import { useState } from "react";
 
-import type { LeaguePlayer } from "../../../types/match";
+import type { MatchPlayer } from "../types";
 
 import "../CreateMatch.css";
 
 interface Props {
 
-    availablePlayers: LeaguePlayer[];
+    availablePlayers: MatchPlayer[];
 
-    selectedPlayers: LeaguePlayer[];
+    selectedPlayers: MatchPlayer[];
 
-    setAvailablePlayers: (players: LeaguePlayer[]) => void;
+    setAvailablePlayers: (players: MatchPlayer[]) => void;
 
-    setSelectedPlayers: (players: LeaguePlayer[]) => void;
+    setSelectedPlayers: (players: MatchPlayer[]) => void;
 
 }
 

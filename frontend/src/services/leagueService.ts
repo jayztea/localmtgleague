@@ -10,6 +10,11 @@ import type {
 }
 from "../types/match";
 
+export type {
+    League
+}
+from "../types/league";
+
 export interface CreateLeagueRequest {
 
     league_name: string;

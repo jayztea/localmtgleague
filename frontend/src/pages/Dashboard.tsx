@@ -32,13 +32,11 @@ from "../types/dashboard";
 import StatCard
 from "../components/StatCard";
 
-
-import LeagueCard
-from "./CreateMatch/components/LeagueCard";
-
-
 import RecentGamesTable
 from "../components/RecentGamesTable";
+
+import LeagueDashboardCard
+from "../components/LeagueDashboardCard";
 
 
 
@@ -408,7 +406,7 @@ export default function Dashboard(){
                         (
 
 
-                            <LeagueCard
+                            <LeagueDashboardCard
 
 
                                 key={
