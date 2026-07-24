@@ -14,10 +14,32 @@ from "./scryfallService";
 
 
 
+function isCommander(card:any):boolean {
+
+    if(!card.type_line){
+        return false;
+    }
+
+
+    return (
+        card.type_line.includes(
+            "Legendary Creature"
+        )
+        ||
+        card.oracle_text
+            ?.toLowerCase()
+            .includes(
+                "can be your commander"
+            )
+    );
+
+}
+
+
+
 export function transformCommander(
     card:any
 ):CommanderImport {
-
 
     return {
 
@@ -48,10 +70,12 @@ export function transformCommander(
             card.toughness ?? null,
 
         color_identity:
-            card.color_identity?.join("") ?? "",
+            card.color_identity?.join("")
+            ?? "",
 
         image_url:
-            card.image_uris?.normal ?? null,
+            card.image_uris?.normal
+            ?? null,
 
         scryfall_uri:
             card.scryfall_uri ?? null,
@@ -65,35 +89,7 @@ export function transformCommander(
 
 
 
-function isCommander(card:any):boolean {
-
-
-    if(!card.type_line){
-        return false;
-    }
-
-
-    return (
-
-        card.type_line.includes(
-            "Legendary Creature"
-        )
-
-        ||
-
-        card.oracle_text
-            ?.toLowerCase()
-            .includes(
-                "can be your commander"
-            )
-
-    );
-
-}
-
-
-
-export async function importCommanders(){
+export async function importCommanders() {
 
 
     console.log(
@@ -128,8 +124,9 @@ export async function importCommanders(){
     );
 
 
-
     let imported = 0;
+
+    let skipped = 0;
 
 
 
@@ -137,7 +134,11 @@ export async function importCommanders(){
 
 
         if(!isCommander(card)){
+
+            skipped++;
+
             continue;
+
         }
 
 
@@ -174,6 +175,11 @@ export async function importCommanders(){
 
     console.log(
         `Imported: ${imported}`
+    );
+
+
+    console.log(
+        `Skipped: ${skipped}`
     );
 
 
