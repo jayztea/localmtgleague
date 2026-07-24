@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+
 import {
     getMyLeagues
 }
@@ -133,251 +134,222 @@ export default function Step1SelectLeague({
 
 
 
+
     return (
 
 
-        <div className="create-match-page">
+        <>
 
 
-            <div className="create-match-card">
+            <StepHeader
 
+                step={1}
 
-                <StepHeader
+                title="Select League"
 
+                description="Choose a league for this match."
 
-                    step={1}
-
-
-                    title="Select League"
-
-
-                    description="Choose a league for this match."
-
-
-                />
+            />
 
 
 
 
 
-                {
 
-
+            {
                 loading &&
 
+                <p>
 
-                    <p>
+                    Loading leagues...
 
-                        Loading leagues...
+                </p>
 
-                    </p>
-
-
-                }
+            }
 
 
 
 
 
-                {
-
-
-                !loading &&
-
-
-                    <div className="form-group">
-
-
-                        <label className="form-label">
-
-                            League
-
-                        </label>
 
 
 
-                        <select
+            {
+
+            !loading &&
+
+                <div className="form-group">
 
 
-                            value={
+                    <label className="form-label">
 
-                                selectedLeague
+                        League
 
-                                ?
-
-                                selectedLeague.league_id
-
-                                :
-
-                                ""
-
-                            }
+                    </label>
 
 
 
-                            onChange={(event)=>{
+                    <select
 
 
-                                const leagueId =
+                        value={
 
-                                    Number(
+                            selectedLeague
 
-                                        event.target.value
+                            ?
 
-                                    );
+                            selectedLeague.league_id
 
+                            :
 
+                            ""
 
-                                const league =
-
-
-                                    leagues.find(
-
-
-                                        league =>
-
-
-                                            league.league_id === leagueId
-
-
-                                    )
-
-                                    ??
-
-                                    null;
+                        }
 
 
 
-                                setSelectedLeague(
+                        onChange={(event)=>{
 
-                                    league
+
+                            const leagueId =
+
+                                Number(
+
+                                    event.target.value
 
                                 );
 
 
-                            }}
+
+                            const league =
+
+
+                                leagues.find(
+
+
+                                    league =>
+
+
+                                        league.league_id === leagueId
+
+
+                                )
+
+                                ??
+
+                                null;
 
 
 
-                        >
+                            setSelectedLeague(
+
+                                league
+
+                            );
+
+
+                        }}
 
 
 
-                            <option value="">
+                    >
 
-                                Select League
+
+
+                        <option value="">
+
+                            Select League
+
+                        </option>
+
+
+
+
+
+                        {
+
+                        leagues.map(league=>(
+
+
+                            <option
+
+
+                                key={league.league_id}
+
+
+                                value={league.league_id}
+
+
+                            >
+
+                                {league.league_name}
 
                             </option>
 
 
+                        ))
 
-
-                            {
-
-
-                            leagues.map(league=>(
-
-
-                                <option
-
-
-                                    key={league.league_id}
-
-
-                                    value={league.league_id}
-
-
-                                >
-
-
-                                    {league.league_name}
-
-
-                                </option>
-
-
-                            ))
-
-
-                            }
+                        }
 
 
 
 
-                        </select>
+                    </select>
 
-
-
-                    </div>
-
-
-                }
-
-
-
-
-
-                <div
-
-                    style={{
-
-                        height:260,
-
-                        border:"2px dashed #D9DCE3",
-
-                        borderRadius:8,
-
-                        marginTop:40,
-
-                        display:"flex",
-
-                        alignItems:"center",
-
-                        justifyContent:"center",
-
-                        color:"#9CA3AF"
-
-                    }}
-
-                >
-
-
-                    League Image Placeholder
 
 
                 </div>
 
+            }
 
 
 
 
 
-                <StepNavigation
-
-
-                    nextStep={nextStep}
-
-
-                    cancelMatch={cancelMatch}
-
-
-                    disableNext={
-
-                        selectedLeague === null
-
-                    }
-
-
-                />
 
 
 
+            <div
+
+                className="league-image-placeholder"
+
+            >
+
+                League Image Placeholder
 
 
             </div>
 
 
-        </div>
+
+
+
+
+
+
+            <StepNavigation
+
+
+                nextStep={nextStep}
+
+
+                cancelMatch={cancelMatch}
+
+
+                disableNext={
+
+                    selectedLeague === null
+
+                }
+
+
+            />
+
+
+
+
+
+        </>
 
 
     );

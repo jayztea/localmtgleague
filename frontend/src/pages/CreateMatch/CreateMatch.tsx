@@ -67,6 +67,7 @@ export default function CreateMatch(){
 
 
 
+
     function cancelMatch(){
 
 
@@ -100,12 +101,7 @@ export default function CreateMatch(){
 
 
 
-        navigate(
-
-            "/dashboard"
-
-        );
-
+        navigate("/dashboard");
 
     }
 
@@ -114,202 +110,206 @@ export default function CreateMatch(){
 
 
 
-
     return (
 
-        <div>
+        <div className="create-match-page">
 
 
-            {
-                step === 1 &&
+            <div className="create-match-card">
 
 
-                <Step1SelectLeague
+                {
+                    step === 1 &&
 
+                    <Step1SelectLeague
 
-                    selectedLeague={
+                        selectedLeague={
+                            matchState.league
+                        }
 
-                        matchState.league
 
-                    }
+                        setSelectedLeague={
+                            (league)=>
 
+                            setMatchState({
 
+                                ...matchState,
 
-                    setSelectedLeague={
+                                league,
 
-                        (league)=>
+                                leaguePlayers:[],
 
+                                players:[]
 
-                        setMatchState({
+                            })
+                        }
 
-                            ...matchState,
 
-                            league,
+                        nextStep={
+                            ()=>setStep(2)
+                        }
 
-                            leaguePlayers:[],
 
-                            players:[]
+                        cancelMatch={
+                            cancelMatch
+                        }
 
-                        })
+                    />
 
-                    }
+                }
 
 
 
-                    nextStep={()=>setStep(2)}
 
 
-                    cancelMatch={cancelMatch}
 
 
-                />
+                {
+                    step === 2 &&
 
+                    <Step2AddPlayers
 
-            }
+                        matchState={
+                            matchState
+                        }
 
 
+                        setMatchState={
+                            setMatchState
+                        }
 
 
+                        nextStep={
+                            ()=>setStep(3)
+                        }
 
 
-            {
-                step === 2 &&
+                        previousStep={
+                            ()=>setStep(1)
+                        }
 
 
-                <Step2AddPlayers
+                        cancelMatch={
+                            cancelMatch
+                        }
 
+                    />
 
-                    matchState={
+                }
 
-                        matchState
 
-                    }
 
 
 
-                    setMatchState={
 
-                        setMatchState
 
-                    }
 
+                {
+                    step === 3 &&
 
+                    <Step3AssignCommanders
 
-                    nextStep={()=>setStep(3)}
+                        matchState={
+                            matchState
+                        }
 
 
+                        setMatchState={
+                            setMatchState
+                        }
 
-                    previousStep={()=>setStep(1)}
 
+                        nextStep={
+                            ()=>setStep(4)
+                        }
 
-                    cancelMatch={cancelMatch}
 
+                        previousStep={
+                            ()=>setStep(2)
+                        }
 
-                />
 
+                        cancelMatch={
+                            cancelMatch
+                        }
 
-            }
+                    />
 
+                }
 
 
 
 
 
 
-            {
-                step === 3 &&
 
 
-                <Step3AssignCommanders
 
+                {
+                    step === 4 &&
 
-                    matchState={
+                    <Step4RecordPlacements
 
-                        matchState
+                        matchState={
+                            matchState
+                        }
 
-                    }
 
+                        setMatchState={
+                            setMatchState
+                        }
 
 
-                    setMatchState={
+                        previousStep={
+                            ()=>setStep(3)
+                        }
 
-                        setMatchState
 
-                    }
+                        nextStep={
+                            ()=>setStep(5)
+                        }
 
 
+                        cancelMatch={
+                            cancelMatch
+                        }
 
-                    nextStep={()=>setStep(4)}
+                    />
 
+                }
 
 
-                    previousStep={()=>setStep(2)}
 
 
-                    cancelMatch={cancelMatch}
 
 
-                />
 
 
-            }
+                {
+                    step === 5 &&
 
+                    <Step5ReviewMatch
 
+                        matchState={
+                            matchState
+                        }
 
 
+                        previousStep={
+                            ()=>setStep(4)
+                        }
 
-            {
-                step===4 &&
 
+                        cancelMatch={
+                            cancelMatch
+                        }
 
-                <Step4RecordPlacements
+                    />
 
+                }
 
-                    matchState={matchState}
 
-
-                    setMatchState={setMatchState}
-
-
-                    previousStep={()=>setStep(3)}
-
-
-                    nextStep={()=>setStep(5)}
-
-
-                    cancelMatch={cancelMatch}
-
-
-                />
-
-            }
-
-
-
-
-
-
-            {
-                step===5 &&
-
-
-                <Step5ReviewMatch
-
-
-                    matchState={matchState}
-
-
-                    previousStep={()=>setStep(4)}
-
-
-                    cancelMatch={cancelMatch}
-
-
-                />
-
-
-            }
-
+            </div>
 
 
         </div>

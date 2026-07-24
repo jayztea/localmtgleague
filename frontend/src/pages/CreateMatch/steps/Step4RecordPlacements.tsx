@@ -2,6 +2,10 @@ import StepNavigation
 from "../components/StepNavigation";
 
 
+import StepHeader
+from "../../../components/ui/StepHeader";
+
+
 import type {
     CreateMatchState
 }
@@ -43,6 +47,7 @@ interface Props {
 
 
 
+
 export default function Step4RecordPlacements({
 
     matchState,
@@ -57,7 +62,6 @@ export default function Step4RecordPlacements({
 
 
 }:Props){
-
 
 
 
@@ -108,9 +112,7 @@ export default function Step4RecordPlacements({
                     player
 
 
-
                 )
-
 
 
         });
@@ -125,9 +127,7 @@ export default function Step4RecordPlacements({
 
 
 
-
     function getCommanderName(player:any){
-
 
 
         const commander =
@@ -138,23 +138,19 @@ export default function Step4RecordPlacements({
 
                 (commander:any)=>
 
-
                     commander.commander_id ===
 
                     player.selected_commander_id
-
 
 
             );
 
 
 
-
         return commander?.commander_name ?? "";
 
-
-
     }
+
 
 
 
@@ -168,21 +164,19 @@ export default function Step4RecordPlacements({
 
         return Array.from(
 
-
             {
 
                 length:matchState.players.length
 
             },
 
-
             (_,index)=>index+1
-
 
         );
 
 
     }
+
 
 
 
@@ -209,7 +203,6 @@ export default function Step4RecordPlacements({
             return "3rd";
 
 
-
         return `${value}th`;
 
 
@@ -223,296 +216,252 @@ export default function Step4RecordPlacements({
 
 
 
-    return(
+    return (
+
+        <>
 
 
-
-        <div className="create-match-page">
-
+            <StepHeader
 
 
-            <div className="create-match-card">
+                step={4}
 
 
-
-                <h1 className="page-title">
-
-                    (4) Record Placements
-
-                </h1>
+                title="Record Placements"
 
 
+                description="Select the final placement for each player."
 
 
-
-                <p className="page-subtitle">
-
-                    Select the final placement for each player.
-
-                </p>
-
-
-
-
-
-                <div className="info-banner">
-
-
-                    🏆 1st Place is the winner.
-
-
-                </div>
+            />
 
 
 
 
 
 
-                <table className="match-table">
+
+            <div className="info-banner">
+
+
+                🏆 1st Place is the winner.
+
+
+            </div>
 
 
 
-                    <thead>
 
 
-                        <tr>
 
 
-                            <th>
 
-                                Player
-
-                            </th>
+            <div className="placement-list">
 
 
-                            <th>
+
+                {
+
+                matchState.players.map(player => (
+
+
+
+                    <div
+
+                        key={player.player_id}
+
+                        className="placement-card"
+
+                    >
+
+
+
+
+                        <div className="placement-player">
+
+
+                            {player.display_name}
+
+
+                        </div>
+
+
+
+
+
+                        <div className="placement-detail">
+
+
+                            <span>
 
                                 Commander
 
-                            </th>
+                            </span>
 
 
-                            <th>
-
-                                Placement
-
-                            </th>
-
-
-
-                        </tr>
-
-
-                    </thead>
-
-
-
-
-
-                    <tbody>
-
-
-
-                    {
-
-
-                    matchState.players.map(player=>(
-
-
-
-                        <tr
-
-                            key={player.player_id}
-
-                        >
-
-
-
-                            <td>
-
-
-                                {player.display_name}
-
-
-                            </td>
-
-
-
-
-                            <td>
-
+                            <strong>
 
                                 {getCommanderName(player)}
 
-
-                            </td>
-
+                            </strong>
 
 
-
-
-                            <td>
+                        </div>
 
 
 
-                                <select
 
 
-                                    className="placement-select"
+                        <div className="placement-detail">
 
 
-                                    value={
+                            <span>
 
-                                        player.placement ?? ""
+                                Placement
 
-                                    }
-
-
-
-                                    onChange={(event)=>
+                            </span>
 
 
-                                        updatePlacement(
 
 
-                                            player.player_id,
+                            <select
 
 
-                                            Number(
+                                className="placement-select"
 
-                                                event.target.value
 
-                                            )
+                                value={
 
+                                    player.placement ?? ""
+
+                                }
+
+
+
+                                onChange={(event)=>
+
+
+                                    updatePlacement(
+
+
+                                        player.player_id,
+
+
+                                        Number(
+
+                                            event.target.value
 
                                         )
 
 
-                                    }
+                                    )
+
+                                }
 
 
 
-                                >
+                            >
+
+
+                                <option value="">
+
+                                    Select
+
+                                </option>
 
 
 
-                                    <option value="">
 
-                                        Select
+                                {
+
+                                getPlacementOptions()
+
+                                .map(position=>(
+
+
+                                    <option
+
+
+                                        key={position}
+
+
+                                        value={position}
+
+                                    >
+
+
+                                        {placementLabel(position)}
+
 
                                     </option>
 
 
+                                ))
 
+                                }
 
-                                    {
 
 
-                                    getPlacementOptions()
+                            </select>
 
-                                    .map(position=>(
 
+                        </div>
 
 
-                                        <option
 
 
-                                            key={position}
 
+                    </div>
 
-                                            value={position}
 
 
-                                        >
+                ))
 
-
-                                            {placementLabel(position)}
-
-
-                                        </option>
-
-
-
-                                    ))
-
-
-
-                                    }
-
-
-
-
-
-                                </select>
-
-
-
-                            </td>
-
-
-
-                        </tr>
-
-
-
-                    ))
-
-
-                    }
-
-
-
-                    </tbody>
-
-
-
-
-                </table>
-
-
-
-
-
-
-
-                <StepNavigation
-
-
-                    previousStep={previousStep}
-
-
-                    nextStep={nextStep}
-
-
-                    cancelMatch={cancelMatch}
-
-
-                    disableNext={
-
-
-                        matchState.players.some(
-
-
-                            player=>!player.placement
-
-
-                        )
-
-
-                    }
-
-
-                />
-
-
+                }
 
 
 
             </div>
 
 
-        </div>
 
+
+
+
+
+
+            <StepNavigation
+
+
+                previousStep={previousStep}
+
+
+                nextStep={nextStep}
+
+
+                cancelMatch={cancelMatch}
+
+
+                disableNext={
+
+
+                    matchState.players.some(
+
+                        player=>!player.placement
+
+                    )
+
+
+                }
+
+
+            />
+
+
+
+
+
+        </>
 
     );
 

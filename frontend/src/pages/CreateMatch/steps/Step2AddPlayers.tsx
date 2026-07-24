@@ -38,6 +38,8 @@ from "../../../types/match";
 
 
 
+
+
 interface Props {
 
 
@@ -60,6 +62,8 @@ interface Props {
 
 
 }
+
+
 
 
 
@@ -97,7 +101,6 @@ export default function Step2AddPlayers({
     ]
 
     =
-
     useState(false);
 
 
@@ -156,7 +159,6 @@ export default function Step2AddPlayers({
                 }));
 
 
-
             }
 
 
@@ -208,6 +210,8 @@ export default function Step2AddPlayers({
 
 
 
+
+
     const availablePlayers = useMemo(()=>{
 
 
@@ -218,14 +222,18 @@ export default function Step2AddPlayers({
 
                 !matchState.players.some(
 
+
                     selected =>
 
+
                         selected.player_id === player.player_id
+
 
                 )
 
 
             )
+
 
             .map(player => ({
 
@@ -324,131 +332,131 @@ export default function Step2AddPlayers({
     return(
 
 
-        <div className="create-match-page">
+        <>
 
 
-            <div className="create-match-card">
+            <StepHeader
 
 
-                <StepHeader
+                step={2}
 
 
-                    step={2}
+                title="Add Players"
 
 
-                    title="Add Players"
+                description="Select players from your league to play in this match."
 
 
-                    description="Select players from your league to play in this match."
+            />
+
+
+
+
+
+
+
+
+            {
+
+            loading &&
+
+
+                <p>
+
+                    Loading players...
+
+                </p>
+
+            }
+
+
+
+
+
+
+
+
+
+            {
+
+
+            !loading &&
+
+
+                <PlayerSelector
+
+
+                    availablePlayers={availablePlayers}
+
+
+                    selectedPlayers={matchState.players}
+
+
+
+                    setAvailablePlayers={()=>{}}
+
+
+
+                    setSelectedPlayers={(players)=>{
+
+
+                        setMatchState(previous => ({
+
+
+                            ...previous,
+
+
+                            players:
+
+                                convertSelectedPlayers(players)
+
+
+                        }));
+
+
+                    }}
+
 
 
                 />
 
 
-
-
-
-                {
-
-
-                loading &&
-
-
-                    <p>
-
-                        Loading players...
-
-                    </p>
-
-
-                }
+            }
 
 
 
 
 
 
-                {
-
-
-                !loading &&
-
-
-                    <PlayerSelector
-
-
-                        availablePlayers={availablePlayers}
-
-
-                        selectedPlayers={matchState.players}
 
 
 
-                        setAvailablePlayers={()=>{}}
+            <StepNavigation
 
 
-
-                        setSelectedPlayers={(players)=>{
-
-
-                            setMatchState(previous => ({
+                previousStep={previousStep}
 
 
-                                ...previous,
+                nextStep={nextStep}
 
 
-                                players:
-
-                                    convertSelectedPlayers(players)
+                cancelMatch={cancelMatch}
 
 
-                            }));
+                disableNext={
 
-
-                        }}
-
-
-
-                    />
-
+                    matchState.players.length === 0
 
                 }
 
 
+            />
 
 
 
 
 
-                <StepNavigation
-
-
-                    previousStep={previousStep}
-
-
-                    nextStep={nextStep}
-
-
-                    cancelMatch={cancelMatch}
-
-
-                    disableNext={
-
-                        matchState.players.length === 0
-
-                    }
-
-
-                />
-
-
-
-
-
-            </div>
-
-
-        </div>
+        </>
 
 
     );

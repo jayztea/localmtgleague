@@ -20,6 +20,8 @@ interface Props{
 
 
 
+
+
 export default function StepNavigation({
 
 
@@ -42,6 +44,8 @@ export default function StepNavigation({
 
 
 
+
+
     return(
 
 
@@ -49,74 +53,97 @@ export default function StepNavigation({
 
 
 
-            <button
 
 
-                className="cm-button cm-button-secondary"
+            {
+
+            previousStep &&
 
 
-                onClick={previousStep}
+                <button
 
 
-                disabled={!previousStep}
+                    className="cm-button cm-button-secondary"
 
 
-            >
+                    onClick={previousStep}
 
 
-                ← Back
+                >
 
 
-            </button>
+                    ← Back
 
 
+                </button>
 
-
-
-            <button
-
-
-                className="cm-button cm-button-danger"
-
-
-                onClick={cancelMatch}
-
-
-                disabled={!cancelMatch}
-
-
-            >
-
-
-                Cancel Match
-
-
-            </button>
+            }
 
 
 
 
 
 
-            <button
+
+            {
+
+            cancelMatch &&
 
 
-                className="cm-button cm-button-primary"
+                <button
 
 
-                onClick={nextStep}
+                    className="cm-button cm-button-danger"
 
 
-                disabled={disableNext}
+                    onClick={cancelMatch}
 
 
-            >
+                >
 
 
-                {nextLabel}
+                    Cancel Match
 
 
-            </button>
+                </button>
+
+            }
+
+
+
+
+
+
+
+            {
+
+            nextStep &&
+
+
+                <button
+
+
+                    className="cm-button cm-button-primary"
+
+
+                    onClick={nextStep}
+
+
+                    disabled={disableNext}
+
+
+                >
+
+
+                    {nextLabel}
+
+
+                </button>
+
+            }
+
+
+
 
 
 
