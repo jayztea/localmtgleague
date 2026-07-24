@@ -20,7 +20,15 @@ function required(
 
 
 
+
+
 export const env = {
+   
+    CORS_ORIGINS:
+    (process.env.CORS_ORIGINS ?? "")
+        .split(",")
+        .map(origin => origin.trim())
+        .filter(Boolean),
 
     NODE_ENV:
         process.env.NODE_ENV ?? "development",
