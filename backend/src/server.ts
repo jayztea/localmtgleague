@@ -13,6 +13,7 @@ import matchRoutes from "./routes/match";
 import statisticsRoutes from "./statistics/statisticsRoutes";
 import dashboardRoutes from "./routes/dashboard";
 import commanderRoutes from "./routes/commander";
+import adminRoutes from "./routes/admin";
 
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -204,6 +205,8 @@ app.use(
     "/commanders",
     commanderRoutes
 );
+
+app.use("/admin", adminRoutes);
 
 
 
