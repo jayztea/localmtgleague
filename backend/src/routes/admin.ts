@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import {
     importCommanders
-} from "../services/commanderImportServices";
+} from "../services/commanderImportService";
 
 
 const router = Router();
