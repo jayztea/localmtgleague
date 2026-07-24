@@ -14,10 +14,17 @@ import StepNavigation
 from "../components/StepNavigation";
 
 
+import StepHeader
+from "../../../components/ui/StepHeader";
+
+
 import type {
     CreateMatchState
 }
 from "../types";
+
+
+import "../CreateMatch.css";
 
 
 
@@ -61,13 +68,8 @@ export default function Step5ReviewMatch({
 
 
 
-
-
     const navigate =
-
         useNavigate();
-
-
 
 
 
@@ -86,9 +88,7 @@ export default function Step5ReviewMatch({
 
 
 
-
     function getCommanderName(player:any){
-
 
 
         const commander =
@@ -99,24 +99,18 @@ export default function Step5ReviewMatch({
 
                 (commander:any)=>
 
-
                     commander.commander_id ===
 
                     player.selected_commander_id
-
 
 
             );
 
 
 
-
         return commander?.commander_name ?? "";
 
-
-
     }
-
 
 
 
@@ -129,17 +123,13 @@ export default function Step5ReviewMatch({
     function sortedPlayers(){
 
 
-
         return [
 
-
             ...matchState.players
-
 
         ]
 
         .sort(
-
 
             (a,b)=>
 
@@ -149,10 +139,7 @@ export default function Step5ReviewMatch({
 
                 (b.placement ?? 0)
 
-
-
         );
-
 
 
     }
@@ -168,32 +155,53 @@ export default function Step5ReviewMatch({
     async function recordMatch(){
 
 
-
         try {
 
 
+            if(!matchState.league){
 
-            if (!matchState.league) {
-                throw new Error("League is required before creating a match");
+                throw new Error(
+
+                    "League is required before creating a match"
+
+                );
+
             }
+
+
+
 
 
             const request = {
 
-                league_id: matchState.league.league_id,
 
-                    players: matchState.players.map(player => ({
+                league_id:
 
-                        player_id: player.player_id,
+                    matchState.league.league_id,
+
+
+                players:
+
+                    matchState.players.map(player=>({
+
+
+                        player_id:
+
+                            player.player_id,
+
 
                         commander_id:
-                            player.selected_commander_id
-                                ?? 0,
+
+                            player.selected_commander_id ?? 0,
+
 
                         finish_position:
+
                             player.placement ?? undefined
 
+
                     }))
+
 
             };
 
@@ -202,32 +210,11 @@ export default function Step5ReviewMatch({
 
 
 
-            console.log(
-
-
-                "CREATE MATCH REQUEST",
-
-
-                request
-
-
-            );
-
-
-
-
-
-
-
-
             await createMatch(
 
-
                 request
 
-
             );
-
 
 
 
@@ -236,12 +223,9 @@ export default function Step5ReviewMatch({
 
             alert(
 
-
                 "Match recorded successfully!"
 
-
             );
-
 
 
 
@@ -249,51 +233,36 @@ export default function Step5ReviewMatch({
 
             navigate(
 
-
                 "/dashboard"
-
 
             );
 
 
 
-
-
         }
-
 
 
         catch(error){
 
 
-
             console.error(
-
 
                 "FAILED TO CREATE MATCH",
 
-
                 error
 
-
             );
-
-
 
 
 
             alert(
 
-
                 "Failed to record match."
-
 
             );
 
 
-
         }
-
 
 
     }
@@ -306,322 +275,114 @@ export default function Step5ReviewMatch({
 
 
 
-    return(
+    return (
 
+        <>
 
 
-        <div className="create-match-page">
+            <StepHeader
 
 
+                step={5}
 
-            <div className="create-match-card">
 
+                title="Review & Record Match"
 
 
+                description="Review the match details below and record the results."
 
+            />
 
-                <h1 className="page-title">
 
-                    (5) Review & Record Match
 
-                </h1>
 
 
 
 
 
-                <p>
 
-                    Review the match details below and record the match results.
+            <div className="review-layout">
 
-                </p>
 
 
 
 
+                <div className="summary-card">
 
 
+                    <h2>
 
+                        Match Summary
 
+                    </h2>
 
-                <div className="review-layout">
 
 
 
 
+                    <p>
 
+                        <strong>
 
+                            League:
 
-                    <div className="summary-card">
+                        </strong>
 
+                        {" "}
 
+                        {
 
-                        <h2>
+                            matchState.league?.league_name
 
-                            Match Summary
+                        }
 
-                        </h2>
+                    </p>
 
 
 
 
 
-                        <p>
 
+                    <p>
 
-                            <strong>
+                        <strong>
 
-                                League:
+                            Date:
 
-                            </strong>
+                        </strong>
 
+                        {" "}
 
-                            {" "}
+                        {
 
+                            today
 
-                            {
+                        }
 
-                                matchState.league?.league_name
+                    </p>
 
-                            }
 
 
 
-                        </p>
 
 
+                    <p>
 
+                        <strong>
 
+                            Players:
 
+                        </strong>
 
+                        {" "}
 
-                        <p>
+                        {
 
+                            matchState.players.length
 
-                            <strong>
+                        }
 
-                                Date:
-
-                            </strong>
-
-
-                            {" "}
-
-
-                            {
-
-                                today
-
-                            }
-
-
-
-                        </p>
-
-
-
-
-
-
-
-                        <p>
-
-
-                            <strong>
-
-                                Players:
-
-                            </strong>
-
-
-                            {" "}
-
-
-                            {
-
-                                matchState.players.length
-
-                            }
-
-
-
-                        </p>
-
-
-
-
-
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-                    <div>
-
-
-
-
-
-
-                        <table className="match-table">
-
-
-
-                            <thead>
-
-
-                                <tr>
-
-
-
-                                    <th>
-
-                                        Placement
-
-                                    </th>
-
-
-
-
-                                    <th>
-
-                                        Player
-
-                                    </th>
-
-
-
-
-                                    <th>
-
-                                        Commander
-
-                                    </th>
-
-
-
-
-                                </tr>
-
-
-
-                            </thead>
-
-
-
-
-
-
-
-
-                            <tbody>
-
-
-
-
-                            {
-
-
-                            sortedPlayers()
-
-                            .map(player=>(
-
-
-
-                                <tr
-
-                                    key={player.player_id}
-
-                                >
-
-
-
-                                    <td>
-
-
-                                        {
-
-                                            player.placement
-
-                                        }
-
-
-                                    </td>
-
-
-
-
-
-                                    <td>
-
-
-                                        {
-
-                                            player.display_name
-
-                                        }
-
-
-                                    </td>
-
-
-
-
-
-                                    <td>
-
-
-                                        {
-
-                                            getCommanderName(player)
-
-                                        }
-
-
-                                    </td>
-
-
-
-
-                                </tr>
-
-
-
-                            ))
-
-
-
-                            }
-
-
-
-
-
-                            </tbody>
-
-
-
-
-                        </table>
-
-
-
-
-
-
-                    </div>
-
-
-
-
+                    </p>
 
 
 
@@ -636,27 +397,82 @@ export default function Step5ReviewMatch({
 
 
 
-                <StepNavigation
+                <div className="review-results">
 
 
 
-                    previousStep={previousStep}
+
+
+                    {
+
+                    sortedPlayers()
+
+                    .map(player=>(
 
 
 
-                    cancelMatch={cancelMatch}
+                        <div
+
+                            key={player.player_id}
+
+                            className="review-player-card"
+
+                        >
 
 
 
-                    nextStep={recordMatch}
+
+                            <div className="review-placement">
+
+
+                                #{player.placement}
+
+
+                            </div>
 
 
 
-                    nextLabel="Record Match +"
+
+
+                            <div>
+
+
+                                <div className="review-player-name">
+
+
+                                    {player.display_name}
+
+
+                                </div>
 
 
 
-                />
+                                <div className="review-commander">
+
+
+                                    {getCommanderName(player)}
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+                    ))
+
+                    }
+
+
+
+
+                </div>
 
 
 
@@ -667,9 +483,39 @@ export default function Step5ReviewMatch({
 
 
 
-        </div>
 
 
+
+
+
+
+            <StepNavigation
+
+
+
+                previousStep={previousStep}
+
+
+
+                cancelMatch={cancelMatch}
+
+
+
+                nextStep={recordMatch}
+
+
+
+                nextLabel="Record Match +"
+
+
+
+            />
+
+
+
+
+
+        </>
 
     );
 

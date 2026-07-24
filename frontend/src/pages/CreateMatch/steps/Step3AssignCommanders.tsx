@@ -6,6 +6,10 @@ import StepNavigation
 from "../components/StepNavigation";
 
 
+import StepHeader
+from "../../../components/ui/StepHeader";
+
+
 import type {
     CreateMatchState
 }
@@ -13,6 +17,7 @@ from "../types";
 
 
 import "../CreateMatch.css";
+
 
 
 
@@ -46,20 +51,28 @@ interface Props {
 
 
 
+
+
 export default function Step3AssignCommanders({
+
 
     matchState,
 
+
     setMatchState,
+
 
     nextStep,
 
+
     previousStep,
+
 
     cancelMatch
 
 
 }: Props) {
+
 
 
 
@@ -81,24 +94,32 @@ export default function Step3AssignCommanders({
 
             players:
 
+                matchState.players.map(player =>
 
-                matchState.players.map(player=>
 
                     player.player_id === playerId
 
+
                     ?
+
 
                     {
 
+
                         ...player,
 
-                        selected_commander_id:commanderId
+
+                        selected_commander_id: commanderId
+
 
                     }
 
+
                     :
 
+
                     player
+
 
                 )
 
@@ -107,6 +128,8 @@ export default function Step3AssignCommanders({
 
 
     }
+
+
 
 
 
@@ -123,7 +146,6 @@ export default function Step3AssignCommanders({
     ){
 
 
-
         setMatchState({
 
 
@@ -133,7 +155,7 @@ export default function Step3AssignCommanders({
             players:
 
 
-                matchState.players.map(player=>
+                matchState.players.map(player =>
 
 
                     player.player_id === playerId
@@ -160,11 +182,9 @@ export default function Step3AssignCommanders({
                         ],
 
 
-
                         selected_commander_id:
 
                             commander.commander_id
-
 
 
                     }
@@ -176,16 +196,16 @@ export default function Step3AssignCommanders({
                     player
 
 
-
                 )
-
 
 
         });
 
 
-
     }
+
+
+
 
 
 
@@ -212,174 +232,147 @@ export default function Step3AssignCommanders({
 
 
 
+
+
     return (
 
-
-        <div className="create-match-page">
-
-
-            <div className="create-match-card">
+        <>
 
 
-
-                <h1 className="page-title">
-
-                    (3) Assign Commanders
-
-                </h1>
+            <StepHeader
 
 
+                step={3}
 
 
-                <p className="page-subtitle">
+                title="Assign Commanders"
 
-                    Select a commander for each player.
 
-                </p>
+                description="Select a commander for each player."
+
+
+            />
 
 
 
 
 
-                <div className="assignment-table">
 
 
 
-                    <div className="assignment-header">
+            <div className="assignment-list">
 
 
-                        <div>
 
-                            Player
+                {
+
+                matchState.players.map(player => (
+
+
+                    <div
+
+                        key={player.player_id}
+
+                        className="assignment-card"
+
+                    >
+
+
+
+                        <div className="assignment-player">
+
+
+                            {player.display_name}
+
 
                         </div>
 
 
-                        <div>
+
+
+
+                        <div className="assignment-label">
+
 
                             Commander
 
+
                         </div>
+
+
+
+
+                        <CommanderSelector
+
+
+                            player={player}
+
+
+                            selectedCommanderId={
+
+                                player.selected_commander_id
+
+                            }
+
+
+
+                            onChange={updateCommander}
+
+
+
+                            onCommanderAdded={
+
+                                commanderAdded
+
+                            }
+
+
+                        />
 
 
 
                     </div>
 
 
+                ))
 
-
-
-                    {
-
-
-                    matchState.players.map(player=>(
-
-
-
-                        <div
-
-                            key={player.player_id}
-
-                            className="assignment-row"
-
-                        >
-
-
-
-                            <div className="assignment-player">
-
-
-                                {player.display_name}
-
-
-                            </div>
-
-
-
-
-
-                            <div className="assignment-selector">
-
-
-                                <CommanderSelector
-
-
-                                    player={player}
-
-
-                                    selectedCommanderId={
-
-                                        player.selected_commander_id
-
-                                    }
-
-
-
-                                    onChange={updateCommander}
-
-
-
-                                    onCommanderAdded={
-
-                                        commanderAdded
-
-                                    }
-
-
-                                />
-
-
-
-                            </div>
-
-
-
-                        </div>
-
-
-
-                    ))
-
-
-                    }
-
-
-
-
-
-                </div>
-
-
-
-
-
-
-                <StepNavigation
-
-
-                    previousStep={previousStep}
-
-
-                    nextStep={nextStep}
-
-
-                    cancelMatch={cancelMatch}
-
-
-                    disableNext={!allPlayersHaveCommander}
-
-
-                />
-
-
+                }
 
 
 
             </div>
 
 
-        </div>
 
+
+
+
+
+
+
+
+            <StepNavigation
+
+
+                previousStep={previousStep}
+
+
+                nextStep={nextStep}
+
+
+                cancelMatch={cancelMatch}
+
+
+                disableNext={!allPlayersHaveCommander}
+
+
+            />
+
+
+
+
+
+        </>
 
     );
 
