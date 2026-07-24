@@ -2,19 +2,18 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 
-
 const BULK_URL =
     "https://api.scryfall.com/bulk-data";
 
 
 
-export async function downloadOracleCards(): Promise<string> {
+export async function downloadOracleCards()
+:Promise<string>{
 
 
     console.log(
         "Finding Oracle bulk download..."
     );
-
 
 
     const bulkResponse =
@@ -23,10 +22,9 @@ export async function downloadOracleCards(): Promise<string> {
         );
 
 
-
     const oracle =
         bulkResponse.data.data.find(
-            (item:any) =>
+            (item:any)=>
                 item.type === "oracle_cards"
         );
 
@@ -35,32 +33,7 @@ export async function downloadOracleCards(): Promise<string> {
     if(!oracle){
 
         throw new Error(
-            "Oracle bulk file not found."
-        );
-
-    }
-
-
-
-    const dataDirectory =
-        path.join(
-            process.cwd(),
-            "data"
-        );
-
-
-
-    /*
-    Ensure data directory exists
-    */
-
-    if(!fs.existsSync(dataDirectory)){
-
-        fs.mkdirSync(
-            dataDirectory,
-            {
-                recursive:true
-            }
+            "Oracle bulk file not found"
         );
 
     }
@@ -69,9 +42,19 @@ export async function downloadOracleCards(): Promise<string> {
 
     const outputPath =
         path.join(
-            dataDirectory,
+            process.cwd(),
+            "data",
             "oracle_cards.json"
         );
+
+
+
+    fs.mkdirSync(
+        path.dirname(outputPath),
+        {
+            recursive:true
+        }
+    );
 
 
 
@@ -84,7 +67,8 @@ export async function downloadOracleCards(): Promise<string> {
     const response =
         await axios({
 
-            url:oracle.download_uri,
+            url:
+                oracle.download_uri,
 
             method:"GET",
 
@@ -107,18 +91,15 @@ export async function downloadOracleCards(): Promise<string> {
                 );
 
 
-
             response.data.pipe(
                 writer
             );
-
 
 
             writer.on(
                 "finish",
                 resolve
             );
-
 
 
             writer.on(
@@ -140,7 +121,6 @@ export async function downloadOracleCards(): Promise<string> {
     console.log(
         outputPath
     );
-
 
 
     return outputPath;

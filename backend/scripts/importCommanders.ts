@@ -1,10 +1,22 @@
+import dotenv from "dotenv";
+
+
+// Load production env when running locally.
+// GitHub Actions provides these values through workflow secrets.
+dotenv.config({
+    path: ".env.production"
+});
+
+
 import {
     importCommanders
 }
 from "../src/services/commanderImportService";
 
 
+
 async function main() {
+
 
     console.log(
         "===================================="
@@ -21,6 +33,7 @@ async function main() {
 
     try {
 
+
         await importCommanders();
 
 
@@ -35,6 +48,7 @@ async function main() {
     }
     catch(error) {
 
+
         console.error(
             "Commander import failed:"
         );
@@ -48,6 +62,7 @@ async function main() {
     }
 
 }
+
 
 
 main();
