@@ -31,14 +31,8 @@ const PORT = Number(env.PORT) || 3000;
 
 const allowedOrigins =
     env.NODE_ENV === "production"
-        ? [
-              "https://localmagicleague.com",
-              "https://www.localmagicleague.com",
-          ]
-        : [
-              "http://localhost:5173",
-          ];
-
+        ? env.CORS_ORIGINS
+        : ["http://localhost:5173"];
 
 /*
 |--------------------------------------------------------------------------
