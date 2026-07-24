@@ -1,89 +1,63 @@
 import fs from "fs";
+import readline from "readline";
 
 import {
     CommanderImport,
     upsertCommanders
-}
-from "../repositories/commanderRepository";
-
+} from "../repositories/commanderRepository";
 
 import {
     downloadOracleCards
-}
-from "./scryfallService";
-
-
+} from "./scryfallService";
 
 
 export function transformCommander(
-    card:any
-):CommanderImport {
-
+    card: any
+): CommanderImport {
 
     return {
 
         scryfall_id:
             card.id,
 
-
         commander_name:
             card.name,
 
-
         mana_cost:
             card.mana_cost ?? null,
-
 
         mana_value:
             card.mana_value ??
             card.cmc ??
             null,
 
-
         type_line:
             card.type_line ?? null,
-
 
         oracle_text:
             card.oracle_text ?? null,
 
-
         power:
             card.power ?? null,
-
 
         toughness:
             card.toughness ?? null,
 
-
         color_identity:
-            card.color_identity?.join("")
-            ??
-            "",
-
+            card.color_identity?.join("") ?? "",
 
         image_url:
-            card.image_uris?.normal
-            ??
-            null,
-
+            card.image_uris?.normal ?? null,
 
         scryfall_uri:
-            card.scryfall_uri
-            ??
-            null,
-
+            card.scryfall_uri ?? null,
 
         released_at:
-            card.released_at
-            ??
-            null
+            card.released_at ?? null
 
     };
 
 }
-
-
 
 
 
@@ -93,42 +67,23 @@ function isCommander(
 
 
     if(!card.type_line){
-
         return false;
-
     }
 
 
-
-    const legendaryCreature =
-
+    return (
         card.type_line.includes(
             "Legendary Creature"
-        );
-
-
-
-    const canBeCommander =
-
+        )
+        ||
         card.oracle_text
-        ?.toLowerCase()
-        .includes(
-            "can be your commander"
-        );
-
-
-
-    return (
-
-        legendaryCreature ||
-        canBeCommander
-
+            ?.toLowerCase()
+            .includes(
+                "can be your commander"
+            )
     );
 
 }
-
-
-
 
 
 
@@ -140,76 +95,62 @@ export async function importCommanders(){
     );
 
 
-
     const filePath =
         await downloadOracleCards();
 
 
+    console.log(
+        "Streaming oracle cards..."
+    );
 
-    const cards =
-        JSON.parse(
 
-            fs.readFileSync(
-                filePath,
-                "utf8"
-            )
-
+    const stream =
+        fs.createReadStream(
+            filePath
         );
 
 
-
-    console.log(
-        `Loaded ${cards.length} cards.`
-    );
-
+    const rl =
+        readline.createInterface({
+            input: stream,
+            crlfDelay: Infinity
+        });
 
 
     let imported = 0;
 
 
-
-    for(const card of cards){
-
+    for await (const line of rl){
 
 
-        if(!isCommander(card)){
+        if(!line.trim()){
+            continue;
+        }
+
+
+        let card;
+
+
+        try {
+
+            card =
+                JSON.parse(line);
+
+        }
+        catch {
 
             continue;
 
         }
 
+
+        if(!isCommander(card)){
+            continue;
+        }
 
 
         const commander =
             transformCommander(card);
-
-
-
-        if(
-            !commander.scryfall_id ||
-            !commander.commander_name
-        ){
-
-            console.log(
-                "SKIPPING INVALID CARD",
-                card
-            );
-
-            continue;
-
-        }
-
-
-
-        if(imported === 0){
-
-            console.log(
-                "FIRST IMPORT OBJECT:",
-                commander
-            );
-
-        }
-
 
 
         await upsertCommanders(
@@ -217,12 +158,10 @@ export async function importCommanders(){
         );
 
 
-
         imported++;
 
 
-
-        if(imported % 500 === 0){
+        if(imported % 100 === 0){
 
             console.log(
                 `${imported} commanders imported`
@@ -230,9 +169,7 @@ export async function importCommanders(){
 
         }
 
-
     }
-
 
 
     console.log(
@@ -241,13 +178,12 @@ export async function importCommanders(){
 
 
     console.log(
-        `Imported ${imported} commanders`
+        `Imported: ${imported}`
     );
 
 
     console.log(
         "Commander import complete"
     );
-
 
 }
