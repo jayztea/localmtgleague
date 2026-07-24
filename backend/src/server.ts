@@ -39,26 +39,57 @@ const allowedOrigins =
         : [
             "http://localhost:5173",
         ];
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Middleware
 |--------------------------------------------------------------------------
 */
 
+
 app.use(
     cors({
-        origin: (origin, callback) => {
 
-            console.log("Incoming CORS Origin:", origin);
+        origin: (
+            origin,
+            callback
+        ) => {
 
+
+            console.log(
+                "Incoming CORS Origin:",
+                origin
+            );
+
+
+            /*
+             * Allow server-to-server requests,
+             * health checks, curl, etc.
+             */
             if (!origin) {
-                return callback(null, true);
+
+                return callback(
+                    null,
+                    true
+                );
+
             }
 
 
-            if (allowedOrigins.includes(origin)) {
-                return callback(null, true);
+
+            if (
+                allowedOrigins.includes(origin)
+            ) {
+
+                return callback(
+                    null,
+                    true
+                );
+
             }
+
 
 
             console.error(
@@ -68,12 +99,16 @@ app.use(
 
 
             return callback(
-                new Error("Not allowed by CORS")
+                new Error(
+                    "Not allowed by CORS"
+                )
             );
 
         },
 
+
         credentials: true,
+
 
         methods: [
             "GET",
@@ -82,6 +117,7 @@ app.use(
             "DELETE",
             "OPTIONS"
         ],
+
 
         allowedHeaders: [
             "Content-Type",
@@ -92,13 +128,11 @@ app.use(
 );
 
 
-app.options(
-    "*",
-    cors()
+
+app.use(
+    express.json()
 );
 
-
-app.use(express.json());
 
 
 /*
@@ -107,29 +141,70 @@ app.use(express.json());
 |--------------------------------------------------------------------------
 */
 
-app.use("/auth", authRoutes);
 
-app.use("/test", testRoutes);
-
-app.use("/health", healthRoutes);
-
-
-app.use("/leagues", leagueRoutes);
-
-app.use("/leagues", leaguePlayerRoutes);
+app.use(
+    "/auth",
+    authRoutes
+);
 
 
-app.use("/decks", deckRoutes);
-
-app.use("/matches", matchRoutes);
-
-
-app.use(statisticsRoutes);
-
-app.use(dashboardRoutes);
+app.use(
+    "/test",
+    testRoutes
+);
 
 
-app.use("/commanders", commanderRoutes);
+app.use(
+    "/health",
+    healthRoutes
+);
+
+
+
+app.use(
+    "/leagues",
+    leagueRoutes
+);
+
+
+app.use(
+    "/leagues",
+    leaguePlayerRoutes
+);
+
+
+
+app.use(
+    "/decks",
+    deckRoutes
+);
+
+
+
+app.use(
+    "/matches",
+    matchRoutes
+);
+
+
+
+app.use(
+    statisticsRoutes
+);
+
+
+
+app.use(
+    dashboardRoutes
+);
+
+
+
+app.use(
+    "/commanders",
+    commanderRoutes
+);
+
 
 
 /*
@@ -138,7 +213,10 @@ app.use("/commanders", commanderRoutes);
 |--------------------------------------------------------------------------
 */
 
-app.use(errorHandler);
+app.use(
+    errorHandler
+);
+
 
 
 /*
@@ -147,18 +225,41 @@ app.use(errorHandler);
 |--------------------------------------------------------------------------
 */
 
+
 app.listen(
     PORT,
     "0.0.0.0",
     () => {
 
-        console.log("========================================");
-        console.log(" MTG League API");
-        console.log("========================================");
-        console.log(`Environment : ${env.NODE_ENV}`);
-        console.log(`Port        : ${PORT}`);
-        console.log(`CORS Origins: ${allowedOrigins.join(", ")}`);
-        console.log("========================================");
+
+        console.log(
+            "========================================"
+        );
+
+        console.log(
+            " MTG League API"
+        );
+
+        console.log(
+            "========================================"
+        );
+
+        console.log(
+            `Environment : ${env.NODE_ENV}`
+        );
+
+        console.log(
+            `Port        : ${PORT}`
+        );
+
+        console.log(
+            `CORS Origins: ${allowedOrigins.join(", ")}`
+        );
+
+        console.log(
+            "========================================"
+        );
+
 
     }
 );
