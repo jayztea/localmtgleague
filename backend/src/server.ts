@@ -31,9 +31,14 @@ const PORT = Number(env.PORT) || 3000;
 
 const allowedOrigins =
     env.NODE_ENV === "production"
-        ? env.CORS_ORIGINS
-        : ["http://localhost:5173"];
-
+        ? [
+            "https://localmtgleague.vercel.app",
+            "https://localmagicleague.com",
+            "https://www.localmagicleague.com",
+        ]
+        : [
+            "http://localhost:5173",
+        ];
 /*
 |--------------------------------------------------------------------------
 | Middleware
@@ -42,9 +47,54 @@ const allowedOrigins =
 
 app.use(
     cors({
-        origin: allowedOrigins,
+        origin: (origin, callback) => {
+
+            console.log("Incoming CORS Origin:", origin);
+
+            if (!origin) {
+                return callback(null, true);
+            }
+
+
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            }
+
+
+            console.error(
+                "Blocked CORS Origin:",
+                origin
+            );
+
+
+            return callback(
+                new Error("Not allowed by CORS")
+            );
+
+        },
+
         credentials: true,
+
+        methods: [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "OPTIONS"
+        ],
+
+        allowedHeaders: [
+            "Content-Type",
+            "Authorization"
+        ]
+
     })
+);
+
+
+app.options(
+    "*",
+    cors()
 );
 
 
