@@ -1,19 +1,23 @@
 import fs from "fs";
-import readline from "readline";
 
 import {
     CommanderImport,
     upsertCommanders
-} from "../repositories/commanderRepository";
+}
+from "../repositories/commanderRepository";
+
 
 import {
     downloadOracleCards
-} from "./scryfallService";
+}
+from "./scryfallService";
+
 
 
 export function transformCommander(
-    card: any
-): CommanderImport {
+    card:any
+):CommanderImport {
+
 
     return {
 
@@ -61,9 +65,7 @@ export function transformCommander(
 
 
 
-function isCommander(
-    card:any
-):boolean {
+function isCommander(card:any):boolean {
 
 
     if(!card.type_line){
@@ -72,15 +74,19 @@ function isCommander(
 
 
     return (
+
         card.type_line.includes(
             "Legendary Creature"
         )
+
         ||
+
         card.oracle_text
             ?.toLowerCase()
             .includes(
                 "can be your commander"
             )
+
     );
 
 }
@@ -99,49 +105,35 @@ export async function importCommanders(){
         await downloadOracleCards();
 
 
+
     console.log(
-        "Streaming oracle cards..."
+        "Reading oracle cards..."
     );
 
 
-    const stream =
-        fs.createReadStream(
-            filePath
+    const raw =
+        fs.readFileSync(
+            filePath,
+            "utf8"
         );
 
 
-    const rl =
-        readline.createInterface({
-            input: stream,
-            crlfDelay: Infinity
-        });
+    const cards =
+        JSON.parse(raw);
+
+
+
+    console.log(
+        `Loaded ${cards.length} cards.`
+    );
+
 
 
     let imported = 0;
 
 
-    for await (const line of rl){
 
-
-        if(!line.trim()){
-            continue;
-        }
-
-
-        let card;
-
-
-        try {
-
-            card =
-                JSON.parse(line);
-
-        }
-        catch {
-
-            continue;
-
-        }
+    for(const card of cards){
 
 
         if(!isCommander(card)){
@@ -149,8 +141,10 @@ export async function importCommanders(){
         }
 
 
+
         const commander =
             transformCommander(card);
+
 
 
         await upsertCommanders(
@@ -170,6 +164,7 @@ export async function importCommanders(){
         }
 
     }
+
 
 
     console.log(
