@@ -1,41 +1,61 @@
 import api from "../api/axios";
 
+
 import type {
     League
 }
 from "../types/league";
+
 
 import type {
     LeaguePlayer
 }
 from "../types/match";
 
+
 export type {
     League
 }
 from "../types/league";
 
+
+
+
+
 export interface CreateLeagueRequest {
 
-    league_name: string;
+    league_name:string;
 
-    description?: string;
+    description?:string;
 
 }
+
+
+
+
 
 export interface JoinLeagueRequest {
 
-    league_code: string;
+    league_code:string;
 
 }
 
+
+
+
+
+
+
+
 export async function createLeague(
 
-    data: CreateLeagueRequest
+    data:CreateLeagueRequest
 
-): Promise<League> {
+):Promise<League>{
+
 
     const response =
+
         await api.post<League>(
 
             "/leagues",
@@ -44,18 +64,30 @@ export async function createLeague(
 
         );
 
+
     return response.data;
+
 
 }
 
+
+
+
+
+
+
+
+
 export async function joinLeague(
 
-    data: JoinLeagueRequest
+    data:JoinLeagueRequest
 
-): Promise<League> {
+):Promise<League>{
+
 
     const response =
-        await api.post<{ league: League }>(
+
+        await api.post<{league:League}>(
 
             "/leagues/join",
 
@@ -63,36 +95,91 @@ export async function joinLeague(
 
         );
 
+
     return response.data.league;
+
 
 }
 
-export async function getMyLeagues(): Promise<League[]> {
+
+
+
+
+
+
+
+
+export async function getMyLeagues():Promise<League[]>{
+
 
     const response =
+
         await api.get<League[]>(
 
             "/leagues/mine"
 
         );
 
+
     return response.data;
+
 
 }
 
-export async function getLeaguePlayersWithCommanders(
 
-    leagueId: number
 
-): Promise<LeaguePlayer[]> {
+
+
+
+
+
+
+export async function getLeagueById(
+
+    leagueId:number
+
+):Promise<League>{
+
 
     const response =
+
+        await api.get<League>(
+
+            `/leagues/${leagueId}`
+
+        );
+
+
+    return response.data;
+
+
+}
+
+
+
+
+
+
+
+
+
+export async function getLeaguePlayersWithCommanders(
+
+    leagueId:number
+
+):Promise<LeaguePlayer[]>{
+
+
+    const response =
+
         await api.get<LeaguePlayer[]>(
 
             `/leagues/${leagueId}/players-with-commanders`
 
         );
 
+
     return response.data;
+
 
 }

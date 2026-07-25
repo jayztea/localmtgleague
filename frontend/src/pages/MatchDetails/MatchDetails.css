@@ -1,0 +1,93 @@
+.match-details-page{
+
+    min-height:100vh;
+
+    background:var(--cm-background);
+
+    padding:40px;
+
+}
+
+
+
+.match-back-button{
+
+    margin-bottom:20px;
+
+    background:none;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+
+
+.match-details-page .review-layout{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+/* =====================================
+   MOBILE RESPONSIVE
+===================================== */
+
+
+@media (max-width:768px){
+
+
+    .match-details-page{
+
+        padding:16px;
+
+    }
+
+
+
+    .match-details-card{
+
+        padding:20px;
+
+    }
+
+
+
+    .match-header{
+
+        flex-direction:column;
+
+        gap:16px;
+
+    }
+
+
+
+    .match-back-button{
+
+        width:100%;
+
+        min-height:44px;
+
+    }
+
+
+
+    .match-player-card{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+
+
+}
