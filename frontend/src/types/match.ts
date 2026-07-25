@@ -51,3 +51,45 @@ export interface CreateMatchRequest {
     players:MatchPlayerInput[];
 
 }
+
+export interface MatchDetailPlayer {
+
+    player_id:number;
+
+    display_name:string;
+
+    finish_position:number;
+
+    deck_id:number;
+
+    commander_id:number;
+
+    commander_name:string;
+
+    color_identity:string;
+
+}
+
+
+
+export interface MatchDetails {
+
+
+    match_id:number;
+
+
+    league:{
+
+        league_id:number;
+
+        league_name:string;
+
+    };
+
+
+    match_date:string;
+
+
+    players:MatchDetailPlayer[];
+
+}

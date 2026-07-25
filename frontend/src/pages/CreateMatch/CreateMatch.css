@@ -2,8 +2,7 @@
    CREATE MATCH - BASE LAYOUT
 ===================================================== */
 
-
-.create-match-page{
+.create-match-page {
 
     min-height:100vh;
 
@@ -14,8 +13,7 @@
 }
 
 
-
-.create-match-card{
+.create-match-card {
 
     max-width:1000px;
 
@@ -35,23 +33,19 @@
 
 
 
-
-
-
 /* =====================================================
    HEADERS
 ===================================================== */
 
 
-.step-header{
+.step-header {
 
     margin-bottom:30px;
 
 }
 
 
-
-.step-title{
+.step-title {
 
     font-size:34px;
 
@@ -64,8 +58,7 @@
 }
 
 
-
-.step-description{
+.step-description {
 
     font-size:17px;
 
@@ -74,8 +67,7 @@
 }
 
 
-
-.section-title{
+.section-title {
 
     font-size:18px;
 
@@ -87,23 +79,19 @@
 
 
 
-
-
-
 /* =====================================================
    FORMS
 ===================================================== */
 
 
-.form-group{
+.form-group {
 
     margin-bottom:25px;
 
 }
 
 
-
-.form-label{
+.form-label {
 
     display:block;
 
@@ -114,9 +102,8 @@
 }
 
 
-
 .create-match-card select,
-.create-match-card input{
+.create-match-card input {
 
     width:100%;
 
@@ -134,15 +121,12 @@
 
 
 
-
-
-
 /* =====================================================
    INFO BANNER
 ===================================================== */
 
 
-.info-banner{
+.info-banner {
 
     margin:20px 0;
 
@@ -162,16 +146,12 @@
 
 
 
-
-
-
-
 /* =====================================================
    BUTTONS
 ===================================================== */
 
 
-.create-match-actions{
+.create-match-actions {
 
     display:flex;
 
@@ -186,8 +166,7 @@
 }
 
 
-
-.cm-button{
+.cm-button {
 
     padding:11px 24px;
 
@@ -206,16 +185,14 @@
 }
 
 
-
-.cm-button:hover{
+.cm-button:hover {
 
     transform:translateY(-1px);
 
 }
 
 
-
-.cm-button:disabled{
+.cm-button:disabled {
 
     opacity:.4;
 
@@ -224,8 +201,7 @@
 }
 
 
-
-.cm-button-primary{
+.cm-button-primary {
 
     background:var(--cm-primary);
 
@@ -234,24 +210,21 @@
 }
 
 
-
-.cm-button-primary:hover{
+.cm-button-primary:hover {
 
     background:var(--cm-primary-hover);
 
 }
 
 
-
-.cm-button-secondary{
+.cm-button-secondary {
 
     background:white;
 
 }
 
 
-
-.cm-button-danger{
+.cm-button-danger {
 
     background:#dc2626;
 
@@ -260,30 +233,261 @@
 }
 
 
-
-.cm-button-danger:hover{
+.cm-button-danger:hover {
 
     background:#b91c1c;
+
+}
+/* =====================================================
+   CREATE MATCH - BASE LAYOUT
+===================================================== */
+
+.create-match-page {
+
+    min-height:100vh;
+
+    background:var(--cm-background);
+
+    padding:40px;
+
+}
+
+
+.create-match-card {
+
+    max-width:1000px;
+
+    margin:auto;
+
+    background:var(--cm-card);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius);
+
+    box-shadow:var(--cm-shadow);
+
+    padding:32px;
 
 }
 
 
 
+/* =====================================================
+   HEADERS
+===================================================== */
+
+
+.step-header {
+
+    margin-bottom:30px;
+
+}
+
+
+.step-title {
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:var(--cm-text);
+
+    margin-bottom:8px;
+
+}
+
+
+.step-description {
+
+    font-size:17px;
+
+    color:var(--cm-muted);
+
+}
+
+
+.section-title {
+
+    font-size:18px;
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
 
 
 
+/* =====================================================
+   FORMS
+===================================================== */
 
+
+.form-group {
+
+    margin-bottom:25px;
+
+}
+
+
+.form-label {
+
+    display:block;
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+}
+
+
+.create-match-card select,
+.create-match-card input {
+
+    width:100%;
+
+    padding:10px 12px;
+
+    border:1px solid var(--cm-border);
+
+    border-radius:6px;
+
+    font-size:15px;
+
+    background:white;
+
+}
+
+
+
+/* =====================================================
+   INFO BANNER
+===================================================== */
+
+
+.info-banner {
+
+    margin:20px 0;
+
+    padding:14px 18px;
+
+    background:var(--cm-info);
+
+    color:#1d4ed8;
+
+    border:1px solid var(--cm-info-border);
+
+    border-radius:10px;
+
+    font-weight:600;
+
+}
+
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+
+.create-match-actions {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:40px;
+
+}
+
+
+.cm-button {
+
+    padding:11px 24px;
+
+    border-radius:7px;
+
+    border:1px solid var(--cm-border);
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+.cm-button:hover {
+
+    transform:translateY(-1px);
+
+}
+
+
+.cm-button:disabled {
+
+    opacity:.4;
+
+    cursor:not-allowed;
+
+}
+
+
+.cm-button-primary {
+
+    background:var(--cm-primary);
+
+    color:white;
+
+}
+
+
+.cm-button-primary:hover {
+
+    background:var(--cm-primary-hover);
+
+}
+
+
+.cm-button-secondary {
+
+    background:white;
+
+}
+
+
+.cm-button-danger {
+
+    background:#dc2626;
+
+    color:white;
+
+}
+
+
+.cm-button-danger:hover {
+
+    background:#b91c1c;
+
+}
 /* =====================================================
    LEAGUE SELECTION
 ===================================================== */
 
 
-.league-grid{
+.league-grid {
 
     display:grid;
 
     grid-template-columns:
-
         repeat(auto-fill,minmax(260px,1fr));
 
     gap:24px;
@@ -293,8 +497,7 @@
 }
 
 
-
-.league-card{
+.league-card {
 
     background:white;
 
@@ -311,26 +514,22 @@
     text-align:center;
 
     box-shadow:
-
         0 2px 8px rgba(0,0,0,.08);
 
 }
 
 
-
-.league-card:hover{
+.league-card:hover {
 
     transform:translateY(-4px);
 
     box-shadow:
-
         0 8px 20px rgba(0,0,0,.12);
 
 }
 
 
-
-.league-card.selected{
+.league-card.selected {
 
     border-color:#2563eb;
 
@@ -339,8 +538,7 @@
 }
 
 
-
-.league-image{
+.league-image {
 
     height:130px;
 
@@ -359,8 +557,7 @@
 }
 
 
-
-.league-title{
+.league-title {
 
     font-size:20px;
 
@@ -371,8 +568,7 @@
 }
 
 
-
-.league-image-placeholder{
+.league-image-placeholder {
 
     height:260px;
 
@@ -391,12 +587,15 @@
     color:#9CA3AF;
 
 }
+
+
+
 /* =====================================================
    PLAYER TRANSFER
 ===================================================== */
 
 
-.player-transfer-container{
+.player-transfer-container {
 
     display:grid;
 
@@ -411,16 +610,14 @@
 }
 
 
-
-.transfer-box h3{
+.transfer-box h3 {
 
     margin-bottom:12px;
 
 }
 
 
-
-.transfer-list{
+.transfer-list {
 
     border:1px solid var(--cm-border);
 
@@ -435,8 +632,7 @@
 }
 
 
-
-.transfer-item{
+.transfer-item {
 
     display:flex;
 
@@ -453,16 +649,14 @@
 }
 
 
-
-.transfer-item:hover{
+.transfer-item:hover {
 
     background:#f8fafc;
 
 }
 
 
-
-.transfer-item input{
+.transfer-item input {
 
     width:20px;
 
@@ -471,8 +665,7 @@
 }
 
 
-
-.transfer-buttons{
+.transfer-buttons {
 
     display:flex;
 
@@ -485,8 +678,7 @@
 }
 
 
-
-.transfer-buttons button{
+.transfer-buttons button {
 
     width:60px;
 
@@ -507,16 +699,14 @@
 }
 
 
-
-.transfer-buttons button:hover{
+.transfer-buttons button:hover {
 
     background:#1d4ed8;
 
 }
 
 
-
-.transfer-empty{
+.transfer-empty {
 
     display:flex;
 
@@ -531,173 +721,12 @@
     font-size:14px;
 
 }
-
-
-
-
-
-
-
-/* =====================================================
-   COMMANDER ASSIGNMENT
-===================================================== */
-
-
-.assignment-list{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:16px;
-
-}
-
-
-
-.assignment-card{
-
-    background:white;
-
-    border:1px solid var(--cm-border);
-
-    border-radius:10px;
-
-    padding:18px;
-
-}
-
-
-
-.assignment-player{
-
-    font-size:18px;
-
-    font-weight:700;
-
-    margin-bottom:12px;
-
-}
-
-
-
-.assignment-label{
-
-    font-size:14px;
-
-    font-weight:600;
-
-    color:var(--cm-muted);
-
-    margin-bottom:8px;
-
-}
-
-
-
-
-
-
-
-/* =====================================================
-   PLACEMENT RECORDING
-===================================================== */
-
-
-.placement-list{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:16px;
-
-}
-
-
-
-.placement-card{
-
-    background:white;
-
-    border:1px solid var(--cm-border);
-
-    border-radius:10px;
-
-    padding:18px;
-
-}
-
-
-
-.placement-player{
-
-    font-size:18px;
-
-    font-weight:700;
-
-    margin-bottom:16px;
-
-}
-
-
-
-.placement-detail{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-    margin-bottom:14px;
-
-}
-
-
-
-.placement-detail span{
-
-    font-size:13px;
-
-    color:var(--cm-muted);
-
-    font-weight:600;
-
-}
-
-
-
-.placement-select{
-
-    width:160px;
-
-    height:42px;
-
-    border:1px solid #d1d5db;
-
-    border-radius:8px;
-
-    padding:0 12px;
-
-    background:white;
-
-    font-size:15px;
-
-}
-
-
-
-
-
-
-
 /* =====================================================
    REVIEW SCREEN
 ===================================================== */
 
 
-.review-layout{
+.review-layout {
 
     display:grid;
 
@@ -708,8 +737,7 @@
 }
 
 
-
-.summary-card{
+.summary-card {
 
     background:white;
 
@@ -722,16 +750,14 @@
 }
 
 
-
-.summary-card p{
+.summary-card p {
 
     margin:14px 0;
 
 }
 
 
-
-.review-results{
+.review-results {
 
     display:flex;
 
@@ -742,8 +768,7 @@
 }
 
 
-
-.review-player-card{
+.review-player-card {
 
     display:flex;
 
@@ -762,8 +787,7 @@
 }
 
 
-
-.review-placement{
+.review-placement {
 
     min-width:45px;
 
@@ -774,8 +798,7 @@
 }
 
 
-
-.review-player-name{
+.review-player-name {
 
     font-size:17px;
 
@@ -784,20 +807,24 @@
 }
 
 
-
-.review-commander{
+.review-commander {
 
     margin-top:4px;
 
     color:var(--cm-muted);
 
 }
+
+
+
+
+
 /* =====================================================
    COMMANDER MODAL
 ===================================================== */
 
 
-.modal-overlay{
+.modal-overlay {
 
     position:fixed;
 
@@ -816,8 +843,7 @@
 }
 
 
-
-.modal-card{
+.modal-card {
 
     width:650px;
 
@@ -836,8 +862,7 @@
 }
 
 
-
-.modal-subtitle{
+.modal-subtitle {
 
     color:#666;
 
@@ -848,8 +873,7 @@
 }
 
 
-
-.modal-search{
+.modal-search {
 
     display:flex;
 
@@ -860,8 +884,7 @@
 }
 
 
-
-.search-input{
+.search-input {
 
     flex:1;
 
@@ -878,8 +901,7 @@
 }
 
 
-
-.search-results{
+.search-results {
 
     max-height:350px;
 
@@ -892,8 +914,7 @@
 }
 
 
-
-.search-result-row{
+.search-result-row {
 
     display:flex;
 
@@ -908,24 +929,21 @@
 }
 
 
-
-.search-result-row:hover{
+.search-result-row:hover {
 
     background:#f8fafc;
 
 }
 
 
-
-.commander-name{
+.commander-name {
 
     font-weight:600;
 
 }
 
 
-
-.commander-colors{
+.commander-colors {
 
     color:#64748b;
 
@@ -936,9 +954,8 @@
 }
 
 
-
 .loading-text,
-.empty-search{
+.empty-search {
 
     padding:20px;
 
@@ -949,8 +966,7 @@
 }
 
 
-
-.modal-footer{
+.modal-footer {
 
     display:flex;
 
@@ -959,55 +975,6 @@
     margin-top:24px;
 
 }
-
-
-
-
-
-
-
-/* =====================================================
-   DESKTOP PLACEMENT / REVIEW ENHANCEMENTS
-===================================================== */
-
-
-@media(min-width:769px){
-
-
-    .placement-card{
-
-
-        display:grid;
-
-        grid-template-columns:
-
-            1fr 1fr 1fr;
-
-        align-items:center;
-
-        gap:20px;
-
-
-    }
-
-
-
-    .placement-player{
-
-        margin-bottom:0;
-
-    }
-
-
-}
-
-
-
-
-
-
-
-
 /* =====================================================
    MOBILE RESPONSIVE
 ===================================================== */
@@ -1016,72 +983,84 @@
 @media(max-width:768px){
 
 
+    /* =========================
+       PAGE CONTAINER
+    ========================= */
 
-    .create-match-page{
+
+    .create-match-page {
 
         padding:16px;
 
     }
 
 
+    .create-match-card {
 
+        padding:20px;
 
-
-    .create-match-card{
-
-        padding:18px;
-
-        border-radius:12px;
+        border-radius:16px;
 
     }
 
 
 
+    /* =========================
+       HEADERS
+    ========================= */
 
 
+    .step-header {
 
-    .step-title{
+        margin-bottom:20px;
 
-        font-size:26px;
+    }
+
+
+    .step-title {
+
+        font-size:22px;
+
+    }
+
+
+    .step-description {
+
+        font-size:14px;
 
     }
 
 
 
-
-
-    .step-description{
-
-        font-size:15px;
-
-    }
-
-
-
-
+    /* =========================
+       INPUTS
+    ========================= */
 
 
     .create-match-card select,
-    .create-match-card input{
-
+    .create-match-card input {
 
         font-size:16px;
 
         min-height:44px;
 
-
     }
 
 
 
+    /* =========================
+       BUTTONS
+    ========================= */
 
 
+    button {
 
-    /* Buttons */
+        min-height:44px;
+
+    }
 
 
-    .create-match-actions{
-
+    .create-match-actions {
 
         flex-direction:column;
 
@@ -1089,99 +1068,66 @@
 
         margin-top:30px;
 
-
     }
 
 
-
-
-    .create-match-actions .cm-button{
-
+    .create-match-actions .cm-button {
 
         width:100%;
 
         min-height:50px;
 
+    }
+
+
+    .step-navigation {
+
+        flex-direction:column;
+
+        gap:12px;
+
+    }
+
+
+    .step-navigation button {
+
+        width:100%;
 
     }
 
 
 
-
-    .create-match-actions .cm-button-secondary{
-
-        order:1;
-
-    }
+    /* =========================
+       LEAGUE SELECTION
+    ========================= */
 
 
-
-
-    .create-match-actions .cm-button-danger{
-
-        order:2;
-
-    }
-
-
-
-
-    .create-match-actions .cm-button-primary{
-
-        order:3;
-
-    }
-
-
-
-
-
-
-
-
-    /* League */
-
-
-    .league-grid{
-
+    .league-grid {
 
         grid-template-columns:1fr;
 
         gap:16px;
 
-
     }
 
 
-
-
-    .league-card{
-
+    .league-card {
 
         padding:18px;
 
-
     }
 
 
-
-
-    .league-image{
-
+    .league-image {
 
         height:100px;
 
         font-size:40px;
 
-
     }
 
 
-
-
-
-    .league-image-placeholder{
-
+    .league-image-placeholder {
 
         height:160px;
 
@@ -1189,34 +1135,25 @@
 
         font-size:14px;
 
-
     }
 
 
 
+    /* =========================
+       PLAYER TRANSFER
+    ========================= */
 
 
-
-
-
-    /* Player Selector */
-
-
-    .player-transfer-container{
-
+    .player-transfer-container {
 
         grid-template-columns:1fr;
 
         gap:15px;
 
-
     }
 
 
-
-
-    .transfer-buttons{
-
+    .transfer-buttons {
 
         flex-direction:row;
 
@@ -1224,15 +1161,10 @@
 
         order:2;
 
-
     }
 
 
-
-
-
-    .transfer-buttons button{
-
+    .transfer-buttons button {
 
         width:70px;
 
@@ -1240,27 +1172,17 @@
 
         font-size:20px;
 
-
     }
 
 
-
-
-
-    .transfer-list{
-
+    .transfer-list {
 
         min-height:220px;
 
-
     }
 
 
-
-
-
-    .transfer-item{
-
+    .transfer-item {
 
         min-height:52px;
 
@@ -1268,90 +1190,73 @@
 
         font-size:16px;
 
-
     }
 
 
 
+    /* =========================
+       COMMANDER ASSIGNMENT
+    ========================= */
 
 
-
-
-
-    /* Commander */
-
-
-    .assignment-card{
-
+    .assignment-card {
 
         padding:16px;
 
-
     }
 
 
 
+    /* =========================
+       PLACEMENTS
+    ========================= */
 
 
-
-
-
-    /* Placement */
-
-
-    .placement-select{
-
+    .placement-select {
 
         width:100%;
 
         height:48px;
 
-
     }
 
 
 
+    /* =========================
+       REVIEW SCREEN
+    ========================= */
 
 
-
-
-
-    /* Review */
-
-
-    .review-layout{
-
+    .review-layout {
 
         grid-template-columns:1fr;
 
         gap:20px;
 
-
     }
 
 
-
-
-    .summary-card{
-
+    .summary-card {
 
         padding:16px;
 
+    }
+
+
+    .review-player-card {
+
+        padding:16px;
 
     }
 
 
 
+    /* =========================
+       MODAL
+    ========================= */
 
 
-
-
-
-    /* Modal */
-
-
-    .modal-card{
-
+    .modal-card {
 
         padding:18px;
 
@@ -1359,48 +1264,32 @@
 
         overflow-y:auto;
 
-
     }
 
 
-
-
-
-    .modal-search{
-
+    .modal-search {
 
         flex-direction:column;
 
-
     }
 
 
-
-
-
-    .search-input{
-
+    .search-input {
 
         width:100%;
 
         height:48px;
 
-
     }
 
 
-
-
-
-    .search-result-row{
-
+    .search-result-row {
 
         flex-direction:column;
 
         align-items:flex-start;
 
         gap:10px;
-
 
     }
 
