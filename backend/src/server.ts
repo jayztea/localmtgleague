@@ -11,9 +11,11 @@ import leaguePlayerRoutes from "./routes/leaguePlayers";
 import deckRoutes from "./routes/deck";
 import matchRoutes from "./routes/match";
 import statisticsRoutes from "./statistics/statisticsRoutes";
+import leagueStatisticsRoutes from "./statistics/league/leagueStatisticsRoutes";
 import dashboardRoutes from "./routes/dashboard";
 import commanderRoutes from "./routes/commander";
 import adminRoutes from "./routes/admin";
+import matchDetailsRoutes from "./routes/matchDetails";
 
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -199,7 +201,9 @@ app.use(
     dashboardRoutes
 );
 
-
+app.use(
+    leagueStatisticsRoutes
+);
 
 app.use(
     "/commanders",
@@ -207,6 +211,10 @@ app.use(
 );
 
 app.use("/admin", adminRoutes);
+
+app.use(
+    matchDetailsRoutes
+);
 
 
 
