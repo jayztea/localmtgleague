@@ -1,0 +1,239 @@
+.dashboard-page{
+
+    max-width:1200px;
+
+    margin:0 auto;
+
+    padding:32px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:32px;
+
+}
+
+.dashboard-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:20px;
+
+}
+
+.dashboard-title{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    margin-bottom:6px;
+
+}
+
+.dashboard-subtitle{
+
+    color:var(--cm-muted);
+
+}
+
+.dashboard-button{
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    border:1px solid var(--cm-border);
+
+    background:white;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+.dashboard-button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+}
+
+.dashboard-stat-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+.dashboard-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.dashboard-section h2{
+
+    font-size:26px;
+
+    font-weight:700;
+
+}
+
+.dashboard-section-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.dashboard-actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.dashboard-league-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+
+    gap:20px;
+
+}
+
+.dashboard-empty{
+
+    padding:40px;
+
+    border:2px dashed var(--cm-border);
+
+    border-radius:12px;
+
+    text-align:center;
+
+    color:var(--cm-muted);
+
+}
+
+.dashboard-logout{
+
+    align-self:flex-start;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    border:1px solid var(--cm-border);
+
+    background:white;
+
+    cursor:pointer;
+
+}
+
+/* ==========================================
+   Tablet
+========================================== */
+
+@media (max-width:900px){
+
+    .dashboard-stat-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width:768px){
+
+    .dashboard-page{
+
+        padding:16px;
+
+        gap:24px;
+
+    }
+
+    .dashboard-header{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .dashboard-title{
+
+        font-size:28px;
+
+    }
+
+    .dashboard-button{
+
+        width:100%;
+
+    }
+
+    .dashboard-section-header{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .dashboard-actions{
+
+        flex-direction:column;
+
+    }
+
+    .dashboard-stat-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .dashboard-league-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .dashboard-logout{
+
+        width:100%;
+
+    }
+
+}

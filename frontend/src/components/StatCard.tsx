@@ -1,4 +1,6 @@
-interface Props {
+import "./StatCard.css";
+
+interface Props{
 
     title:string;
 
@@ -6,31 +8,29 @@ interface Props {
 
 }
 
+export default function StatCard({
 
+    title,
 
-export default function StatCard(
-    {
-        title,
-        value
-    }:Props
-) {
+    value
 
-    return (
+}:Props){
 
-        <div className="border rounded-lg p-4 shadow-sm">
+    return(
 
-            <p className="text-gray-500 text-sm">
+        <div className="stat-card">
+
+            <div className="stat-card-title">
 
                 {title}
 
-            </p>
+            </div>
 
-
-            <p className="text-3xl font-bold">
+            <div className="stat-card-value">
 
                 {value}
 
-            </p>
+            </div>
 
         </div>
 

@@ -1,111 +1,117 @@
+import {
+    useNavigate
+}
+from "react-router-dom";
+
 import type {
     RecentGame
 }
 from "../types/dashboard";
 
+import "./RecentGamesTable.css";
 
-interface Props {
+interface Props{
 
     games:RecentGame[];
 
 }
 
+export default function RecentGamesTable({
 
+    games
 
-export default function RecentGamesTable(
-    {
-        games
-    }:Props
-) {
+}:Props){
 
+    const navigate =
+        useNavigate();
 
-    if(games.length === 0){
+    if(games.length===0){
 
-        return (
+        return(
 
-            <p>
+            <div className="recent-games-empty">
 
-                No games played yet.
+                No games have been played yet.
 
-            </p>
+            </div>
 
         );
 
     }
 
+    return(
 
+        <div className="recent-games-list">
 
-    return (
+            {
 
-        <table className="w-full border">
+                games.map(game=>(
 
-            <thead>
+                    <div
 
-                <tr>
+                        key={game.match_id}
 
-                    <th className="border p-2">
-                        League
-                    </th>
+                        className="recent-game-card"
 
+                    >
 
-                    <th className="border p-2">
-                        Commander
-                    </th>
+                        <div className="recent-game-content">
 
+                            <div className="recent-game-league">
 
-                    <th className="border p-2">
-                        Finish
-                    </th>
+                                {game.league_name}
 
-                </tr>
+                            </div>
 
-            </thead>
+                            <div className="recent-game-commander">
 
+                                🃏 {game.commander_name}
 
-            <tbody>
+                            </div>
 
-                {
-                    games.map(
-                        game =>
-                        (
+                            <div className="recent-game-finish">
 
-                            <tr
-                                key={
-                                    game.match_id
-                                }
-                            >
+                                Finished
 
-                                <td className="border p-2">
+                                {" "}
 
-                                    {game.league_name}
+                                <strong>
 
-                                </td>
+                                    #{game.finish_position}
 
+                                </strong>
 
-                                <td className="border p-2">
+                            </div>
 
-                                    {game.commander_name}
+                        </div>
 
-                                </td>
+                        <button
 
+                            className="recent-game-button"
 
-                                <td className="border p-2">
+                            onClick={()=>
 
-                                    {game.finish_position}
+                                navigate(
 
-                                </td>
+                                    `/matches/${game.match_id}`
 
+                                )
 
-                            </tr>
+                            }
 
-                        )
-                    )
-                }
+                        >
 
-            </tbody>
+                            View Match →
 
+                        </button>
 
-        </table>
+                    </div>
+
+                ))
+
+            }
+
+        </div>
 
     );
 

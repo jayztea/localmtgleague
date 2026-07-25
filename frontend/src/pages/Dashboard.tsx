@@ -4,30 +4,25 @@ import {
 }
 from "react";
 
-
 import {
     useNavigate
 }
 from "react-router-dom";
-
 
 import {
     useAuth
 }
 from "../auth/AuthContext";
 
-
 import {
     getDashboard
 }
 from "../services/dashboardService";
 
-
 import type {
     Dashboard as DashboardType
 }
 from "../types/dashboard";
-
 
 import StatCard
 from "../components/StatCard";
@@ -38,26 +33,17 @@ from "../components/RecentGamesTable";
 import LeagueDashboardCard
 from "../components/LeagueDashboardCard";
 
-
-
-
+import "./Dashboard.css";
 
 export default function Dashboard(){
-
 
     const {
         logout
     } =
     useAuth();
 
-
-
     const navigate =
         useNavigate();
-
-
-
-
 
     const [
         dashboard,
@@ -65,451 +51,236 @@ export default function Dashboard(){
     ] =
     useState<DashboardType | null>(null);
 
-
-
-
-
     useEffect(
         ()=>{
 
-
             async function load(){
-
 
                 const data =
                     await getDashboard();
 
-
-                setDashboard(data);
-
+                setDashboard(
+                    data
+                );
 
             }
 
-
-
             load();
-
-
 
         },
         []
     );
 
-
-
-
-
-
-
     if(!dashboard){
 
+        return(
 
-        return (
-
-
-            <div className="p-8">
-
+            <div className="dashboard-page">
 
                 Loading dashboard...
 
-
             </div>
-
 
         );
 
-
     }
 
+    return(
 
+        <div className="dashboard-page">
 
-
-
-
-
-    return (
-
-
-        <div className="p-8 space-y-8">
-
-
-
-
-
-            <div
-
-            className="flex justify-between items-start"
-
-            >
-
-
+            <div className="dashboard-header">
 
                 <div>
 
-
-                    <h1 className="text-3xl font-bold">
-
+                    <h1 className="dashboard-title">
 
                         Commander Dashboard
 
-
                     </h1>
 
-
-
-
-                    <p>
-
+                    <p className="dashboard-subtitle">
 
                         Welcome,
                         {" "}
                         {dashboard.player.display_name}
 
-
                     </p>
-
 
                 </div>
 
+                {
+                    dashboard.leagues.length > 0 &&
 
+                    <button
 
+                        className="dashboard-button"
 
+                        onClick={()=>
 
+                            navigate(
+                                "/matches/create"
+                            )
 
+                        }
 
-                <button
+                    >
 
+                        Create Match +
 
-                    className="border px-4 py-2"
+                    </button>
 
-
-                    onClick={()=>
-
-
-                        navigate(
-
-                            "/matches/create"
-
-                        )
-
-
-                    }
-
-
-                >
-
-
-                    Create Match +
-
-
-                </button>
-
-
-
-
+                }
 
             </div>
 
-
-
-
-
-
-
-
-
-            <div className="grid grid-cols-4 gap-4">
-
-
+            <section className="dashboard-stat-grid">
 
                 <StatCard
-
-
                     title="Games Played"
-
-
-                    value={
-                        dashboard.summary.games_played
-                    }
-
-
+                    value={dashboard.summary.games_played}
                 />
 
-
-
-
                 <StatCard
-
-
-                    title="Wins"
-
-
-                    value={
-                        dashboard.summary.wins
-                    }
-
-
+                    title="Games Won"
+                    value={dashboard.summary.wins}
                 />
 
-
-
-
                 <StatCard
-
-
                     title="Win Rate"
-
-
-                    value={
-                        `${dashboard.summary.win_rate}%`
-                    }
-
-
+                    value={`${dashboard.summary.win_rate}%`}
                 />
-
-
-
 
                 <StatCard
-
-
                     title="Average Finish"
-
-
-                    value={
-                        dashboard.summary.average_finish
-                    }
-
-
+                    value={dashboard.summary.average_finish}
                 />
 
+            </section>
 
+            <section className="dashboard-section">
 
-            </div>
+                <div className="dashboard-section-header">
 
-
-
-
-
-
-
-
-
-            <section>
-
-
-                <div className="flex justify-between items-center mb-4">
-
-
-                    <h2 className="text-2xl font-bold">
-
+                    <h2>
 
                         Your Leagues
 
-
                     </h2>
 
-
-
-
-
-                    <div className="flex gap-3">
-
-
+                    <div className="dashboard-actions">
 
                         <button
 
-
-                            className="border px-4 py-2"
-
+                            className="dashboard-button"
 
                             onClick={()=>
 
-
                                 navigate(
-
                                     "/leagues/create"
-
                                 )
-
 
                             }
 
-
                         >
-
 
                             Create League +
 
-
                         </button>
-
-
-
-
 
                         <button
 
-
-                            className="border px-4 py-2"
-
+                            className="dashboard-button"
 
                             onClick={()=>
 
-
                                 navigate(
-
                                     "/leagues/join"
-
                                 )
-
 
                             }
 
-
                         >
-
 
                             Join League +
 
-
                         </button>
-
-
 
                     </div>
 
-
                 </div>
 
+                {
+                    dashboard.leagues.length === 0
 
+                    ?
 
+                    <div className="dashboard-empty">
 
+                        You haven't joined any leagues yet.
 
+                    </div>
 
+                    :
 
+                    <div className="dashboard-league-grid">
 
+                        {
 
-                <div className="grid grid-cols-3 gap-4">
+                            dashboard.leagues.map(
 
+                                league=>(
 
+                                    <LeagueDashboardCard
 
-                    {
+                                        key={league.league_id}
 
+                                        league={league}
 
-                    dashboard.leagues.map(
+                                    />
 
+                                )
 
-                        league =>
+                            )
 
+                        }
 
-                        (
+                    </div>
 
-
-                            <LeagueDashboardCard
-
-
-                                key={
-
-                                    league.league_id
-                                }
-
-
-                                league={league}
-
-
-                            />
-
-
-                        )
-
-
-                    )
-
-
-                    }
-
-
-
-                </div>
-
-
+                }
 
             </section>
 
+            <section className="dashboard-section">
 
-
-
-
-
-
-
-
-            <section>
-
-
-                <h2 className="text-2xl font-bold mb-4">
-
+                <h2>
 
                     Recent Games
 
-
                 </h2>
-
-
-
-
 
                 <RecentGamesTable
 
-
-                    games={
-
-                        dashboard.recent_games
-
-                    }
-
+                    games={dashboard.recent_games}
 
                 />
 
-
-
             </section>
-
-
-
-
-
-
-
-
 
             <button
 
-
-                className="border px-4 py-2"
-
+                className="dashboard-logout"
 
                 onClick={logout}
 
-
             >
-
 
                 Logout
 
-
             </button>
-
-
-
-
-
 
         </div>
 
-
     );
-
 
 }
