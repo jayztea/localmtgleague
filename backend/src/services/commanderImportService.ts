@@ -6,7 +6,6 @@ import {
 }
 from "../repositories/commanderRepository";
 
-
 import {
     downloadOracleCards
 }
@@ -14,23 +13,40 @@ from "./scryfallService";
 
 
 
-function isCommander(card:any):boolean {
+function isCommander(
+    card: any
+): boolean {
 
-    if(!card.type_line){
-        return false;
-    }
+    const typeLine =
+        card.type_line ?? "";
 
+    const oracleText =
+        (
+            card.oracle_text ?? ""
+        ).toLowerCase();
 
     return (
-        card.type_line.includes(
-            "Legendary Creature"
-        )
-        ||
-        card.oracle_text
-            ?.toLowerCase()
-            .includes(
-                "can be your commander"
+
+        (
+
+            typeLine.includes(
+                "Legendary"
             )
+
+            &&
+
+            typeLine.includes(
+                "Creature"
+            )
+
+        )
+
+        ||
+
+        oracleText.includes(
+            "can be your commander"
+        )
+
     );
 
 }
@@ -38,8 +54,8 @@ function isCommander(card:any):boolean {
 
 
 export function transformCommander(
-    card:any
-):CommanderImport {
+    card: any
+): CommanderImport {
 
     return {
 
@@ -130,10 +146,10 @@ export async function importCommanders() {
 
 
 
-    for(const card of cards){
+    for (const card of cards) {
 
 
-        if(!isCommander(card)){
+        if (!isCommander(card)) {
 
             skipped++;
 
@@ -156,7 +172,7 @@ export async function importCommanders() {
         imported++;
 
 
-        if(imported % 100 === 0){
+        if (imported % 100 === 0) {
 
             console.log(
                 `${imported} commanders imported`
