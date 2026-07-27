@@ -33,6 +33,7 @@ Future:
   - 📅 Activity calendar (GitHub-style heatmap)
 - Global Navigation
 - Submit feedback form
+- Setup AIDLC
 - Player Admin Settings
     - Update name
 - Beautify the Login Screen
