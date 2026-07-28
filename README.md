@@ -20,7 +20,7 @@ Database:
 Future:
 - Player Stats V1
 - Defect: Fix browswer name so it doesn't say "frontend"
-  - Beautify the Login Screen
+- Beautify the Login Screen
   - Reset Password
   - Put more deatils, like FAQ and other information on create account/login page so that people don't become "afraid" of the site
 - Player Stats V2
