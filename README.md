@@ -18,11 +18,12 @@ Database:
 ## Features
 
 Future:
+- Rebrand to new colors and new "beautification" of site
+- Beautify the Login Screen
+  - Put more deatils, like FAQ and other information on create account/login page so that people don't become "afraid" of
 - Player Stats V1
 - Defect: Fix browswer name so it doesn't say "frontend"
-- Beautify the Login Screen
-  - Reset Password
-  - Put more deatils, like FAQ and other information on create account/login page so that people don't become "afraid" of the site
+- Reset Password finish
 - Player Stats V2
   - 🏆 Achievement badges
   - 📈 Win streaks
@@ -45,7 +46,6 @@ Future:
   - Update image, that updates dashboard
   - Season start/end date
 - Add Tournaments
-- Rebrand to new colors and new "beautification" of site
 - Trends, year over year
 
 ## Project Structure
