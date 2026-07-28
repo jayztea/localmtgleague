@@ -6,22 +6,31 @@ import {
 from "express";
 
 
-import * as authService from "../services/authService";
+import * as authService
+from "../services/authService";
+
+
+import * as passwordResetService
+from "../services/passwordResetService";
+
+
+
+
 
 
 
 export async function register(
 
-    req: Request,
+    req:Request,
 
-    res: Response,
+    res:Response,
 
-    next: NextFunction
+    next:NextFunction
 
-) {
+){
 
 
-    try {
+    try{
 
 
         const {
@@ -32,11 +41,15 @@ export async function register(
 
             display_name
 
-        } = req.body;
+        }
+        =
+        req.body;
+
 
 
 
         const result =
+
             await authService.registerUser(
 
                 email_address,
@@ -58,13 +71,14 @@ export async function register(
 
 
     }
-    catch(error) {
+    catch(error){
 
 
         next(error);
 
 
     }
+
 
 }
 
@@ -73,18 +87,21 @@ export async function register(
 
 
 
+
+
+
 export async function login(
 
-    req: Request,
+    req:Request,
 
-    res: Response,
+    res:Response,
 
-    next: NextFunction
+    next:NextFunction
 
-) {
+){
 
 
-    try {
+    try{
 
 
         const {
@@ -93,11 +110,15 @@ export async function login(
 
             password
 
-        } = req.body;
+        }
+        =
+        req.body;
+
 
 
 
         const result =
+
             await authService.loginUser(
 
                 email_address,
@@ -113,13 +134,14 @@ export async function login(
 
 
     }
-    catch(error) {
+    catch(error){
 
 
         next(error);
 
 
     }
+
 
 }
 
@@ -128,40 +150,181 @@ export async function login(
 
 
 
+
+
+
 export async function me(
 
-    req: Request,
+    req:Request,
 
-    res: Response,
+    res:Response,
 
-    next: NextFunction
+    next:NextFunction
 
-) {
+){
 
 
-    try {
+    try{
 
 
         const user =
+
             await authService.getCurrentUser(
 
-                (req as any).user!.user_id
+                (req as any)
+                    .user
+                    .user_id
 
             );
 
 
 
-        res.json(user);
+        return res.json(user);
 
 
 
     }
-    catch(error) {
+    catch(error){
 
 
         next(error);
 
 
     }
+
+
+}
+
+
+
+
+
+
+
+
+
+export async function forgotPassword(
+
+    req:Request,
+
+    res:Response,
+
+    next:NextFunction
+
+){
+
+
+    try{
+
+
+        const {
+
+            email_address
+
+        }
+        =
+        req.body;
+
+
+
+
+        const result =
+
+            await passwordResetService
+                .requestPasswordReset(
+
+                    email_address
+
+                );
+
+
+
+        return res.json({
+
+            message:
+                "If an account exists, password reset instructions have been generated.",
+
+            resetToken:
+                result?.resetToken
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        next(error);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+export async function resetPassword(
+
+    req:Request,
+
+    res:Response,
+
+    next:NextFunction
+
+){
+
+
+    try{
+
+
+        const {
+
+            token,
+
+            password
+
+        }
+        =
+        req.body;
+
+
+
+
+        await passwordResetService.resetPassword(
+
+            token,
+
+            password
+
+        );
+
+
+
+        return res.json({
+
+            message:
+                "Password updated successfully."
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        next(error);
+
+
+    }
+
 
 }

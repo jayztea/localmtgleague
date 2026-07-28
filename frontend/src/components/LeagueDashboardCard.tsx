@@ -3,7 +3,8 @@ import {
 }
 from "react-router-dom";
 
-import "../pages/CreateMatch/CreateMatch.css";
+import "./LeagueDashboardCard.css";
+
 
 interface League{
 
@@ -17,11 +18,14 @@ interface League{
 
 }
 
+
 interface Props{
 
     league:League;
 
 }
+
+
 
 export default function LeagueDashboardCard({
 
@@ -29,50 +33,77 @@ export default function LeagueDashboardCard({
 
 }:Props){
 
+
     const navigate =
         useNavigate();
+
+
 
     return(
 
         <div
 
-            className="league-card"
+            className="league-dashboard-card"
 
-            onClick={()=>
+            onClick={()=>{
 
                 navigate(
-
                     `/league/${league.league_id}`
-
-                )
-
-            }
-
-            style={{
-
-                cursor:"pointer"
+                );
 
             }}
 
         >
 
-            <div className="league-image">
+            <div className="league-dashboard-icon">
 
                 🏆
 
             </div>
 
-            <div className="league-title">
 
-                {league.league_name}
+            <div className="league-dashboard-content">
+
+
+                <h3>
+
+                    {league.league_name}
+
+                </h3>
+
+
+                <div className="league-dashboard-code">
+
+                    League Code:
+
+                    {" "}
+
+                    {league.league_code}
+
+                </div>
+
+
+                {
+                    league.description &&
+
+                    <p>
+
+                        {league.description}
+
+                    </p>
+
+                }
+
 
             </div>
 
-            <div className="league-id">
 
-                League Code: {league.league_code}
+            <div className="league-dashboard-arrow">
+
+                →
 
             </div>
+
 
         </div>
 

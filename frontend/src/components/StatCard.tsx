@@ -1,5 +1,6 @@
 import "./StatCard.css";
 
+
 interface Props{
 
     title:string;
@@ -7,6 +8,8 @@ interface Props{
     value:string | number;
 
 }
+
+
 
 export default function StatCard({
 
@@ -16,9 +19,11 @@ export default function StatCard({
 
 }:Props){
 
+
     return(
 
         <div className="stat-card">
+
 
             <div className="stat-card-title">
 
@@ -26,11 +31,14 @@ export default function StatCard({
 
             </div>
 
+
+
             <div className="stat-card-value">
 
                 {value}
 
             </div>
+
 
         </div>
 

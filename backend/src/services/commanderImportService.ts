@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 
 import {
     CommanderImport,
@@ -10,6 +11,52 @@ import {
     downloadOracleCards
 }
 from "./scryfallService";
+
+
+
+const DEBUG_CARD =
+    "Traxos, Scourge of Kroog";
+
+
+const DEBUG_FILE =
+    path.join(
+        process.cwd(),
+        "data",
+        "import-debug.log"
+    );
+
+
+function writeDebug(
+    message: string,
+    data?: any
+) {
+
+    fs.mkdirSync(
+        path.dirname(DEBUG_FILE),
+        {
+            recursive: true
+        }
+    );
+
+    fs.appendFileSync(
+        DEBUG_FILE,
+        `${new Date().toISOString()} ${message}\n`
+    );
+
+    if (data !== undefined) {
+
+        fs.appendFileSync(
+            DEBUG_FILE,
+            JSON.stringify(
+                data,
+                null,
+                2
+            ) + "\n\n"
+        );
+
+    }
+
+}
 
 
 
@@ -86,8 +133,11 @@ export function transformCommander(
             card.toughness ?? null,
 
         color_identity:
-            card.color_identity?.join("")
-            ?? "",
+            Array.isArray(
+                card.color_identity
+            )
+                ? card.color_identity.join("")
+                : "",
 
         image_url:
             card.image_uris?.normal
@@ -108,6 +158,12 @@ export function transformCommander(
 export async function importCommanders() {
 
 
+    fs.writeFileSync(
+        DEBUG_FILE,
+        ""
+    );
+
+
     console.log(
         "Starting commander import..."
     );
@@ -115,7 +171,6 @@ export async function importCommanders() {
 
     const filePath =
         await downloadOracleCards();
-
 
 
     console.log(
@@ -134,7 +189,6 @@ export async function importCommanders() {
         JSON.parse(raw);
 
 
-
     console.log(
         `Loaded ${cards.length} cards.`
     );
@@ -145,11 +199,47 @@ export async function importCommanders() {
     let skipped = 0;
 
 
+    for (
+        const card of cards
+    ) {
 
-    for (const card of cards) {
+
+        if (
+            card.name === DEBUG_CARD
+        ) {
+
+            writeDebug(
+                "FOUND CARD",
+                card
+            );
+
+            writeDebug(
+                "isCommander",
+                {
+                    result:
+                        isCommander(
+                            card
+                        )
+                }
+            );
+
+        }
 
 
-        if (!isCommander(card)) {
+        if (
+            !isCommander(card)
+        ) {
+
+            if (
+                card.name ===
+                DEBUG_CARD
+            ) {
+
+                writeDebug(
+                    "CARD WAS SKIPPED"
+                );
+
+            }
 
             skipped++;
 
@@ -158,21 +248,71 @@ export async function importCommanders() {
         }
 
 
-
         const commander =
-            transformCommander(card);
+            transformCommander(
+                card
+            );
 
 
+        if (
+            commander.commander_name ===
+            DEBUG_CARD
+        ) {
 
-        await upsertCommanders(
-            commander
-        );
+            writeDebug(
+                "TRANSFORMED",
+                commander
+            );
+
+        }
+
+
+        try {
+
+            await upsertCommanders(
+                commander
+            );
+
+
+            if (
+                commander.commander_name ===
+                DEBUG_CARD
+            ) {
+
+                writeDebug(
+                    "INSERT SUCCEEDED"
+                );
+
+            }
+
+        }
+        catch (
+            error
+        ) {
+
+            if (
+                commander.commander_name ===
+                DEBUG_CARD
+            ) {
+
+                writeDebug(
+                    "INSERT FAILED",
+                    error
+                );
+
+            }
+
+            throw error;
+
+        }
 
 
         imported++;
 
 
-        if (imported % 100 === 0) {
+        if (
+            imported % 100 === 0
+        ) {
 
             console.log(
                 `${imported} commanders imported`
@@ -183,21 +323,17 @@ export async function importCommanders() {
     }
 
 
-
     console.log(
         "=============================="
     );
-
 
     console.log(
         `Imported: ${imported}`
     );
 
-
     console.log(
         `Skipped: ${skipped}`
     );
-
 
     console.log(
         "Commander import complete"

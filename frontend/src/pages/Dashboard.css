@@ -1,20 +1,32 @@
-.dashboard-page{
+/* =====================================================
+   DASHBOARD PAGE
+===================================================== */
+
+
+.dashboard-page {
 
     max-width:1200px;
 
     margin:0 auto;
 
-    padding:32px;
+    padding:40px 32px;
 
     display:flex;
 
     flex-direction:column;
 
-    gap:32px;
+    gap:40px;
 
 }
 
-.dashboard-header{
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+
+.dashboard-header {
 
     display:flex;
 
@@ -22,73 +34,133 @@
 
     align-items:flex-start;
 
-    gap:20px;
+    gap:24px;
 
 }
 
-.dashboard-title{
 
-    font-size:34px;
+
+.dashboard-title {
+
+    margin:0;
+
+    font-size:38px;
 
     font-weight:700;
 
-    margin-bottom:6px;
+    color:var(--cm-text);
+
+    letter-spacing:-0.02em;
 
 }
 
-.dashboard-subtitle{
+
+
+.dashboard-subtitle {
+
+    margin-top:8px;
 
     color:var(--cm-muted);
 
+    font-size:16px;
+
 }
 
-.dashboard-button{
 
-    padding:12px 18px;
 
-    border-radius:10px;
+/* =====================================================
+   BUTTONS
+===================================================== */
 
-    border:1px solid var(--cm-border);
 
-    background:white;
+.dashboard-button {
+
+
+    min-height:var(--cm-touch-size);
+
+
+    padding:0 20px;
+
+
+    border-radius:var(--cm-radius-md);
+
+
+    border:1px solid var(--cm-primary);
+
+
+    background:var(--cm-primary);
+
+
+    color:white;
+
 
     cursor:pointer;
 
+
     font-weight:600;
 
-    transition:.2s;
+
+    transition:var(--cm-transition);
+
 
 }
 
-.dashboard-button:hover{
+
+
+.dashboard-button:hover {
+
+
+    background:var(--cm-primary-hover);
+
 
     transform:translateY(-2px);
 
-    box-shadow:0 6px 18px rgba(0,0,0,.08);
 
 }
 
-.dashboard-stat-grid{
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+
+.dashboard-stat-grid {
 
     display:grid;
 
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:
+
+        repeat(4,1fr);
 
     gap:20px;
 
 }
 
-.dashboard-section{
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+
+.dashboard-section {
 
     display:flex;
 
     flex-direction:column;
 
-    gap:18px;
+    gap:20px;
 
 }
 
-.dashboard-section h2{
+
+
+.dashboard-section h2 {
+
+    margin:0;
+
+    color:var(--cm-text);
 
     font-size:26px;
 
@@ -96,7 +168,9 @@
 
 }
 
-.dashboard-section-header{
+
+
+.dashboard-section-header {
 
     display:flex;
 
@@ -108,7 +182,14 @@
 
 }
 
-.dashboard-actions{
+
+
+/* =====================================================
+   ACTION BUTTON GROUP
+===================================================== */
+
+
+.dashboard-actions {
 
     display:flex;
 
@@ -116,124 +197,271 @@
 
 }
 
-.dashboard-league-grid{
+
+
+.dashboard-actions .dashboard-button {
+
+    background:
+
+        var(--cm-surface);
+
+    border:
+
+        1px solid var(--cm-border);
+
+}
+
+
+
+.dashboard-actions .dashboard-button:hover {
+
+    background:
+
+        var(--cm-surface-hover);
+
+}
+
+
+
+/* =====================================================
+   LEAGUES
+===================================================== */
+
+
+.dashboard-league-grid {
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    grid-template-columns:
 
-    gap:20px;
+        repeat(
+
+            auto-fill,
+
+            minmax(320px,1fr)
+
+        );
+
+    gap:22px;
 
 }
 
-.dashboard-empty{
 
-    padding:40px;
 
-    border:2px dashed var(--cm-border);
+/* =====================================================
+   EMPTY STATE
+===================================================== */
 
-    border-radius:12px;
+
+.dashboard-empty {
+
+    padding:50px 30px;
+
+    background:
+
+        var(--cm-card);
+
+    border:
+
+        1px dashed var(--cm-border);
+
+    border-radius:
+
+        var(--cm-radius);
 
     text-align:center;
 
-    color:var(--cm-muted);
+    color:
+
+        var(--cm-muted);
 
 }
 
-.dashboard-logout{
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+
+.dashboard-logout {
 
     align-self:flex-start;
 
-    padding:12px 20px;
+    min-height:
 
-    border-radius:10px;
+        var(--cm-touch-size);
 
-    border:1px solid var(--cm-border);
+    padding:
 
-    background:white;
+        0 22px;
+
+    border-radius:
+
+        12px;
+
+    border:
+
+        1px solid rgba(239,68,68,.35);
+
+    background:
+
+        rgba(239,68,68,.12);
+
+    color:
+
+        #fca5a5;
 
     cursor:pointer;
 
-}
+    font-weight:600;
 
-/* ==========================================
-   Tablet
-========================================== */
+    transition:
 
-@media (max-width:900px){
-
-    .dashboard-stat-grid{
-
-        grid-template-columns:repeat(2,1fr);
-
-    }
+        .2s ease;
 
 }
 
-/* ==========================================
-   Mobile
-========================================== */
 
-@media (max-width:768px){
 
-    .dashboard-page{
+.dashboard-logout:hover {
 
-        padding:16px;
+    background:
 
-        gap:24px;
+        rgba(239,68,68,.22);
 
-    }
+}
 
-    .dashboard-header{
 
-        flex-direction:column;
 
-        align-items:stretch;
+/* =====================================================
+   TABLET
+===================================================== */
 
-    }
 
-    .dashboard-title{
+@media(max-width:900px){
 
-        font-size:28px;
 
-    }
+    .dashboard-stat-grid {
 
-    .dashboard-button{
+        grid-template-columns:
 
-        width:100%;
+            repeat(2,1fr);
 
     }
 
-    .dashboard-section-header{
 
-        flex-direction:column;
+}
 
-        align-items:stretch;
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+    .dashboard-page {
+
+        padding:
+
+            24px 16px;
+
+        gap:
+
+            28px;
+
+    }
+
+
+
+    .dashboard-header {
+
+        flex-direction:
+
+            column;
+
+        align-items:
+
+            stretch;
 
     }
 
-    .dashboard-actions{
 
-        flex-direction:column;
 
-    }
+    .dashboard-title {
 
-    .dashboard-stat-grid{
+        font-size:
 
-        grid-template-columns:1fr;
+            30px;
 
     }
 
-    .dashboard-league-grid{
 
-        grid-template-columns:1fr;
+
+    .dashboard-button {
+
+        width:
+
+            100%;
+
+    }
+
+
+
+    .dashboard-actions {
+
+        flex-direction:
+
+            column;
+
+        width:
+
+            100%;
 
     }
 
-    .dashboard-logout{
 
-        width:100%;
+
+    .dashboard-stat-grid {
+
+        grid-template-columns:
+
+            1fr;
 
     }
+
+
+
+    .dashboard-league-grid {
+
+        grid-template-columns:
+
+            1fr;
+
+    }
+
+
+
+    .dashboard-section h2 {
+
+        font-size:
+
+            22px;
+
+    }
+
+
+
+    .dashboard-logout {
+
+        width:
+
+            100%;
+
+    }
+
 
 }

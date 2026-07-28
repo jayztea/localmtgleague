@@ -1,4 +1,9 @@
-.recent-games-list{
+/* =====================================================
+   RECENT GAMES LIST
+===================================================== */
+
+
+.recent-games-list {
 
     display:flex;
 
@@ -8,7 +13,14 @@
 
 }
 
-.recent-game-card{
+
+
+/* =====================================================
+   GAME CARD
+===================================================== */
+
+
+.recent-game-card {
 
     display:flex;
 
@@ -16,29 +28,75 @@
 
     align-items:center;
 
-    gap:20px;
+    gap:24px;
 
-    padding:20px;
+    padding:22px;
 
-    background:white;
 
-    border:1px solid var(--cm-border);
+    background:
 
-    border-radius:14px;
+        var(--cm-card);
 
-    box-shadow:var(--cm-shadow);
 
-    transition:.2s;
+    border:
+
+        1px solid var(--cm-border);
+
+
+    border-left:
+
+        4px solid var(--cm-primary);
+
+
+    border-radius:
+
+        var(--cm-radius-lg);
+
+
+    box-shadow:
+
+        var(--cm-shadow-sm);
+
+
+    transition:
+
+        transform .2s ease,
+
+        background .2s ease,
+
+        box-shadow .2s ease;
+
 
 }
 
-.recent-game-card:hover{
 
-    transform:translateY(-2px);
+
+.recent-game-card:hover {
+
+    transform:
+
+        translateY(-3px);
+
+
+    background:
+
+        var(--cm-card-hover);
+
+
+    box-shadow:
+
+        var(--cm-shadow);
 
 }
 
-.recent-game-content{
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+
+.recent-game-content {
 
     display:flex;
 
@@ -48,82 +106,241 @@
 
 }
 
-.recent-game-league{
 
-    font-size:20px;
 
-    font-weight:700;
+.recent-game-league {
+
+    color:
+
+        var(--cm-text);
+
+
+    font-size:
+
+        20px;
+
+
+    font-weight:
+
+        700;
+
+
+    line-height:
+
+        1.3;
 
 }
 
-.recent-game-commander{
 
-    color:var(--cm-muted);
 
-    font-size:15px;
+.recent-game-commander {
+
+    color:
+
+        var(--cm-text-muted);
+
+
+    font-size:
+
+        15px;
+
 
 }
 
-.recent-game-finish{
 
-    font-size:15px;
+
+.recent-game-finish {
+
+    margin-top:
+
+        4px;
+
+
+    color:
+
+        var(--cm-text-muted);
+
+
+    font-size:
+
+        15px;
 
 }
 
-.recent-game-button{
 
-    padding:10px 18px;
 
-    border-radius:10px;
+.recent-game-finish strong {
 
-    border:1px solid var(--cm-border);
+    color:
 
-    background:white;
+        var(--cm-text);
+
+
+}
+
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+
+.recent-game-button {
+
+    min-height:
+
+        var(--cm-touch-size);
+
+
+    padding:
+
+        0 20px;
+
+
+    border-radius:
+
+        var(--cm-radius-md);
+
+
+    border:
+
+        1px solid rgba(99,102,241,.35);
+
+
+    background:
+
+        rgba(99,102,241,.15);
+
+
+    color:
+
+        #c7d2fe;
+
+
+    font-weight:
+
+        600;
+
 
     cursor:pointer;
 
-    font-weight:600;
 
-    transition:.2s;
+    white-space:
 
-    white-space:nowrap;
+        nowrap;
 
-}
 
-.recent-game-button:hover{
+    transition:
 
-    background:#f8fafc;
+        .2s ease;
 
 }
 
-.recent-games-empty{
 
-    padding:40px;
 
-    border:2px dashed var(--cm-border);
+.recent-game-button:hover {
 
-    border-radius:12px;
+    background:
 
-    color:var(--cm-muted);
+        var(--cm-primary);
+
+
+    color:
+
+        white;
+
+}
+
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+
+.recent-games-empty {
+
+    padding:
+
+        48px 24px;
+
+
+    border-radius:
+
+        var(--cm-radius-lg);
+
+
+    border:
+
+        1px dashed var(--cm-border);
+
+
+    color:
+
+        var(--cm-text-muted);
+
 
     text-align:center;
 
+
+    background:
+
+        rgba(255,255,255,.02);
+
 }
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
 
 @media(max-width:768px){
 
-    .recent-game-card{
 
-        flex-direction:column;
+    .recent-game-card {
 
-        align-items:flex-start;
+        flex-direction:
+
+            column;
+
+
+        align-items:
+
+            stretch;
+
+
+        gap:
+
+            18px;
+
+
+        padding:
+
+            18px;
 
     }
 
-    .recent-game-button{
 
-        width:100%;
+
+    .recent-game-league {
+
+        font-size:
+
+            18px;
 
     }
+
+
+
+    .recent-game-button {
+
+        width:
+
+            100%;
+
+    }
+
 
 }
