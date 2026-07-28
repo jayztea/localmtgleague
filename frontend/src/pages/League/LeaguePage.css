@@ -1,16 +1,24 @@
-.league-page{
+.league-page {
 
     min-height:100vh;
 
     background:var(--cm-background);
 
-    padding:40px;
+    padding:32px;
+
+    max-width:1280px;
+
+    margin:auto;
 
 }
 
 
+/* =====================================================
+   HEADER
+===================================================== */
 
-.league-header{
+
+.league-header {
 
     display:flex;
 
@@ -20,27 +28,45 @@
 
     gap:24px;
 
-    margin:32px 0;
-
-    flex-wrap:wrap;
+    margin-bottom:32px;
 
 }
 
 
 
-.league-back-button{
+.league-title {
 
-    min-height:var(--cm-touch-size);
+    margin:0;
+
+    color:var(--cm-text);
+
+    font-size:36px;
+
+    font-weight:700;
+
+}
+
+
+
+.league-code {
+
+    margin-top:8px;
+
+    color:var(--cm-text-muted);
+
+    font-size:15px;
+
+}
+
+
+
+.league-back-button {
 
     background:none;
 
     border:none;
 
-    padding:0;
-
-    margin-bottom:20px;
-
-    color:var(--cm-text);
+    color:var(--cm-text-muted);
 
     font-size:15px;
 
@@ -48,25 +74,15 @@
 
     cursor:pointer;
 
-}
+    padding:0;
 
-
-
-.league-back-button:hover{
-
-    text-decoration:underline;
+    margin-bottom:16px;
 
 }
 
 
 
-.league-title{
-
-    margin:0;
-
-    font-size:2rem;
-
-    font-weight:700;
+.league-back-button:hover {
 
     color:var(--cm-text);
 
@@ -74,35 +90,19 @@
 
 
 
-.league-code{
+.league-create-match-button {
 
-    margin-top:10px;
+    min-height:48px;
 
-    color:var(--cm-muted);
-
-    font-size:1rem;
-
-}
-
-
-
-.league-create-match-button{
-
-    align-self:flex-start;
-
-    min-height:var(--cm-touch-size);
-
-    padding:0 22px;
+    padding:0 24px;
 
     border:none;
 
-    border-radius:var(--cm-radius);
+    border-radius:var(--cm-radius-md);
 
     background:var(--cm-primary);
 
     color:white;
-
-    font-size:15px;
 
     font-weight:600;
 
@@ -110,25 +110,28 @@
 
     box-shadow:var(--cm-shadow);
 
-    transition:
-        background .2s ease,
-        transform .15s ease;
+    transition:var(--cm-transition);
 
 }
 
 
 
-.league-create-match-button:hover{
+.league-create-match-button:hover {
 
     background:var(--cm-primary-hover);
 
-    transform:translateY(-1px);
+    transform:translateY(-2px);
 
 }
 
 
 
-.league-overview-grid{
+/* =====================================================
+   OVERVIEW CARDS
+===================================================== */
+
+
+.league-overview-grid {
 
     display:grid;
 
@@ -142,7 +145,72 @@
 
 
 
-.league-content-grid{
+.league-overview-card {
+
+    background:var(--cm-card);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius-lg);
+
+    padding:24px;
+
+    box-shadow:var(--cm-shadow);
+
+    transition:var(--cm-transition);
+
+}
+
+
+
+.league-overview-card:hover {
+
+    transform:translateY(-3px);
+
+    background:var(--cm-card-hover);
+
+}
+
+
+
+.league-overview-label {
+
+    color:var(--cm-text-muted);
+
+    font-size:14px;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+    letter-spacing:.05em;
+
+}
+
+
+
+.league-overview-value {
+
+
+    color:var(--cm-text);
+
+
+    font-size:40px;
+
+
+    font-weight:700;
+
+
+}
+
+
+
+/* =====================================================
+   CONTENT GRID
+===================================================== */
+
+
+.league-content-grid {
 
     display:grid;
 
@@ -150,197 +218,167 @@
 
     gap:24px;
 
-    margin-bottom:32px;
-
 }
 
 
 
-/* ------------------------------------------------ */
-/* Shared Card Styling                              */
-/* ------------------------------------------------ */
-
-.league-section-card{
+.league-section-card {
 
     background:var(--cm-card);
 
-    border-radius:var(--cm-radius);
+    border:1px solid var(--cm-border);
 
-    box-shadow:var(--cm-shadow);
-
-    padding:24px;
-
-}
-
-
-
-.league-section-title{
-
-    margin:0 0 20px 0;
-
-    font-size:1.25rem;
-
-    font-weight:700;
-
-    color:var(--cm-text);
-
-}
-
-
-
-/* ------------------------------------------------ */
-/* Overview Cards                                   */
-/* ------------------------------------------------ */
-
-.league-overview-card{
-
-    background:var(--cm-card);
-
-    border-radius:var(--cm-radius);
-
-    box-shadow:var(--cm-shadow);
+    border-radius:var(--cm-radius-lg);
 
     padding:24px;
 
-    transition:
-        transform .15s ease,
-        box-shadow .15s ease;
+    box-shadow:var(--cm-shadow);
 
 }
 
 
 
-.league-overview-card:hover{
-
-    transform:translateY(-2px);
-
-}
-
-
-
-.league-overview-label{
-
-    color:var(--cm-muted);
-
-    font-size:.95rem;
-
-    margin-bottom:12px;
-
-}
-
-
-
-.league-overview-value{
+.league-section-title {
 
     color:var(--cm-text);
 
-    font-size:2rem;
+    font-size:22px;
 
     font-weight:700;
+
+    margin-bottom:20px;
 
 }
 
 
 
-/* ------------------------------------------------ */
-/* Leaderboard                                      */
-/* ------------------------------------------------ */
+/* =====================================================
+   LEADERBOARD
+===================================================== */
 
-.league-leaderboard-table{
+
+.league-leaderboard-table {
+
 
     width:100%;
 
+
     border-collapse:collapse;
 
-}
-
-
-
-.league-leaderboard-table th{
-
-    text-align:left;
-
-    color:var(--cm-muted);
-
-    padding-bottom:14px;
-
-    border-bottom:1px solid var(--cm-border);
-
-    font-weight:600;
-
-}
-
-
-
-.league-leaderboard-table td{
-
-    padding:14px 0;
-
-    border-bottom:1px solid var(--cm-border);
-
-}
-
-
-
-.league-leaderboard-table tr:last-child td{
-
-    border-bottom:none;
-
-}
-
-
-
-/* ------------------------------------------------ */
-/* Statistics                                       */
-/* ------------------------------------------------ */
-
-.league-stat{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:14px 0;
-
-    border-bottom:1px solid var(--cm-border);
-
-}
-
-
-
-.league-stat:last-child{
-
-    border-bottom:none;
-
-}
-
-
-
-.league-stat-label{
-
-    color:var(--cm-muted);
-
-}
-
-
-
-.league-stat-value{
-
-    font-weight:700;
 
     color:var(--cm-text);
 
+
 }
 
 
 
-/* ------------------------------------------------ */
-/* Recent Matches                                   */
-/* ------------------------------------------------ */
+.league-leaderboard-table th {
 
-.league-match-card{
+
+    text-align:left;
+
+
+    color:var(--cm-text-muted);
+
+
+    font-size:14px;
+
+
+    text-transform:uppercase;
+
+
+    letter-spacing:.05em;
+
+
+    padding-bottom:14px;
+
+
+}
+
+
+.league-leaderboard-table td {
+
+
+    padding:16px 0;
+
+
+    border-bottom:1px solid var(--cm-border);
+
+
+}
+
+
+
+.league-leaderboard-table tr:last-child td {
+
+    border-bottom:none;
+
+}
+
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+
+.league-stat {
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    padding:16px 0;
+
+
+    border-bottom:1px solid var(--cm-border);
+
+
+}
+
+
+.league-stat:last-child {
+
+    border-bottom:none;
+
+}
+
+
+
+.league-stat-label {
+
+
+    color:var(--cm-text-muted);
+
+
+}
+
+
+.league-stat-value {
+
+
+    color:var(--cm-text);
+
+
+    font-weight:700;
+
+
+}
+
+
+/* =====================================================
+   RECENT MATCHES
+===================================================== */
+
+
+.league-match-card {
 
     display:flex;
 
@@ -350,27 +388,27 @@
 
     gap:20px;
 
-    padding:18px 20px;
-
-    margin-bottom:16px;
+    padding:18px;
 
     background:var(--cm-card);
 
-    border-radius:var(--cm-radius);
+    border:1px solid var(--cm-border);
 
-    box-shadow:var(--cm-shadow);
+    border-radius:var(--cm-radius-lg);
 
-    transition:
-        transform .15s ease,
-        box-shadow .15s ease;
+    margin-bottom:16px;
 
     cursor:pointer;
+
+    transition:var(--cm-transition);
 
 }
 
 
 
-.league-match-card:hover{
+.league-match-card:hover {
+
+    background:var(--cm-card-hover);
 
     transform:translateY(-2px);
 
@@ -378,223 +416,64 @@
 
 
 
-.league-match-title{
-
-    font-weight:700;
+.league-match-title {
 
     color:var(--cm-text);
 
-    margin-bottom:6px;
+    font-weight:700;
 
 }
 
 
 
-.league-match-subtitle{
+.league-match-subtitle {
 
-    color:var(--cm-muted);
+    margin-top:6px;
 
-    font-size:.95rem;
+    color:var(--cm-text-muted);
 
 }
 
 
 
-.league-match-link{
+.league-match-link {
 
     color:var(--cm-primary);
 
     font-weight:600;
 
-    white-space:nowrap;
-
 }
 
 
 
-/* ------------------------------------------------ */
-/* Responsive                                       */
-/* ------------------------------------------------ */
+/* =====================================================
+   MOBILE
+===================================================== */
 
-@media (max-width:1100px){
 
-    .league-overview-grid{
+@media(max-width:1100px){
+
+
+    .league-overview-grid {
 
         grid-template-columns:repeat(2,1fr);
 
     }
 
-    .league-content-grid{
+
+
+    .league-content-grid {
 
         grid-template-columns:1fr;
 
     }
+
 
 }
 
-
-
-@media (max-width:768px){
-
-    .league-page{
-
-        padding:20px;
-
-    }
-
-    .league-header{
-
-        flex-direction:column;
-
-        align-items:stretch;
-
-    }
-
-    .league-create-match-button{
-
-        width:100%;
-
-    }
-
-    .league-overview-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .league-match-card{
-
-        flex-direction:column;
-
-        align-items:flex-start;
-
-    }
-
-    .league-match-link{
-
-        margin-top:10px;
-
-    }
-
-}
-/* =====================================
-   MOBILE RESPONSIVE
-===================================== */
-
-
-@media (max-width:768px){
-
-
-    .league-page{
-
-        padding:20px;
-
-    }
-
-
-
-    .league-header{
-
-        flex-direction:column;
-
-        gap:20px;
-
-        align-items:stretch;
-
-    }
-
-
-
-    .league-create-match-button{
-
-        width:100%;
-
-        min-height:44px;
-
-    }
-
-
-
-    .league-title{
-
-        font-size:28px;
-
-    }
-
-
-
-    .league-overview-grid{
-
-        grid-template-columns:1fr;
-
-        gap:16px;
-
-    }
-
-
-
-    .league-content-grid{
-
-        grid-template-columns:1fr;
-
-        gap:20px;
-
-    }
-
-
-
-    .league-section-card{
-
-        padding:20px;
-
-        overflow-x:auto;
-
-    }
-
-
-
-    .league-match-card{
-
-        flex-direction:column;
-
-        gap:16px;
-
-        align-items:stretch;
-
-    }
-
-
-
-    .league-match-link{
-
-        width:100%;
-
-        min-height:44px;
-
-        text-align:center;
-
-        display:flex;
-
-        align-items:center;
-
-        justify-content:center;
-
-    }
-
-
-
-}
-/* =====================================================
-   MOBILE RESPONSIVE
-===================================================== */
 
 
 @media(max-width:768px){
-
-
-    /* =========================
-       PAGE CONTAINER
-    ========================= */
 
 
     .league-page {
@@ -605,20 +484,14 @@
 
 
 
-    /* =========================
-       HEADER
-    ========================= */
-
-
     .league-header {
 
         flex-direction:column;
 
         align-items:stretch;
 
-        gap:20px;
-
     }
+
 
 
     .league-title {
@@ -628,155 +501,31 @@
     }
 
 
-    .league-code {
-
-        font-size:14px;
-
-    }
-
 
     .league-create-match-button {
 
         width:100%;
 
-        min-height:48px;
-
     }
 
-
-    .league-back-button {
-
-        width:100%;
-
-        min-height:44px;
-
-        margin-bottom:12px;
-
-    }
-
-
-
-    /* =========================
-       OVERVIEW CARDS
-    ========================= */
 
 
     .league-overview-grid {
 
         grid-template-columns:1fr;
 
-        gap:16px;
-
     }
 
-
-    .league-overview-card {
-
-        padding:18px;
-
-    }
-
-
-
-    /* =========================
-       MAIN CONTENT
-    ========================= */
-
-
-    .league-content-grid {
-
-        grid-template-columns:1fr;
-
-        gap:20px;
-
-    }
-
-
-
-    /* =========================
-       SECTION CARDS
-    ========================= */
 
 
     .league-section-card {
 
         padding:18px;
 
-        border-radius:12px;
+        overflow-x:auto;
 
     }
 
-
-    .league-section-title {
-
-        font-size:20px;
-
-    }
-
-
-
-    /* =========================
-       LEADERBOARD
-    ========================= */
-
-
-    .league-leaderboard-row {
-
-        display:flex;
-
-        flex-direction:column;
-
-        gap:8px;
-
-        padding:14px 0;
-
-    }
-
-
-    .league-leaderboard-header {
-
-        display:none;
-
-    }
-
-
-
-    /* =========================
-       STATISTICS
-    ========================= */
-
-
-    .league-stat {
-
-        display:flex;
-
-        flex-direction:column;
-
-        gap:6px;
-
-        padding:12px 0;
-
-    }
-
-
-    .league-stat-label {
-
-        font-size:14px;
-
-    }
-
-
-    .league-stat-value {
-
-        font-size:18px;
-
-    }
-
-
-
-    /* =========================
-       RECENT MATCHES
-    ========================= */
 
 
     .league-match-card {
@@ -785,41 +534,236 @@
 
         align-items:stretch;
 
-        gap:14px;
+    }
 
-        padding:16px;
+
+}
+/* =====================================================
+   EMPTY STATES
+===================================================== */
+
+
+.league-empty-state {
+
+    padding:32px;
+
+    text-align:center;
+
+    color:var(--cm-text-muted);
+
+    border:1px dashed var(--cm-border);
+
+    border-radius:var(--cm-radius-md);
+
+    background:rgba(255,255,255,.02);
+
+}
+
+
+
+/* =====================================================
+   LEADERBOARD MOBILE
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+    .league-leaderboard-table {
+
+        min-width:650px;
 
     }
 
 
-    .league-match-title {
+}
+/* =====================================================
+   PAGE STATES
+===================================================== */
 
-        font-size:16px;
+
+.league-page-loading,
+.league-page-error {
+
+    min-height:100vh;
+
+    background:var(--cm-background);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--cm-text-muted);
+
+    font-size:18px;
+
+}
+
+
+/* =====================================================
+   LEAGUE HERO HEADER
+===================================================== */
+
+
+.league-header {
+
+    background:var(--cm-card);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius-lg);
+
+    padding:32px;
+
+    box-shadow:var(--cm-shadow);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:24px;
+
+    margin-bottom:32px;
+
+}
+
+
+
+.league-title {
+
+    font-size:40px;
+
+    font-weight:800;
+
+    color:var(--cm-text);
+
+    margin:12px 0 8px;
+
+}
+
+
+
+.league-code {
+
+    color:var(--cm-text-muted);
+
+    font-size:15px;
+
+}
+
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+
+.league-back-button {
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:var(--cm-text-muted);
+
+    background:none;
+
+    border:none;
+
+    padding:0;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+
+
+.league-back-button:hover {
+
+    color:var(--cm-text);
+
+}
+
+
+
+/* =====================================================
+   PRIMARY ACTION
+===================================================== */
+
+
+.league-create-match-button {
+
+    min-height:52px;
+
+    padding:0 28px;
+
+    border-radius:var(--cm-radius-md);
+
+    background:var(--cm-primary);
+
+    color:white;
+
+    border:none;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:var(--cm-transition);
+
+}
+
+
+
+.league-create-match-button:hover {
+
+    background:var(--cm-primary-hover);
+
+    transform:translateY(-2px);
+
+}
+
+@media(max-width:768px){
+
+
+    .league-overview-value {
+
+
+        font-size:32px;
+
 
     }
 
 
-    .league-match-subtitle {
+
+    .league-leaderboard-table {
+
 
         font-size:14px;
 
-        line-height:1.5;
 
     }
 
 
-    .league-match-link {
 
-        width:100%;
+    .league-leaderboard-table th,
+    .league-leaderboard-table td {
 
-        text-align:center;
 
-        padding:12px;
+        padding:12px 4px;
 
-        border-radius:8px;
 
     }
-
 
 
 }

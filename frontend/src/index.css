@@ -1,1 +1,342 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+@import "./styles/variables.css";
 @import "tailwindcss";
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+
+    box-sizing: border-box;
+
+}
+
+html {
+
+    font-size: 16px;
+
+    scroll-behavior: smooth;
+
+}
+
+body {
+
+    margin: 0;
+
+    min-width: 320px;
+    min-height: 100vh;
+
+    background: var(--cm-background);
+
+    color: var(--cm-text);
+
+    font-family: var(--cm-font-family);
+
+    line-height: 1.5;
+
+    text-rendering: optimizeLegibility;
+
+    -webkit-font-smoothing: antialiased;
+
+    -moz-osx-font-smoothing: grayscale;
+
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    margin: 0;
+
+    color: var(--cm-text);
+
+    font-weight: var(--cm-font-weight-bold);
+
+    line-height: 1.2;
+
+}
+
+h1 {
+
+    font-size: var(--cm-font-size-3xl);
+
+}
+
+h2 {
+
+    font-size: var(--cm-font-size-2xl);
+
+}
+
+h3 {
+
+    font-size: var(--cm-font-size-xl);
+
+}
+
+p {
+
+    margin: 0;
+
+    color: var(--cm-text-muted);
+
+}
+
+a {
+
+    color: var(--cm-primary);
+
+    text-decoration: none;
+
+    transition: color var(--cm-transition);
+
+}
+
+a:hover {
+
+    color: var(--cm-primary-hover);
+
+}
+
+/* ============================================================
+   IMAGES
+   ============================================================ */
+
+img {
+
+    display: block;
+
+    max-width: 100%;
+
+    height: auto;
+
+}
+
+/* ============================================================
+   FORM CONTROLS
+   ============================================================ */
+
+input,
+select,
+textarea {
+
+    width: 100%;
+
+    min-height: var(--cm-touch-size);
+
+    padding: 0 var(--cm-space-4);
+
+    border: 1px solid var(--cm-border);
+
+    border-radius: var(--cm-radius-md);
+
+    background: var(--cm-surface);
+
+    color: var(--cm-text);
+
+    font: inherit;
+
+    transition:
+        border-color var(--cm-transition),
+        box-shadow var(--cm-transition),
+        background var(--cm-transition);
+
+}
+
+input::placeholder,
+textarea::placeholder {
+
+    color: var(--cm-text-muted);
+
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+
+    outline: none;
+
+    border-color: var(--cm-primary);
+
+    box-shadow:
+        0 0 0 4px rgba(99,102,241,.20);
+
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+button {
+
+    min-height: var(--cm-touch-size);
+
+    border: none;
+
+    border-radius: var(--cm-radius-md);
+
+    font: inherit;
+
+    font-weight: var(--cm-font-weight-semibold);
+
+    cursor: pointer;
+
+    transition:
+        transform var(--cm-transition-fast),
+        background var(--cm-transition),
+        box-shadow var(--cm-transition);
+
+}
+
+button:hover {
+
+    transform: translateY(-1px);
+
+}
+
+button:active {
+
+    transform: translateY(0);
+
+}
+
+button:disabled {
+
+    opacity: .5;
+
+    cursor: not-allowed;
+
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+
+    width: 10px;
+
+    height: 10px;
+
+}
+
+::-webkit-scrollbar-track {
+
+    background: var(--cm-background);
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: var(--cm-border);
+
+    border-radius: 999px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: var(--cm-primary);
+
+}
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+
+::selection {
+
+    background: rgba(99,102,241,.35);
+
+    color: white;
+
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+.cm-page {
+
+    width: 100%;
+
+    max-width: var(--cm-content-width);
+
+    margin: 0 auto;
+
+    padding: var(--cm-space-10);
+
+}
+
+.cm-card {
+
+    background: var(--cm-card);
+
+    border: 1px solid var(--cm-border);
+
+    border-radius: var(--cm-radius-lg);
+
+    box-shadow: var(--cm-shadow);
+
+}
+
+.cm-muted {
+
+    color: var(--cm-text-muted);
+
+}
+
+.cm-primary {
+
+    color: var(--cm-primary);
+
+}
+
+.cm-success {
+
+    color: var(--cm-success);
+
+}
+
+.cm-danger {
+
+    color: var(--cm-danger);
+
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    h1 {
+
+        font-size: 2.25rem;
+
+    }
+
+    h2 {
+
+        font-size: 1.75rem;
+
+    }
+
+    .cm-page {
+
+        padding: var(--cm-space-6);
+
+    }
+
+}

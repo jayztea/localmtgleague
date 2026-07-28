@@ -19,30 +19,20 @@ import "../CreateMatch.css";
 
 interface Props {
 
-
     matchState:CreateMatchState;
-
 
     setMatchState:
     React.Dispatch<
         React.SetStateAction<CreateMatchState>
     >;
 
-
-
     nextStep:()=>void;
-
 
     previousStep:()=>void;
 
-
     cancelMatch:()=>void;
 
-
 }
-
-
-
 
 
 
@@ -65,8 +55,6 @@ export default function Step4RecordPlacements({
 
 
 
-
-
     function updatePlacement(
 
         playerId:number,
@@ -75,53 +63,35 @@ export default function Step4RecordPlacements({
 
     ){
 
-
         setMatchState({
-
 
             ...matchState,
 
-
             players:
-
 
                 matchState.players.map(player=>
 
-
                     player.player_id === playerId
-
 
                     ?
 
-
                     {
-
 
                         ...player,
 
-
                         placement
-
 
                     }
 
-
                     :
-
 
                     player
 
-
                 )
-
 
         });
 
-
     }
-
-
-
 
 
 
@@ -129,12 +99,9 @@ export default function Step4RecordPlacements({
 
     function getCommanderName(player:any){
 
-
         const commander =
 
-
             player.commanders.find(
-
 
                 (commander:any)=>
 
@@ -142,12 +109,10 @@ export default function Step4RecordPlacements({
 
                     player.selected_commander_id
 
-
             );
 
 
-
-        return commander?.commander_name ?? "";
+        return commander?.commander_name ?? "Unknown Commander";
 
     }
 
@@ -155,12 +120,7 @@ export default function Step4RecordPlacements({
 
 
 
-
-
-
-
     function getPlacementOptions(){
-
 
         return Array.from(
 
@@ -170,16 +130,11 @@ export default function Step4RecordPlacements({
 
             },
 
-            (_,index)=>index+1
+            (_,index)=>index + 1
 
         );
 
-
     }
-
-
-
-
 
 
 
@@ -187,30 +142,22 @@ export default function Step4RecordPlacements({
 
     function placementLabel(value:number){
 
-
         if(value===1)
 
-            return "1st";
-
+            return "1st Place";
 
         if(value===2)
 
-            return "2nd";
-
+            return "2nd Place";
 
         if(value===3)
 
-            return "3rd";
+            return "3rd Place";
 
 
-        return `${value}th`;
-
+        return `${value}th Place`;
 
     }
-
-
-
-
 
 
 
@@ -220,36 +167,46 @@ export default function Step4RecordPlacements({
 
         <>
 
-
             <StepHeader
-
 
                 step={4}
 
-
                 title="Record Placements"
 
-
-                description="Select the final placement for each player."
-
+                description="Enter the final standings for this match."
 
             />
 
 
 
 
+            <div className="placement-header-card">
+
+                <div className="placement-header-icon">
+
+                    🏆
+
+                </div>
 
 
+                <div>
 
-            <div className="info-banner">
+                    <h3>
+
+                        Record Final Results
+
+                    </h3>
 
 
-                🏆 1st Place is the winner.
+                    <p>
 
+                        The player in 1st place will be recorded as the winner.
+
+                    </p>
+
+                </div>
 
             </div>
-
-
 
 
 
@@ -259,166 +216,133 @@ export default function Step4RecordPlacements({
             <div className="placement-list">
 
 
-
                 {
 
-                matchState.players.map(player => (
+                    matchState.players.map(player=>(
 
 
+                        <div
 
-                    <div
+                            key={player.player_id}
 
-                        key={player.player_id}
+                            className="placement-card"
 
-                        className="placement-card"
-
-                    >
-
+                        >
 
 
-
-                        <div className="placement-player">
-
-
-                            {player.display_name}
+                            <div className="placement-player-info">
 
 
-                        </div>
+                                <div className="placement-player-name">
+
+                                    {player.display_name}
+
+                                </div>
 
 
+                                <div className="placement-player-commander">
+
+                                    🃏 {getCommanderName(player)}
+
+                                </div>
 
 
-
-                        <div className="placement-detail">
-
-
-                            <span>
-
-                                Commander
-
-                            </span>
-
-
-                            <strong>
-
-                                {getCommanderName(player)}
-
-                            </strong>
-
-
-                        </div>
+                            </div>
 
 
 
 
 
-                        <div className="placement-detail">
+                            <div className="placement-selection">
 
 
-                            <span>
+                                <label>
 
-                                Placement
+                                    Final Placement
 
-                            </span>
-
-
-
-
-                            <select
-
-
-                                className="placement-select"
-
-
-                                value={
-
-                                    player.placement ?? ""
-
-                                }
+                                </label>
 
 
 
-                                onChange={(event)=>
+                                <select
 
 
-                                    updatePlacement(
+                                    className="placement-select"
 
 
-                                        player.player_id,
+                                    value={
+
+                                        player.placement ?? ""
+
+                                    }
 
 
-                                        Number(
 
-                                            event.target.value
+                                    onChange={(event)=>
+
+                                        updatePlacement(
+
+                                            player.player_id,
+
+                                            Number(
+
+                                                event.target.value
+
+                                            )
 
                                         )
 
-
-                                    )
-
-                                }
+                                    }
 
 
-
-                            >
-
-
-                                <option value="">
-
-                                    Select
-
-                                </option>
+                                >
 
 
+                                    <option value="">
 
-
-                                {
-
-                                getPlacementOptions()
-
-                                .map(position=>(
-
-
-                                    <option
-
-
-                                        key={position}
-
-
-                                        value={position}
-
-                                    >
-
-
-                                        {placementLabel(position)}
-
+                                        Select Placement
 
                                     </option>
 
 
-                                ))
 
-                                }
+                                    {
+
+                                        getPlacementOptions()
+
+                                        .map(position=>(
 
 
+                                            <option
 
-                            </select>
+                                                key={position}
+
+                                                value={position}
+
+                                            >
+
+                                                {placementLabel(position)}
+
+                                            </option>
+
+
+                                        ))
+
+                                    }
+
+
+                                </select>
+
+
+                            </div>
 
 
                         </div>
 
 
-
-
-
-                    </div>
-
-
-
-                ))
+                    ))
 
                 }
-
 
 
             </div>
@@ -428,22 +352,15 @@ export default function Step4RecordPlacements({
 
 
 
-
-
             <StepNavigation
-
 
                 previousStep={previousStep}
 
-
                 nextStep={nextStep}
-
 
                 cancelMatch={cancelMatch}
 
-
                 disableNext={
-
 
                     matchState.players.some(
 
@@ -451,14 +368,9 @@ export default function Step4RecordPlacements({
 
                     )
 
-
                 }
 
-
             />
-
-
-
 
 
         </>

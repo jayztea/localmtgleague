@@ -1,6 +1,7 @@
 /* =====================================================
-   CREATE MATCH - BASE LAYOUT
+   CREATE MATCH - PAGE FOUNDATION
 ===================================================== */
+
 
 .create-match-page {
 
@@ -13,471 +14,330 @@
 }
 
 
+
 .create-match-card {
 
-    max-width:1000px;
+    max-width:1100px;
 
-    margin:auto;
+    margin:0 auto;
+
 
     background:var(--cm-card);
 
+
     border:1px solid var(--cm-border);
 
-    border-radius:var(--cm-radius);
+
+    border-radius:var(--cm-radius-xl);
+
 
     box-shadow:var(--cm-shadow);
 
-    padding:32px;
-
-}
-
-
-
-/* =====================================================
-   HEADERS
-===================================================== */
-
-
-.step-header {
-
-    margin-bottom:30px;
-
-}
-
-
-.step-title {
-
-    font-size:34px;
-
-    font-weight:700;
-
-    color:var(--cm-text);
-
-    margin-bottom:8px;
-
-}
-
-
-.step-description {
-
-    font-size:17px;
-
-    color:var(--cm-muted);
-
-}
-
-
-.section-title {
-
-    font-size:18px;
-
-    font-weight:600;
-
-    margin-bottom:10px;
-
-}
-
-
-
-/* =====================================================
-   FORMS
-===================================================== */
-
-
-.form-group {
-
-    margin-bottom:25px;
-
-}
-
-
-.form-label {
-
-    display:block;
-
-    font-weight:600;
-
-    margin-bottom:8px;
-
-}
-
-
-.create-match-card select,
-.create-match-card input {
-
-    width:100%;
-
-    padding:10px 12px;
-
-    border:1px solid var(--cm-border);
-
-    border-radius:6px;
-
-    font-size:15px;
-
-    background:white;
-
-}
-
-
-
-/* =====================================================
-   INFO BANNER
-===================================================== */
-
-
-.info-banner {
-
-    margin:20px 0;
-
-    padding:14px 18px;
-
-    background:var(--cm-info);
-
-    color:#1d4ed8;
-
-    border:1px solid var(--cm-info-border);
-
-    border-radius:10px;
-
-    font-weight:600;
-
-}
-
-
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-
-
-.create-match-actions {
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:12px;
-
-    margin-top:40px;
-
-}
-
-
-.cm-button {
-
-    padding:11px 24px;
-
-    border-radius:7px;
-
-    border:1px solid var(--cm-border);
-
-    font-size:15px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.2s;
-
-}
-
-
-.cm-button:hover {
-
-    transform:translateY(-1px);
-
-}
-
-
-.cm-button:disabled {
-
-    opacity:.4;
-
-    cursor:not-allowed;
-
-}
-
-
-.cm-button-primary {
-
-    background:var(--cm-primary);
-
-    color:white;
-
-}
-
-
-.cm-button-primary:hover {
-
-    background:var(--cm-primary-hover);
-
-}
-
-
-.cm-button-secondary {
-
-    background:white;
-
-}
-
-
-.cm-button-danger {
-
-    background:#dc2626;
-
-    color:white;
-
-}
-
-
-.cm-button-danger:hover {
-
-    background:#b91c1c;
-
-}
-/* =====================================================
-   CREATE MATCH - BASE LAYOUT
-===================================================== */
-
-.create-match-page {
-
-    min-height:100vh;
-
-    background:var(--cm-background);
 
     padding:40px;
 
-}
-
-
-.create-match-card {
-
-    max-width:1000px;
-
-    margin:auto;
-
-    background:var(--cm-card);
-
-    border:1px solid var(--cm-border);
-
-    border-radius:var(--cm-radius);
-
-    box-shadow:var(--cm-shadow);
-
-    padding:32px;
 
 }
 
 
 
 /* =====================================================
-   HEADERS
+   STEP HEADER
 ===================================================== */
 
 
 .step-header {
 
-    margin-bottom:30px;
+    margin-bottom:32px;
 
 }
+
 
 
 .step-title {
 
-    font-size:34px;
+    margin:0 0 10px;
 
-    font-weight:700;
 
     color:var(--cm-text);
 
-    margin-bottom:8px;
+
+    font-size:36px;
+
+
+    font-weight:700;
+
 
 }
+
 
 
 .step-description {
 
+    color:var(--cm-text-muted);
+
+
     font-size:17px;
 
-    color:var(--cm-muted);
 
-}
+    line-height:1.5;
 
-
-.section-title {
-
-    font-size:18px;
-
-    font-weight:600;
-
-    margin-bottom:10px;
 
 }
 
 
 
 /* =====================================================
-   FORMS
+   SECTION TITLES
+===================================================== */
+
+
+.section-title {
+
+
+    color:var(--cm-text);
+
+
+    font-size:22px;
+
+
+    font-weight:700;
+
+
+    margin-bottom:16px;
+
+
+}
+
+
+
+/* =====================================================
+   FORM ELEMENTS
 ===================================================== */
 
 
 .form-group {
 
-    margin-bottom:25px;
+    margin-bottom:28px;
 
 }
+
 
 
 .form-label {
 
+
     display:block;
+
+
+    color:var(--cm-text);
+
 
     font-weight:600;
 
-    margin-bottom:8px;
+
+    margin-bottom:10px;
+
 
 }
 
 
-.create-match-card select,
-.create-match-card input {
+
+.create-match-card input,
+.create-match-card select {
+
 
     width:100%;
 
-    padding:10px 12px;
+
+    min-height:48px;
+
+
+    padding:0 16px;
+
+
+    background:var(--cm-background);
+
+
+    color:var(--cm-text);
+
 
     border:1px solid var(--cm-border);
 
-    border-radius:6px;
 
-    font-size:15px;
+    border-radius:var(--cm-radius-md);
 
-    background:white;
+
+    font-size:16px;
+
+
+}
+
+
+
+.create-match-card input:focus,
+.create-match-card select:focus {
+
+
+    outline:none;
+
+
+    border-color:var(--cm-primary);
+
+
+    box-shadow:0 0 0 3px rgba(99,102,241,.25);
+
 
 }
 
 
 
 /* =====================================================
-   INFO BANNER
-===================================================== */
-
-
-.info-banner {
-
-    margin:20px 0;
-
-    padding:14px 18px;
-
-    background:var(--cm-info);
-
-    color:#1d4ed8;
-
-    border:1px solid var(--cm-info-border);
-
-    border-radius:10px;
-
-    font-weight:600;
-
-}
-
-
-
-/* =====================================================
-   BUTTONS
+   BUTTON SYSTEM
 ===================================================== */
 
 
 .create-match-actions {
 
+
     display:flex;
+
 
     justify-content:space-between;
 
+
     align-items:center;
 
-    gap:12px;
+
+    gap:16px;
+
 
     margin-top:40px;
 
+
 }
+
 
 
 .cm-button {
 
-    padding:11px 24px;
 
-    border-radius:7px;
+    min-height:48px;
 
-    border:1px solid var(--cm-border);
+
+    padding:0 28px;
+
+
+    border-radius:var(--cm-radius-md);
+
+
+    border:none;
+
 
     font-size:15px;
 
-    font-weight:600;
+
+    font-weight:700;
+
 
     cursor:pointer;
 
-    transition:.2s;
+
+    transition:var(--cm-transition);
+
 
 }
+
 
 
 .cm-button:hover {
 
-    transform:translateY(-1px);
+
+    transform:translateY(-2px);
+
 
 }
+
 
 
 .cm-button:disabled {
 
-    opacity:.4;
+
+    opacity:.5;
+
 
     cursor:not-allowed;
 
+
+    transform:none;
+
+
 }
+
 
 
 .cm-button-primary {
 
+
     background:var(--cm-primary);
+
 
     color:white;
 
+
 }
+
 
 
 .cm-button-primary:hover {
 
+
     background:var(--cm-primary-hover);
 
+
 }
+
 
 
 .cm-button-secondary {
 
-    background:white;
+
+    background:transparent;
+
+
+    color:var(--cm-text);
+
+
+    border:1px solid var(--cm-border);
+
 
 }
+
+
+
+.cm-button-secondary:hover {
+
+
+    background:var(--cm-card-hover);
+
+
+}
+
 
 
 .cm-button-danger {
 
-    background:#dc2626;
+
+    background:var(--cm-danger);
+
 
     color:white;
 
-}
-
-
-.cm-button-danger:hover {
-
-    background:#b91c1c;
 
 }
+
+
+
 /* =====================================================
    LEAGUE SELECTION
 ===================================================== */
@@ -485,111 +345,273 @@
 
 .league-grid {
 
+
     display:grid;
 
+
     grid-template-columns:
-        repeat(auto-fill,minmax(260px,1fr));
+
+        repeat(auto-fill,minmax(280px,1fr));
+
 
     gap:24px;
 
+
     margin-top:30px;
 
+
 }
+
 
 
 .league-card {
 
-    background:white;
 
-    border:2px solid #ddd;
+    position:relative;
 
-    border-radius:14px;
+
+    background:var(--cm-background);
+
+
+    border:2px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-lg);
+
+
+    padding:28px;
+
 
     cursor:pointer;
 
-    transition:.2s;
-
-    padding:25px;
 
     text-align:center;
 
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.08);
+
+    transition:var(--cm-transition);
+
 
 }
+
 
 
 .league-card:hover {
 
+
+    border-color:var(--cm-primary);
+
+
     transform:translateY(-4px);
 
-    box-shadow:
-        0 8px 20px rgba(0,0,0,.12);
+
+    box-shadow:var(--cm-shadow);
+
 
 }
+
 
 
 .league-card.selected {
 
-    border-color:#2563eb;
 
-    background:#eff6ff;
+    border-color:var(--cm-primary);
+
+
+    background:rgba(99,102,241,.15);
+
+
+    box-shadow:
+
+        0 0 0 2px rgba(99,102,241,.25),
+
+        var(--cm-shadow);
+
 
 }
+
 
 
 .league-image {
 
-    height:130px;
+
+    width:90px;
+
+
+    height:90px;
+
+
+    margin:0 auto 20px;
+
 
     display:flex;
 
+
     align-items:center;
+
 
     justify-content:center;
 
-    background:#f5f5f5;
 
-    border-radius:10px;
+    border-radius:50%;
 
-    font-size:52px;
+
+    background:var(--cm-primary);
+
+
+    font-size:42px;
+
 
 }
+
 
 
 .league-title {
 
-    font-size:20px;
+
+    color:var(--cm-text);
+
+
+    font-size:22px;
+
 
     font-weight:700;
 
-    margin-top:18px;
 
 }
 
 
+
+.league-id {
+
+
+    margin-top:10px;
+
+
+    color:var(--cm-text-muted);
+
+
+    font-size:14px;
+
+
+}
+
+
+
+/* =====================================================
+   EMPTY STATES
+===================================================== */
+
+
+.transfer-empty,
 .league-image-placeholder {
 
-    height:260px;
-
-    border:2px dashed var(--cm-border);
-
-    border-radius:8px;
-
-    margin-top:40px;
 
     display:flex;
 
+
     align-items:center;
+
 
     justify-content:center;
 
-    color:#9CA3AF;
+
+    color:var(--cm-text-muted);
+
+
+    border:2px dashed var(--cm-border);
+
+
+    border-radius:var(--cm-radius-lg);
+
 
 }
 
 
 
+/* =====================================================
+   MOBILE FOUNDATION
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+    .create-match-page {
+
+
+        padding:16px;
+
+
+    }
+
+
+
+    .create-match-card {
+
+
+        padding:22px;
+
+
+        border-radius:var(--cm-radius-lg);
+
+
+    }
+
+
+
+    .step-title {
+
+
+        font-size:28px;
+
+
+    }
+
+
+
+    .step-description {
+
+
+        font-size:15px;
+
+
+    }
+
+
+
+    .create-match-actions {
+
+
+        flex-direction:column;
+
+
+        align-items:stretch;
+
+
+    }
+
+
+
+    .cm-button {
+
+
+        width:100%;
+
+
+    }
+
+
+
+    .league-grid {
+
+
+        grid-template-columns:1fr;
+
+
+    }
+
+
+}
 /* =====================================================
    PLAYER TRANSFER
 ===================================================== */
@@ -601,126 +623,335 @@
 
     grid-template-columns:
 
-        1fr 80px 1fr;
+        1fr 90px 1fr;
 
-    gap:30px;
+
+    gap:28px;
 
     margin-top:30px;
 
+
 }
+
+
+
+.transfer-box {
+
+
+    background:var(--cm-background);
+
+
+    border:1px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-lg);
+
+
+    padding:20px;
+
+
+}
+
 
 
 .transfer-box h3 {
 
-    margin-bottom:12px;
+
+    margin:0 0 16px;
+
+
+    color:var(--cm-text);
+
+
+    font-size:18px;
+
 
 }
+
 
 
 .transfer-list {
 
+
+    min-height:380px;
+
+
+    max-height:420px;
+
+
+    overflow-y:auto;
+
+
     border:1px solid var(--cm-border);
 
-    border-radius:10px;
 
-    background:white;
+    border-radius:var(--cm-radius-md);
 
-    min-height:360px;
 
-    overflow:auto;
+    background:var(--cm-card);
+
 
 }
+
 
 
 .transfer-item {
 
+
     display:flex;
+
 
     align-items:center;
 
-    gap:10px;
 
-    padding:14px 18px;
+    gap:14px;
 
-    border-bottom:1px solid #eee;
+
+    padding:16px;
+
+
+    color:var(--cm-text);
+
+
+    border-bottom:1px solid var(--cm-border);
+
 
     cursor:pointer;
 
+
+    transition:var(--cm-transition);
+
+
 }
+
+
+
+.transfer-item:last-child {
+
+
+    border-bottom:none;
+
+
+}
+
 
 
 .transfer-item:hover {
 
-    background:#f8fafc;
+
+    background:var(--cm-card-hover);
+
 
 }
+
 
 
 .transfer-item input {
 
+
     width:20px;
+
 
     height:20px;
 
+
 }
+
 
 
 .transfer-buttons {
 
+
     display:flex;
+
 
     flex-direction:column;
 
+
     justify-content:center;
 
-    gap:18px;
+
+    gap:16px;
+
 
 }
+
 
 
 .transfer-buttons button {
 
-    width:60px;
 
-    height:60px;
+    width:64px;
 
-    border-radius:10px;
+
+    height:64px;
+
+
+    border-radius:var(--cm-radius-md);
+
 
     border:none;
 
-    background:#2563eb;
+
+    background:var(--cm-primary);
+
 
     color:white;
 
-    font-size:24px;
+
+    font-size:26px;
+
 
     cursor:pointer;
 
+
+    transition:var(--cm-transition);
+
+
 }
+
 
 
 .transfer-buttons button:hover {
 
-    background:#1d4ed8;
+
+    background:var(--cm-primary-hover);
+
+
+    transform:scale(1.05);
+
 
 }
 
 
-.transfer-empty {
+
+/* =====================================================
+   COMMANDER ASSIGNMENT
+===================================================== */
+
+
+.assignment-card {
+
+
+    background:var(--cm-background);
+
+
+    border:1px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-lg);
+
+
+    padding:24px;
+
+
+    margin-bottom:18px;
+
+
+}
+
+
+
+.assignment-card h3 {
+
+
+    color:var(--cm-text);
+
+
+    margin:0 0 16px;
+
+
+}
+
+
+
+.assignment-card select {
+
+
+    background:var(--cm-card);
+
+
+}
+
+
+
+/* =====================================================
+   PLACEMENTS
+===================================================== */
+
+
+.placement-row {
+
 
     display:flex;
 
-    justify-content:center;
 
     align-items:center;
 
-    min-height:120px;
 
-    color:var(--cm-muted);
+    justify-content:space-between;
 
-    font-size:14px;
+
+    gap:20px;
+
+
+    background:var(--cm-background);
+
+
+    border:1px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-lg);
+
+
+    padding:18px;
+
+
+    margin-bottom:14px;
+
 
 }
+
+
+
+.placement-player {
+
+
+    color:var(--cm-text);
+
+
+    font-weight:700;
+
+
+}
+
+
+
+.placement-select {
+
+
+    min-height:44px;
+
+
+    min-width:120px;
+
+
+    background:var(--cm-card);
+
+
+    color:var(--cm-text);
+
+
+    border:1px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-md);
+
+
+}
+
+
+
 /* =====================================================
    REVIEW SCREEN
 ===================================================== */
@@ -728,94 +959,182 @@
 
 .review-layout {
 
+
     display:grid;
+
 
     grid-template-columns:320px 1fr;
 
-    gap:40px;
+
+    gap:30px;
+
 
 }
+
 
 
 .summary-card {
 
-    background:white;
+
+    background:var(--cm-background);
+
 
     border:1px solid var(--cm-border);
 
-    border-radius:8px;
 
-    padding:20px;
+    border-radius:var(--cm-radius-lg);
+
+
+    padding:24px;
+
 
 }
+
+
+
+.summary-card h2 {
+
+
+    color:var(--cm-text);
+
+
+    margin-top:0;
+
+
+}
+
 
 
 .summary-card p {
 
-    margin:14px 0;
+
+    color:var(--cm-text);
+
 
 }
+
 
 
 .review-results {
 
+
     display:flex;
+
 
     flex-direction:column;
 
-    gap:12px;
+
+    gap:14px;
+
 
 }
+
 
 
 .review-player-card {
 
+
     display:flex;
+
 
     align-items:center;
 
-    gap:16px;
 
-    background:white;
+    gap:18px;
+
+
+    padding:20px;
+
+
+    background:var(--cm-background);
+
 
     border:1px solid var(--cm-border);
 
-    border-radius:10px;
 
-    padding:16px;
+    border-radius:var(--cm-radius-lg);
+
+
+    transition:var(--cm-transition);
+
 
 }
+
+
+
+.review-player-card:hover {
+
+
+    background:var(--cm-card-hover);
+
+
+}
+
 
 
 .review-placement {
 
-    min-width:45px;
 
-    font-size:22px;
+    width:56px;
+
+
+    height:56px;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    border-radius:50%;
+
+
+    background:var(--cm-primary);
+
+
+    color:white;
+
+
+    font-size:20px;
+
 
     font-weight:700;
 
+
 }
+
 
 
 .review-player-name {
 
-    font-size:17px;
+
+    color:var(--cm-text);
+
+
+    font-size:18px;
+
 
     font-weight:700;
 
+
 }
+
 
 
 .review-commander {
 
-    margin-top:4px;
 
-    color:var(--cm-muted);
+    color:var(--cm-text-muted);
+
+
+    margin-top:5px;
+
 
 }
-
-
 
 
 
@@ -826,95 +1145,399 @@
 
 .modal-overlay {
 
+
     position:fixed;
+
 
     inset:0;
 
-    background:rgba(0,0,0,.45);
+
+    background:rgba(0,0,0,.65);
+
 
     display:flex;
 
+
     justify-content:center;
+
 
     align-items:center;
 
+
+    padding:16px;
+
+
     z-index:1000;
 
+
 }
+
 
 
 .modal-card {
 
+
     width:650px;
 
-    max-width:calc(100% - 32px);
 
-    background:white;
+    max-width:100%;
 
-    border-radius:14px;
 
-    padding:28px;
+    max-height:90vh;
 
-    box-shadow:
 
-        0 12px 30px rgba(0,0,0,.2);
+    overflow:auto;
+
+
+    background:var(--cm-card);
+
+
+    border:1px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-xl);
+
+
+    padding:30px;
+
+
+    box-shadow:var(--cm-shadow-lg);
+
 
 }
+
+
+
+.modal-card h2 {
+
+
+    color:var(--cm-text);
+
+
+}
+
 
 
 .modal-subtitle {
 
-    color:#666;
 
-    margin-top:6px;
+    color:var(--cm-text-muted);
 
-    margin-bottom:24px;
 
 }
+
 
 
 .modal-search {
 
+
     display:flex;
+
 
     gap:12px;
 
-    margin-bottom:20px;
+
+    margin:20px 0;
+
 
 }
+
 
 
 .search-input {
 
+
     flex:1;
 
-    height:42px;
 
-    border:1px solid #d1d5db;
+    min-height:46px;
 
-    border-radius:8px;
+
+    background:var(--cm-background);
+
+
+    color:var(--cm-text);
+
+
+    border:1px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-md);
+
 
     padding:0 14px;
 
-    font-size:15px;
 
 }
+
 
 
 .search-results {
 
-    max-height:350px;
 
-    overflow-y:auto;
+    border:1px solid var(--cm-border);
 
-    border:1px solid #e5e7eb;
 
-    border-radius:10px;
+    border-radius:var(--cm-radius-md);
+
+
+    overflow:hidden;
+
 
 }
 
 
+
 .search-result-row {
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    padding:16px;
+
+
+    border-bottom:1px solid var(--cm-border);
+
+
+    color:var(--cm-text);
+
+
+}
+
+
+
+.search-result-row:hover {
+
+
+    background:var(--cm-card-hover);
+
+
+}
+
+
+
+.commander-name {
+
+
+    font-weight:700;
+
+
+}
+
+
+
+.commander-colors {
+
+
+    color:var(--cm-text-muted);
+
+
+}
+
+
+
+.modal-footer {
+
+
+    display:flex;
+
+
+    justify-content:flex-end;
+
+
+    margin-top:24px;
+
+
+}
+
+
+
+/* =====================================================
+   MOBILE FINAL PASS
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+    .player-transfer-container {
+
+
+        grid-template-columns:1fr;
+
+
+    }
+
+
+
+    .transfer-buttons {
+
+
+        flex-direction:row;
+
+
+        justify-content:center;
+
+
+        order:2;
+
+
+    }
+
+
+
+    .transfer-buttons button {
+
+
+        width:70px;
+
+
+        height:48px;
+
+
+    }
+
+
+
+    .transfer-list {
+
+
+        min-height:220px;
+
+
+    }
+
+
+
+    .placement-row {
+
+
+        flex-direction:column;
+
+
+        align-items:stretch;
+
+
+    }
+
+
+
+    .placement-select {
+
+
+        width:100%;
+
+
+    }
+
+
+
+    .review-layout {
+
+
+        grid-template-columns:1fr;
+
+
+    }
+
+
+
+    .review-player-card {
+
+
+        flex-direction:column;
+
+
+        align-items:flex-start;
+
+
+    }
+
+
+
+    .modal-search {
+
+
+        flex-direction:column;
+
+
+    }
+
+
+
+}
+/* =====================================================
+   STEP 4 - RECORD PLACEMENTS
+===================================================== */
+
+
+.placement-header-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    background:var(--cm-surface);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius);
+
+    padding:20px;
+
+    margin-bottom:28px;
+
+}
+
+
+.placement-header-icon{
+
+    font-size:42px;
+
+}
+
+
+.placement-header-card h3{
+
+    margin:0 0 6px;
+
+    font-size:20px;
+
+}
+
+
+.placement-header-card p{
+
+    margin:0;
+
+    color:var(--cm-text-muted);
+
+}
+
+
+
+.placement-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+
+
+.placement-card{
 
     display:flex;
 
@@ -922,374 +1545,135 @@
 
     align-items:center;
 
-    padding:14px 18px;
+    gap:24px;
 
-    border-bottom:1px solid #eee;
+    background:var(--cm-card);
 
-}
+    border:1px solid var(--cm-border);
 
+    border-radius:var(--cm-radius);
 
-.search-result-row:hover {
-
-    background:#f8fafc;
-
-}
-
-
-.commander-name {
-
-    font-weight:600;
+    padding:22px;
 
 }
 
 
-.commander-colors {
 
-    color:#64748b;
-
-    font-size:13px;
-
-    margin-top:4px;
-
-}
-
-
-.loading-text,
-.empty-search {
-
-    padding:20px;
-
-    text-align:center;
-
-    color:#64748b;
-
-}
-
-
-.modal-footer {
+.placement-player-info{
 
     display:flex;
 
-    justify-content:flex-end;
+    flex-direction:column;
 
-    margin-top:24px;
+    gap:8px;
 
 }
-/* =====================================================
-   MOBILE RESPONSIVE
-===================================================== */
+
+
+
+.placement-player-name{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:var(--cm-text);
+
+}
+
+
+
+.placement-player-commander{
+
+    color:var(--cm-text-muted);
+
+    font-size:15px;
+
+}
+
+
+
+.placement-selection{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    min-width:220px;
+
+}
+
+
+
+.placement-selection label{
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:var(--cm-text-muted);
+
+}
+
+
+
+.placement-select{
+
+    height:48px;
+
+    padding:0 14px;
+
+    border-radius:var(--cm-radius-md);
+
+    border:1px solid var(--cm-border);
+
+    background:var(--cm-background);
+
+    color:var(--cm-text);
+
+    font-size:16px;
+
+}
+
+
+
 
 
 @media(max-width:768px){
 
 
-    /* =========================
-       PAGE CONTAINER
-    ========================= */
-
-
-    .create-match-page {
-
-        padding:16px;
-
-    }
-
-
-    .create-match-card {
-
-        padding:20px;
-
-        border-radius:16px;
-
-    }
-
-
-
-    /* =========================
-       HEADERS
-    ========================= */
-
-
-    .step-header {
-
-        margin-bottom:20px;
-
-    }
-
-
-    .step-title {
-
-        font-size:22px;
-
-    }
-
-
-    .step-description {
-
-        font-size:14px;
-
-    }
-
-
-
-    /* =========================
-       INPUTS
-    ========================= */
-
-
-    .create-match-card select,
-    .create-match-card input {
-
-        font-size:16px;
-
-        min-height:44px;
-
-    }
-
-
-
-    /* =========================
-       BUTTONS
-    ========================= */
-
-
-    button {
-
-        min-height:44px;
-
-    }
-
-
-    .create-match-actions {
-
-        flex-direction:column;
-
-        gap:12px;
-
-        margin-top:30px;
-
-    }
-
-
-    .create-match-actions .cm-button {
-
-        width:100%;
-
-        min-height:50px;
-
-    }
-
-
-    .step-navigation {
-
-        flex-direction:column;
-
-        gap:12px;
-
-    }
-
-
-    .step-navigation button {
-
-        width:100%;
-
-    }
-
-
-
-    /* =========================
-       LEAGUE SELECTION
-    ========================= */
-
-
-    .league-grid {
-
-        grid-template-columns:1fr;
-
-        gap:16px;
-
-    }
-
-
-    .league-card {
-
-        padding:18px;
-
-    }
-
-
-    .league-image {
-
-        height:100px;
-
-        font-size:40px;
-
-    }
-
-
-    .league-image-placeholder {
-
-        height:160px;
-
-        margin-top:25px;
-
-        font-size:14px;
-
-    }
-
-
-
-    /* =========================
-       PLAYER TRANSFER
-    ========================= */
-
-
-    .player-transfer-container {
-
-        grid-template-columns:1fr;
-
-        gap:15px;
-
-    }
-
-
-    .transfer-buttons {
-
-        flex-direction:row;
-
-        justify-content:center;
-
-        order:2;
-
-    }
-
-
-    .transfer-buttons button {
-
-        width:70px;
-
-        height:48px;
-
-        font-size:20px;
-
-    }
-
-
-    .transfer-list {
-
-        min-height:220px;
-
-    }
-
-
-    .transfer-item {
-
-        min-height:52px;
-
-        padding:14px;
-
-        font-size:16px;
-
-    }
-
-
-
-    /* =========================
-       COMMANDER ASSIGNMENT
-    ========================= */
-
-
-    .assignment-card {
-
-        padding:16px;
-
-    }
-
-
-
-    /* =========================
-       PLACEMENTS
-    ========================= */
-
-
-    .placement-select {
-
-        width:100%;
-
-        height:48px;
-
-    }
-
-
-
-    /* =========================
-       REVIEW SCREEN
-    ========================= */
-
-
-    .review-layout {
-
-        grid-template-columns:1fr;
-
-        gap:20px;
-
-    }
-
-
-    .summary-card {
-
-        padding:16px;
-
-    }
-
-
-    .review-player-card {
-
-        padding:16px;
-
-    }
-
-
-
-    /* =========================
-       MODAL
-    ========================= */
-
-
-    .modal-card {
-
-        padding:18px;
-
-        max-height:90vh;
-
-        overflow-y:auto;
-
-    }
-
-
-    .modal-search {
-
-        flex-direction:column;
-
-    }
-
-
-    .search-input {
-
-        width:100%;
-
-        height:48px;
-
-    }
-
-
-    .search-result-row {
-
-        flex-direction:column;
+    .placement-header-card{
 
         align-items:flex-start;
 
-        gap:10px;
+    }
+
+
+    .placement-card{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        gap:18px;
+
+    }
+
+
+    .placement-selection{
+
+        width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .placement-select{
+
+        width:100%;
 
     }
 

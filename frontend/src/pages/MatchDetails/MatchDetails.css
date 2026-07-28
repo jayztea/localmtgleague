@@ -1,4 +1,4 @@
-.match-details-page{
+.match-details-page {
 
     min-height:100vh;
 
@@ -10,23 +10,55 @@
 
 
 
-.match-back-button{
+/* ================================
+   BACK BUTTON
+================================ */
 
-    margin-bottom:20px;
 
-    background:none;
+.match-back-button {
 
-    border:none;
+    min-height:var(--cm-touch-size);
+
+    padding:0 18px;
+
+
+    background:transparent;
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius-md);
+
+
+    color:var(--cm-text);
+
+    font-weight:600;
 
     cursor:pointer;
 
-    font-size:16px;
+
+    margin-bottom:24px;
+
+
+    transition:var(--cm-transition);
 
 }
 
 
 
-.match-details-page .review-layout{
+.match-back-button:hover {
+
+    background:var(--cm-card-hover);
+
+}
+
+
+
+/* ================================
+   CONTENT
+================================ */
+
+
+.match-details-page .review-layout {
 
     display:flex;
 
@@ -36,15 +68,207 @@
 
 }
 
-/* =====================================
-   MOBILE RESPONSIVE
-===================================== */
 
 
-@media (max-width:768px){
+/* ================================
+   SUMMARY CARD
+================================ */
 
 
-    .match-details-page{
+.summary-card {
+
+
+    background:var(--cm-card);
+
+
+    border:1px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-lg);
+
+
+    padding:28px;
+
+
+    box-shadow:var(--cm-shadow);
+
+
+}
+
+
+
+.summary-card h2 {
+
+
+    margin-top:0;
+
+    margin-bottom:20px;
+
+
+    color:var(--cm-text);
+
+
+}
+
+
+
+.summary-card p {
+
+
+    color:var(--cm-text);
+
+
+    margin:14px 0;
+
+
+}
+
+
+
+.summary-card strong {
+
+
+    color:var(--cm-text-muted);
+
+
+}
+
+
+
+/* ================================
+   PLAYER RESULTS
+================================ */
+
+
+.review-results {
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+
+}
+
+
+
+.review-player-card {
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+
+    background:var(--cm-card);
+
+
+    border:1px solid var(--cm-border);
+
+
+    border-radius:var(--cm-radius-lg);
+
+
+    padding:20px;
+
+
+    box-shadow:var(--cm-shadow);
+
+
+    transition:var(--cm-transition);
+
+
+}
+
+
+
+.review-player-card:hover {
+
+
+    background:var(--cm-card-hover);
+
+    transform:translateY(-2px);
+
+
+}
+
+
+
+.review-placement {
+
+
+    min-width:60px;
+
+
+    height:60px;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    border-radius:50%;
+
+
+    background:var(--cm-primary);
+
+
+    color:white;
+
+
+    font-size:22px;
+
+    font-weight:700;
+
+
+}
+
+
+
+.review-player-name {
+
+
+    color:var(--cm-text);
+
+
+    font-size:18px;
+
+    font-weight:700;
+
+
+}
+
+
+
+.review-commander {
+
+
+    margin-top:6px;
+
+
+    color:var(--cm-text-muted);
+
+
+}
+
+
+
+/* ================================
+   MOBILE
+================================ */
+
+
+@media(max-width:768px){
+
+
+    .match-details-page {
 
         padding:16px;
 
@@ -52,7 +276,17 @@
 
 
 
-    .match-details-card{
+    .match-back-button {
+
+        width:100%;
+
+        margin-bottom:20px;
+
+    }
+
+
+
+    .summary-card {
 
         padding:20px;
 
@@ -60,34 +294,33 @@
 
 
 
-    .match-header{
+    .review-player-card {
 
-        flex-direction:column;
-
-        gap:16px;
-
-    }
-
-
-
-    .match-back-button{
-
-        width:100%;
-
-        min-height:44px;
-
-    }
-
-
-
-    .match-player-card{
 
         flex-direction:column;
 
         align-items:flex-start;
 
+
+        gap:14px;
+
+
     }
 
+
+
+    .review-placement {
+
+
+        width:52px;
+
+        height:52px;
+
+
+        font-size:18px;
+
+
+    }
 
 
 }

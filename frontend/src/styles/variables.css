@@ -1,33 +1,272 @@
 :root {
 
-    --cm-primary: #2D2F34;
-    --cm-primary-hover: #1F2125;
+    /* ============================================================
+       BRAND COLORS
+       ============================================================ */
 
-    --cm-background: #F7F8FA;
 
-    --cm-card: #FFFFFF;
+    --cm-background:
+        #0b1220;
 
-    --cm-border: #D9DCE3;
 
-    --cm-text: #1F2937;
+    --cm-surface:
+        #111827;
 
-    --cm-muted: #6B7280;
 
-    --cm-success: #16A34A;
+    --cm-surface-hover:
+        #1f2937;
 
-    --cm-info: #EAF3FF;
 
-    --cm-info-border: #60A5FA;
+    --cm-card:
+        rgba(17, 24, 39, .92);
 
-    --cm-radius: 10px;
+
+    --cm-card-hover:
+        rgba(31, 41, 55, .95);
+
+
+
+    /* PRIMARY BRAND */
+
+    --cm-primary:
+        #6366f1;
+
+
+    --cm-primary-hover:
+        #4f46e5;
+
+
+
+    /* STATUS COLORS */
+
+    --cm-success:
+        #22c55e;
+
+
+    --cm-warning:
+        #fbbf24;
+
+
+    --cm-danger:
+        #ef4444;
+
+
+
+    /* INFORMATION */
+
+    --cm-info:
+        rgba(59,130,246,.15);
+
+
+    --cm-info-border:
+        rgba(59,130,246,.35);
+
+
+
+    /* TEXT */
+
+    --cm-text:
+        #f8fafc;
+
+
+    --cm-text-muted:
+        #94a3b8;
+
+
+    /* backwards compatibility */
+    --cm-muted:
+        #94a3b8;
+
+
+
+    /* BORDER */
+
+    --cm-border:
+        rgba(148,163,184,.20);
+
+
+
+
+    /* ============================================================
+       TYPOGRAPHY
+       ============================================================ */
+
+
+    --cm-font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+
+
+    --cm-font-size-xs:
+        .75rem;
+
+
+    --cm-font-size-sm:
+        .875rem;
+
+
+    --cm-font-size-md:
+        1rem;
+
+
+    --cm-font-size-lg:
+        1.125rem;
+
+
+    --cm-font-size-xl:
+        1.5rem;
+
+
+    --cm-font-size-2xl:
+        2rem;
+
+
+    --cm-font-size-3xl:
+        3rem;
+
+
+
+    --cm-font-weight-normal:
+        400;
+
+
+    --cm-font-weight-medium:
+        500;
+
+
+    --cm-font-weight-semibold:
+        600;
+
+
+    --cm-font-weight-bold:
+        700;
+
+
+
+
+    /* ============================================================
+       SPACING
+       ============================================================ */
+
+
+    --cm-space-1:
+        4px;
+
+
+    --cm-space-2:
+        8px;
+
+
+    --cm-space-3:
+        12px;
+
+
+    --cm-space-4:
+        16px;
+
+
+    --cm-space-5:
+        20px;
+
+
+    --cm-space-6:
+        24px;
+
+
+    --cm-space-8:
+        32px;
+
+
+    --cm-space-10:
+        40px;
+
+
+    --cm-space-12:
+        48px;
+
+
+    --cm-space-16:
+        64px;
+
+
+
+
+    /* ============================================================
+       RADIUS
+       ============================================================ */
+
+
+    --cm-radius-sm:
+        8px;
+
+
+    --cm-radius-md:
+        12px;
+
+
+    --cm-radius-lg:
+        16px;
+
+
+    --cm-radius-xl:
+        22px;
+
+
+    --cm-radius:
+        var(--cm-radius-lg);
+
+
+
+
+    /* ============================================================
+       SHADOWS
+       ============================================================ */
+
+
+    --cm-shadow-sm:
+        0 4px 14px rgba(0,0,0,.25);
+
 
     --cm-shadow:
-        0 4px 14px rgba(0,0,0,.08);
+        0 12px 35px rgba(0,0,0,.35);
 
-}
 
-:root {
+    --cm-shadow-lg:
+        0 30px 80px rgba(0,0,0,.55);
 
-    --cm-touch-size:44px;
+
+
+
+    /* ============================================================
+       TRANSITIONS
+       ============================================================ */
+
+
+    --cm-transition-fast:
+        .15s ease;
+
+
+    --cm-transition:
+        .25s ease;
+
+
+
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+
+
+    --cm-content-width:
+        1280px;
+
+
+    --cm-touch-size:
+        48px;
 
 }

@@ -6,6 +6,7 @@ interface Props{
 
 }
 
+
 export default function LeagueOverviewCard({
 
     title,
@@ -14,9 +15,11 @@ export default function LeagueOverviewCard({
 
 }:Props){
 
+
     return(
 
         <div className="league-overview-card">
+
 
             <div className="league-overview-label">
 
@@ -24,11 +27,14 @@ export default function LeagueOverviewCard({
 
             </div>
 
+
+
             <div className="league-overview-value">
 
                 {value}
 
             </div>
+
 
         </div>
 
