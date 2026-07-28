@@ -146,7 +146,7 @@ export default function Login(){
 
                         alt="Local Magic League"
 
-                        className="login-logo"
+                        className="hero-image"
 
                     />
 
