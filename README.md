@@ -18,11 +18,8 @@ Database:
 ## Features
 
 Future:
-- Rebrand to new colors and new "beautification" of site
-- Beautify the Login Screen
-  - Put more deatils, like FAQ and other information on create account/login page so that people don't become "afraid" of
-- Player Stats V1
 - Defect: Fix browswer name so it doesn't say "frontend"
+- Player Stats V1
 - Reset Password finish
 - Player Stats V2
   - 🏆 Achievement badges
