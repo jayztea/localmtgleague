@@ -18,7 +18,6 @@ Database:
 ## Features
 
 Future:
-- Defect: Fix browswer name so it doesn't say "frontend"
 - Player Stats V1
 - Reset Password finish
 - Player Stats V2
