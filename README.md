@@ -15,7 +15,7 @@ Backend:
 Database:
 - MySQL
 
-## Features
+## Feature Backlog
 
 Future:
 - Player Stats V1
