@@ -1,6 +1,7 @@
 # Local Magic League 
 
-A web application for tracking Magic: The Gathering Commander games with your local "commander leage", player statistics, and league rankings. 
+localmagicleague.com
+A full stack, web application for tracking Magic: The Gathering Commander games with your local "commander league", player statistics, and league rankings. 
 
 ## Technology Stack
 
@@ -14,6 +15,12 @@ Backend:
 
 Database:
 - MySQL
+
+## Project Structure
+
+/frontend - React frontend
+/backend - API backend
+/database - SQL scripts
 
 ## Feature Backlog
 
@@ -44,9 +51,4 @@ Future:
 - Add Tournaments
 - Trends, year over year
 
-## Project Structure
 
-/client - React frontend
-/server - API backend
-/database - SQL scripts
-/docs - Documentation
