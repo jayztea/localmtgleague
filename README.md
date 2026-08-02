@@ -1,6 +1,7 @@
 # Local Magic League 
 
-localmagicleague.com
+**localmagicleague.com**
+
 A full stack, web application for tracking Magic: The Gathering Commander games with your local "commander league", player statistics, and league rankings. 
 
 ## Technology Stack
