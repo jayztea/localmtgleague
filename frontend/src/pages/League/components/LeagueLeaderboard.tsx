@@ -1,7 +1,18 @@
+import {
+    useNavigate
+}
+from "react-router-dom";
+
+
 import type {
     LeagueLeaderboardEntry
 }
 from "../../../types/leagueStatistics";
+
+
+import "./LeagueLeaderboard.css";
+
+
 
 interface Props{
 
@@ -9,35 +20,55 @@ interface Props{
 
 }
 
+
+
 export default function LeagueLeaderboard({
 
     leaderboard
 
 }:Props){
 
+
+    const navigate =
+        useNavigate();
+
+
+
+
     function getRankDisplay(rank:number){
 
         switch(rank){
 
             case 1:
+
                 return "🥇";
 
+
             case 2:
+
                 return "🥈";
 
+
             case 3:
+
                 return "🥉";
 
+
             default:
+
                 return `#${rank}`;
 
         }
 
     }
 
+
+
+
     return(
 
         <section className="league-section-card">
+
 
             <h2 className="league-section-title">
 
@@ -45,27 +76,62 @@ export default function LeagueLeaderboard({
 
             </h2>
 
+
+
             <table className="league-leaderboard-table">
+
 
                 <thead>
 
+
                     <tr>
 
-                        <th>Rank</th>
 
-                        <th>Player</th>
+                        <th>
 
-                        <th>Wins</th>
+                            Rank
 
-                        <th>Games</th>
+                        </th>
 
-                        <th>Win %</th>
+
+                        <th>
+
+                            Player
+
+                        </th>
+
+
+                        <th>
+
+                            Wins
+
+                        </th>
+
+
+                        <th>
+
+                            Games
+
+                        </th>
+
+
+                        <th>
+
+                            Win %
+
+                        </th>
+
 
                     </tr>
 
+
                 </thead>
 
+
+
+
                 <tbody>
+
 
                     {
 
@@ -79,41 +145,90 @@ export default function LeagueLeaderboard({
 
                             )=>(
 
+
                                 <tr
-                                    key={player.player_id}
+
+                                    key={
+                                        player.player_id
+                                    }
+
                                 >
 
-                                    <td>
 
-                                        {getRankDisplay(index + 1)}
-
-                                    </td>
 
                                     <td>
 
-                                        {player.display_name}
+                                        {
+                                            getRankDisplay(
+                                                index + 1
+                                            )
+                                        }
 
                                     </td>
+
+
+
 
                                     <td>
 
-                                        {player.wins}
+
+                                        <button
+
+                                            className="league-player-link"
+
+                                            onClick={()=>navigate(
+
+                                                `/player/${player.player_id}`
+
+                                            )}
+
+                                        >
+
+                                            {
+                                                player.display_name
+                                            }
+
+                                        </button>
+
 
                                     </td>
+
+
+
 
                                     <td>
 
-                                        {player.games_played}
+                                        {
+                                            player.wins
+                                        }
 
                                     </td>
+
+
+
 
                                     <td>
 
-                                        {player.win_rate}%
+                                        {
+                                            player.games_played
+                                        }
 
                                     </td>
+
+
+
+
+                                    <td>
+
+                                        {
+                                            player.win_rate
+                                        }%
+
+                                    </td>
+
 
                                 </tr>
+
 
                             )
 
@@ -121,9 +236,12 @@ export default function LeagueLeaderboard({
 
                     }
 
+
                 </tbody>
 
+
             </table>
+
 
         </section>
 

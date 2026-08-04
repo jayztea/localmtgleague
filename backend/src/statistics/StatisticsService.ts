@@ -1,13 +1,13 @@
 import * as statisticsRepository
-    from "./statisticsRepository";
+from "./statisticsRepository";
 
 
 import * as playerRepository
-    from "../repositories/playerRepository";
+from "../repositories/playerRepository";
 
 
 import * as statisticsAuthorizationRepository
-    from "../repositories/statisticsAuthorizationRepository";
+from "../repositories/statisticsAuthorizationRepository";
 
 
 import {
@@ -46,6 +46,7 @@ from "../errors/UnauthorizedError";
 
 
 
+
 export async function getPlayerStatistics(
     requestingUserId:number,
     playerId:number
@@ -69,15 +70,16 @@ export async function getPlayerStatistics(
 
 
 
-    if (
+    if(
         !requestingPlayer
-    ) {
+    ){
 
         throw new UnauthorizedError(
             "Authenticated user does not have a player profile."
         );
 
     }
+
 
 
 
@@ -91,7 +93,6 @@ export async function getPlayerStatistics(
 
     */
 
-
     const canView =
         await statisticsAuthorizationRepository.canViewPlayerStatistics(
             requestingPlayer.player_id,
@@ -100,9 +101,9 @@ export async function getPlayerStatistics(
 
 
 
-    if (
+    if(
         !canView
-    ) {
+    ){
 
         throw new UnauthorizedError(
             "You do not have permission to view this player's statistics."
@@ -113,11 +114,11 @@ export async function getPlayerStatistics(
 
 
 
+
     /*
         Load target player
 
     */
-
 
     const player =
         await playerRepository.findById(
@@ -126,9 +127,9 @@ export async function getPlayerStatistics(
 
 
 
-    if (
+    if(
         !player
-    ) {
+    ){
 
         throw new NotFoundError(
             "Player not found."
@@ -139,11 +140,11 @@ export async function getPlayerStatistics(
 
 
 
+
     /*
         Load match history
 
     */
-
 
     const games =
         await statisticsRepository.findPlayerMatchHistory(
@@ -151,14 +152,14 @@ export async function getPlayerStatistics(
         );
 
 
-
+    const recentMatches =
+        games.slice(0,10);
 
 
     /*
         Calculate statistics
 
     */
-
 
     const summary =
         calculatePlayerStats(
@@ -187,8 +188,8 @@ export async function getPlayerStatistics(
 
 
 
-
     return {
+
 
 
         player: {
@@ -200,6 +201,7 @@ export async function getPlayerStatistics(
 
             display_name:
                 player.display_name
+
 
         },
 
@@ -215,11 +217,14 @@ export async function getPlayerStatistics(
         highlights: {
 
 
+
             most_played_commander:
 
                 getMostPlayedCommander(
                     commanderStats
                 ),
+
+
 
 
 
@@ -231,6 +236,8 @@ export async function getPlayerStatistics(
 
 
 
+
+
             best_color:
 
                 getBestColor(
@@ -239,11 +246,14 @@ export async function getPlayerStatistics(
 
 
 
+
+
             worst_color:
 
                 getWorstColor(
                     colorStats
                 )
+
 
 
         },
@@ -260,7 +270,14 @@ export async function getPlayerStatistics(
 
 
         color_stats:
-            colorStats
+            colorStats,
+
+
+
+
+
+        recent_matches:
+            recentMatches
 
 
 

@@ -43,13 +43,16 @@ import LeaguePage
 from "./pages/League/LeaguePage";
 
 
+import PlayerPage
+from "./pages/Player/PlayerPage";
+
+
 import MatchDetails
 from "./pages/MatchDetails/MatchDetails";
 
 
 import ProtectedRoute
 from "./auth/ProtectedRoute";
-
 
 
 
@@ -129,6 +132,7 @@ export default function App(){
 
 
 
+
                 <Route
 
                     path="/dashboard"
@@ -144,6 +148,31 @@ export default function App(){
                     }
 
                 />
+
+
+
+
+
+
+
+
+
+                <Route
+
+                    path="/player/:playerId"
+
+                    element={
+
+                        <ProtectedRoute>
+
+                            <PlayerPage />
+
+                        </ProtectedRoute>
+
+                    }
+
+                />
+
 
 
 
@@ -175,6 +204,7 @@ export default function App(){
 
 
 
+
                 <Route
 
                     path="/matches/create"
@@ -190,6 +220,7 @@ export default function App(){
                     }
 
                 />
+
 
 
 
@@ -221,6 +252,7 @@ export default function App(){
 
 
 
+
                 <Route
 
                     path="/leagues/join"
@@ -236,6 +268,7 @@ export default function App(){
                     }
 
                 />
+
 
 
 
@@ -263,6 +296,7 @@ export default function App(){
 
 
 
+
                 <Route
 
                     path="/"
@@ -280,6 +314,7 @@ export default function App(){
                     }
 
                 />
+
 
 
 
@@ -316,6 +351,5 @@ export default function App(){
         </BrowserRouter>
 
     );
-
 
 }

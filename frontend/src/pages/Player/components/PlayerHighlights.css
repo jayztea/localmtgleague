@@ -1,0 +1,85 @@
+.player-highlights-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(240px,1fr)
+        );
+
+    gap:20px;
+
+}
+
+
+
+.player-highlight-card{
+
+    background:var(--cm-card);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius);
+
+    box-shadow:var(--cm-shadow);
+
+    padding:24px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+
+
+.player-highlight-label{
+
+    color:var(--cm-muted);
+
+    font-size:13px;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+    letter-spacing:.5px;
+
+}
+
+
+
+.player-highlight-card h3{
+
+    margin:0;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+
+
+.player-highlight-card p{
+
+    margin:0;
+
+    color:var(--cm-muted);
+
+}
+
+
+
+@media(max-width:768px){
+
+    .player-highlights-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

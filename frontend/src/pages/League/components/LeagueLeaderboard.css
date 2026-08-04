@@ -1,0 +1,45 @@
+.league-player-link {
+
+    background:none;
+
+    border:none;
+
+    padding:0;
+
+    cursor:pointer;
+
+    color:var(--cm-primary);
+
+    font-size:inherit;
+
+    font-weight:600;
+
+    text-align:left;
+
+}
+
+
+
+.league-player-link:hover {
+
+    text-decoration:underline;
+
+}
+
+
+
+@media(max-width:768px){
+
+
+    .league-player-link {
+
+        min-height:44px;
+
+        display:flex;
+
+        align-items:center;
+
+    }
+
+
+}

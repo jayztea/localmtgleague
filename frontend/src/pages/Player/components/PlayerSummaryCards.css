@@ -1,0 +1,101 @@
+.player-summary-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(180px, 1fr)
+        );
+
+    gap:20px;
+
+    margin-bottom:32px;
+
+}
+
+
+
+.player-stat-card {
+
+    background:var(--cm-card);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius);
+
+    box-shadow:var(--cm-shadow);
+
+    padding:24px;
+
+}
+
+
+
+.player-stat-card h3 {
+
+    margin:0 0 12px 0;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:var(--cm-muted);
+
+    text-transform:uppercase;
+
+    letter-spacing:.5px;
+
+}
+
+
+
+.player-stat-card p {
+
+    margin:0;
+
+    font-size:32px;
+
+    font-weight:700;
+
+}
+
+
+
+
+
+@media(max-width:768px){
+
+
+    .player-summary-grid {
+
+        grid-template-columns:
+
+            repeat(
+
+                2,
+
+                1fr
+
+            );
+
+    }
+
+
+
+}
+
+
+
+@media(max-width:480px){
+
+
+    .player-summary-grid {
+
+        grid-template-columns:1fr;
+
+    }
+
+
+
+}
