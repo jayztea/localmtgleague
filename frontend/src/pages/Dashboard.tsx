@@ -4,52 +4,73 @@ import {
 }
 from "react";
 
+
 import {
     useNavigate
 }
 from "react-router-dom";
+
 
 import {
     useAuth
 }
 from "../auth/AuthContext";
 
+
 import {
     getDashboard
 }
 from "../services/dashboardService";
+
 
 import type {
     Dashboard as DashboardType
 }
 from "../types/dashboard";
 
+
 import StatCard
 from "../components/StatCard";
+
 
 import RecentGamesTable
 from "../components/RecentGamesTable";
 
+
 import LeagueDashboardCard
 from "../components/LeagueDashboardCard";
 
+
+import defaultPlayerAvatar
+from "../styles/assets/avatars/default-player.png";
+
+
 import "./Dashboard.css";
 
+
+
 export default function Dashboard(){
+
 
     const {
         logout
     } =
     useAuth();
 
+
+
     const navigate =
         useNavigate();
+
+
 
     const [
         dashboard,
         setDashboard
     ] =
     useState<DashboardType | null>(null);
+
+
 
     useEffect(
         ()=>{
@@ -71,6 +92,8 @@ export default function Dashboard(){
         []
     );
 
+
+
     if(!dashboard){
 
         return(
@@ -85,29 +108,78 @@ export default function Dashboard(){
 
     }
 
+
+
     return(
 
         <div className="dashboard-page">
 
+
+
             <div className="dashboard-header">
 
-                <div>
 
-                    <h1 className="dashboard-title">
 
-                        Commander Dashboard
+                <div className="dashboard-profile-section">
 
-                    </h1>
 
-                    <p className="dashboard-subtitle">
 
-                        Welcome,
-                        {" "}
-                        {dashboard.player.display_name}
+                    <button
 
-                    </p>
+                        className="dashboard-avatar-button"
+
+                        onClick={()=>navigate(
+
+                            `/player/${dashboard.player.player_id}`
+
+                        )}
+
+                        aria-label="View player statistics"
+
+                    >
+
+                        <img
+
+                            src={defaultPlayerAvatar}
+
+                            alt="Player profile"
+
+                            className="dashboard-avatar"
+
+                        />
+
+                    </button>
+
+
+
+                    <div>
+
+
+                        <h1 className="dashboard-title">
+
+                            Commander Dashboard
+
+                        </h1>
+
+
+
+                        <p className="dashboard-subtitle">
+
+                            Welcome,
+                            {" "}
+                            {dashboard.player.display_name}
+
+                        </p>
+
+
+                    </div>
+
+
 
                 </div>
+
+
+
 
                 {
                     dashboard.leagues.length > 0 &&
@@ -116,13 +188,11 @@ export default function Dashboard(){
 
                         className="dashboard-button"
 
-                        onClick={()=>
+                        onClick={()=>navigate(
 
-                            navigate(
-                                "/matches/create"
-                            )
+                            "/matches/create"
 
-                        }
+                        )}
 
                     >
 
@@ -132,35 +202,70 @@ export default function Dashboard(){
 
                 }
 
+
+
             </div>
+
+
+
 
             <section className="dashboard-stat-grid">
 
+
+
                 <StatCard
+
                     title="Games Played"
+
                     value={dashboard.summary.games_played}
+
                 />
 
+
+
                 <StatCard
+
                     title="Games Won"
+
                     value={dashboard.summary.wins}
+
                 />
 
+
+
                 <StatCard
+
                     title="Win Rate"
+
                     value={`${dashboard.summary.win_rate}%`}
+
                 />
 
+
+
                 <StatCard
+
                     title="Average Finish"
+
                     value={dashboard.summary.average_finish}
+
                 />
+
+
 
             </section>
 
+
+
+
+
             <section className="dashboard-section">
 
+
+
                 <div className="dashboard-section-header">
+
+
 
                     <h2>
 
@@ -168,19 +273,21 @@ export default function Dashboard(){
 
                     </h2>
 
+
+
                     <div className="dashboard-actions">
+
+
 
                         <button
 
                             className="dashboard-button"
 
-                            onClick={()=>
+                            onClick={()=>navigate(
 
-                                navigate(
-                                    "/leagues/create"
-                                )
+                                "/leagues/create"
 
-                            }
+                            )}
 
                         >
 
@@ -188,17 +295,18 @@ export default function Dashboard(){
 
                         </button>
 
+
+
+
                         <button
 
                             className="dashboard-button"
 
-                            onClick={()=>
+                            onClick={()=>navigate(
 
-                                navigate(
-                                    "/leagues/join"
-                                )
+                                "/leagues/join"
 
-                            }
+                            )}
 
                         >
 
@@ -206,9 +314,16 @@ export default function Dashboard(){
 
                         </button>
 
+
+
                     </div>
 
+
+
                 </div>
+
+
+
 
                 {
                     dashboard.leagues.length === 0
@@ -224,6 +339,7 @@ export default function Dashboard(){
                     :
 
                     <div className="dashboard-league-grid">
+
 
                         {
 
@@ -245,13 +361,22 @@ export default function Dashboard(){
 
                         }
 
+
                     </div>
 
                 }
 
+
+
             </section>
 
+
+
+
+
             <section className="dashboard-section">
+
+
 
                 <h2>
 
@@ -259,13 +384,21 @@ export default function Dashboard(){
 
                 </h2>
 
+
+
                 <RecentGamesTable
 
                     games={dashboard.recent_games}
 
                 />
 
+
+
             </section>
+
+
+
+
 
             <button
 
@@ -278,6 +411,9 @@ export default function Dashboard(){
                 Logout
 
             </button>
+
+
+
 
         </div>
 

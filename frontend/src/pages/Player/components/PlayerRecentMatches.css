@@ -1,0 +1,27 @@
+.player-match-button {
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    border:1px solid var(--cm-border);
+
+    background:var(--cm-card);
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    transition:.2s ease;
+
+}
+
+
+
+.player-match-button:hover {
+
+    transform:translateY(-1px);
+
+    box-shadow:var(--cm-shadow);
+
+}

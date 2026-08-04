@@ -69,3 +69,11 @@ export interface ColorStatistics {
     win_rate: number;
 
 }
+
+export interface Player {
+
+    player_id:number;
+
+    display_name:string;
+
+}
