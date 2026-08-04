@@ -35,6 +35,7 @@ Upcoming in prioritized order:
   -  If rest API will not work, then need to update logic for identifying commanders
 -  Defect: "Record Match" button in the step 5 of recording match can be selected many times, causing duplicated records being created
 -  Defect: Investigate if the same commander can be added to a players decks mmore than once. Then resolve if this is an issue.
+-  Feature: Add ability to have backgrounds & partner commanders
 -  Investigate: Players are "creating match" before they complete their match. The "created match" will disappear after a certain amount of time, and token might not have forever persistence. Maybe we need a better workflow.
 - Feature: Add an edit and delete match features, so that users can edit and delete matches that have already been recorded. We need to restrict to either person who recorded match, or only allow for people within the match, or only allow for league admin. What is the best experience? What is the most secure experience. Can we add notification to users who's matches have been edited/deleted and is that a requirement before we add edit and delete? Should delete be soft delete only? Do we need to add modified date to the tables?
 - Reset Password finish
