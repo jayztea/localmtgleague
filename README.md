@@ -51,7 +51,8 @@ Upcoming in prioritized order:
   - 💀 Most Eliminations
   - ❤️ Most Played Partner
   - 📅 Activity calendar (GitHub-style heatmap)
-- Global Navigation
+- Global Navigation & Hamburger menu
+  - When user navigates back from page it takes them to the page they were previously on. Currently not working for back when selecting player match from dashboard page 
 - Submit feedback form
 - Setup AIDLC
 - Player Admin Settings
