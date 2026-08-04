@@ -38,6 +38,7 @@ Upcoming in prioritized order:
 -  Investigate: Players are "creating match" before they complete their match. The "created match" will disappear after a certain amount of time, and token might not have forever persistence. Maybe we need a better workflow.
 - Feature: Add an edit and delete match features, so that users can edit and delete matches that have already been recorded. We need to restrict to either person who recorded match, or only allow for people within the match, or only allow for league admin. What is the best experience? What is the most secure experience. Can we add notification to users who's matches have been edited/deleted and is that a requirement before we add edit and delete? Should delete be soft delete only? Do we need to add modified date to the tables?
 - Reset Password finish
+- Defect: Make league leaderboard more mobile friendly, currently getting cutoff
 - Player Stats V2
   - 🏆 Achievement badges
   - 📈 Win streaks
