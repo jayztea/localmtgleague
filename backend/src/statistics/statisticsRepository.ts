@@ -58,6 +58,7 @@ export async function findPlayerMatchHistory(
 
 
             WHERE mp.player_id = ?
+            AND m.deleted_date IS NULL
 
 
             ORDER BY 

@@ -51,8 +51,13 @@ import MatchDetails
 from "./pages/MatchDetails/MatchDetails";
 
 
+import EditMatch
+from "./pages/EditMatch/EditMatch";
+
+
 import ProtectedRoute
 from "./auth/ProtectedRoute";
+
 
 
 
@@ -123,6 +128,7 @@ export default function App(){
                     }
 
                 />
+
 
 
 
@@ -231,6 +237,51 @@ export default function App(){
 
                 <Route
 
+                    path="/matches/:matchId"
+
+                    element={
+
+                        <ProtectedRoute>
+
+                            <MatchDetails />
+
+                        </ProtectedRoute>
+
+                    }
+
+                />
+
+
+
+
+
+
+                <Route
+
+                    path="/matches/:matchId/edit"
+
+                    element={
+
+                        <ProtectedRoute>
+
+                            <EditMatch />
+
+                        </ProtectedRoute>
+
+                    }
+
+                />
+
+
+
+
+
+
+
+
+
+                <Route
+
                     path="/leagues/create"
 
                     element={
@@ -264,26 +315,6 @@ export default function App(){
                             <JoinLeague />
 
                         </ProtectedRoute>
-
-                    }
-
-                />
-
-
-
-
-
-
-
-
-
-                <Route
-
-                    path="/matches/:matchId"
-
-                    element={
-
-                        <MatchDetails />
 
                     }
 

@@ -17,7 +17,9 @@ from "../../components/ui/StepHeader";
 
 
 import {
-    getMatchDetails
+    getMatchDetails,
+    getMatchPermissions,
+    deleteMatch
 }
 from "../../services/matchDetailsService";
 
@@ -34,6 +36,10 @@ import "./MatchDetails.css";
 
 
 
+
+
+
+
 export default function MatchDetails(){
 
 
@@ -43,24 +49,57 @@ export default function MatchDetails(){
 
     const {
         matchId
-    } =
+    }
+    =
     useParams();
+
+
 
 
 
     const [
         match,
         setMatch
-    ] =
+    ]
+    =
     useState<MatchDetailsType | null>(null);
+
+
 
 
 
     const [
         loading,
         setLoading
-    ] =
+    ]
+    =
     useState(true);
+
+
+
+
+
+    const [
+        canManage,
+        setCanManage
+    ]
+    =
+    useState(false);
+
+
+
+
+
+    const [
+        deleting,
+        setDeleting
+    ]
+    =
+    useState(false);
+
+
+
+
 
 
 
@@ -76,17 +115,25 @@ export default function MatchDetails(){
 
 
                 if(!matchId)
+
                     return;
+
+
+
+
+                const id =
+                    Number(matchId);
+
+
 
 
 
                 const data =
 
                     await getMatchDetails(
-
-                        Number(matchId)
-
+                        id
                     );
+
 
 
                 setMatch(
@@ -94,23 +141,45 @@ export default function MatchDetails(){
                 );
 
 
+
+
+
+                const permissions =
+
+                    await getMatchPermissions(
+                        id
+                    );
+
+
+
+                setCanManage(
+                    permissions.canManage
+                );
+
+
             }
             catch(error){
+
 
                 console.error(
                     error
                 );
 
+
             }
             finally{
+
 
                 setLoading(
                     false
                 );
 
+
             }
 
+
         }
+
 
 
         load();
@@ -123,7 +192,130 @@ export default function MatchDetails(){
 
 
 
+
+
+
+
+
+    async function handleDelete(){
+
+
+        if(!matchId)
+
+            return;
+
+
+
+
+
+        const confirmed =
+
+            window.confirm(
+
+                "Are you sure you want to delete this match? This will remove it from league statistics and player history."
+
+            );
+
+
+
+
+        if(!confirmed)
+
+            return;
+
+
+
+
+
+        try{
+
+
+            setDeleting(
+                true
+            );
+
+
+
+
+
+            await deleteMatch(
+
+                Number(matchId)
+
+            );
+
+
+
+
+
+            alert(
+
+                "Match deleted successfully."
+
+            );
+
+
+
+
+
+            if(match){
+
+
+                navigate(
+
+                    `/league/${match.league.league_id}`
+
+                );
+
+
+            }
+
+
+        }
+        catch(error){
+
+
+            console.error(
+
+                "Failed to delete match",
+
+                error
+
+            );
+
+
+
+            alert(
+
+                "Unable to delete match."
+
+            );
+
+
+        }
+        finally{
+
+
+            setDeleting(
+                false
+            );
+
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
     if(loading){
+
 
         return (
 
@@ -139,7 +331,14 @@ export default function MatchDetails(){
 
 
 
+
+
+
+
+
+
     if(!match){
+
 
         return (
 
@@ -157,12 +356,18 @@ export default function MatchDetails(){
 
 
 
+
+
+
+
     return (
 
         <div className="match-details-page">
 
 
+
             <StepHeader
+
 
                 step={0}
 
@@ -173,6 +378,10 @@ export default function MatchDetails(){
                 description="Review the recorded match results."
 
             />
+
+
+
+
 
 
 
@@ -203,7 +412,89 @@ export default function MatchDetails(){
 
 
 
+
+
+
+            {
+                canManage &&
+
+
+                <div className="match-actions">
+
+
+                    <button
+
+                        className="match-edit-button"
+
+                        onClick={()=>
+
+
+                            navigate(
+
+                                `/matches/${match.match_id}/edit`
+
+                            )
+
+
+                        }
+
+                    >
+
+                        Edit Match
+
+                    </button>
+
+
+
+
+
+
+
+                    <button
+
+                        className="match-delete-button"
+
+                        onClick={
+                            handleDelete
+                        }
+
+                        disabled={
+                            deleting
+                        }
+
+                    >
+
+                        {
+                            deleting
+
+                            ?
+
+                            "Deleting..."
+
+                            :
+
+                            "Delete Match"
+                        }
+
+
+                    </button>
+
+
+                </div>
+
+            }
+
+
+
+
+
+
+
+
+
             <div className="review-layout">
+
+
 
 
 
@@ -220,10 +511,14 @@ export default function MatchDetails(){
 
 
 
+
+
                     <p>
 
                         <strong>
+
                             League:
+
                         </strong>
 
                         {" "}
@@ -235,19 +530,25 @@ export default function MatchDetails(){
 
 
 
+
+
                     <p>
 
                         <strong>
+
                             Date:
+
                         </strong>
 
                         {" "}
 
                         {
+
                             new Date(
                                 match.match_date
                             )
                             .toLocaleDateString()
+
                         }
 
                     </p>
@@ -255,10 +556,15 @@ export default function MatchDetails(){
 
 
 
+
+
+
                     <p>
 
                         <strong>
+
                             Players:
+
                         </strong>
 
                         {" "}
@@ -269,6 +575,7 @@ export default function MatchDetails(){
 
 
 
+
                 </div>
 
 
@@ -276,7 +583,11 @@ export default function MatchDetails(){
 
 
 
+
+
+
                 <div className="review-results">
+
 
 
                     {
@@ -294,11 +605,14 @@ export default function MatchDetails(){
                             >
 
 
+
                                 <div className="review-placement">
 
                                     #{player.finish_position}
 
                                 </div>
+
+
 
 
 
@@ -317,6 +631,8 @@ export default function MatchDetails(){
 
 
 
+
+
                                     <div className="review-commander">
 
 
@@ -326,6 +642,7 @@ export default function MatchDetails(){
 
 
                                     </div>
+
 
 
                                 </div>
@@ -345,7 +662,9 @@ export default function MatchDetails(){
 
 
 
+
             </div>
+
 
 
 
@@ -353,5 +672,6 @@ export default function MatchDetails(){
         </div>
 
     );
+
 
 }

@@ -1,6 +1,7 @@
 import { db }
 from "../../db";
 
+
 export async function findRecentMatches(
 
     leagueId:number,
@@ -8,6 +9,7 @@ export async function findRecentMatches(
     limit:number = 5
 
 ){
+
 
     const [matches]:any =
 
@@ -24,9 +26,12 @@ export async function findRecentMatches(
 
             WHERE m.league_id = ?
 
+            AND m.deleted_date IS NULL
+
             ORDER BY m.match_date DESC
 
             LIMIT ?
+
             `,
 
             [
@@ -41,11 +46,16 @@ export async function findRecentMatches(
 
 
 
+
+
     const results = [];
 
 
 
+
+
     for(const match of matches){
+
 
         const [players]:any =
 
@@ -61,11 +71,15 @@ export async function findRecentMatches(
                 FROM match_players mp
 
                 JOIN players p
+
                     ON mp.player_id = p.player_id
+
 
                 WHERE mp.match_id = ?
 
-                ORDER BY mp.finish_position
+
+                ORDER BY mp.finish_position ASC
+
                 `,
 
                 [
@@ -78,29 +92,36 @@ export async function findRecentMatches(
 
 
 
+
+
         results.push({
 
             match_id:
                 match.match_id,
 
+
             match_date:
                 match.match_date,
 
-            winner:
+
+            winner_name:
                 players[0]?.display_name ?? "",
 
+
             players:
-                players.map(
-
+                players
+                .map(
                     (player:any)=>
-
                         player.display_name
-
                 )
+                .join(", ")
 
         });
 
+
     }
+
+
 
 
 
