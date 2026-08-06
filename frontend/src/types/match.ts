@@ -1,3 +1,8 @@
+import type {
+    League
+}
+from "../services/leagueService";
+
 export interface LeaguePlayerCommander {
 
     deck_id?: number;
@@ -78,13 +83,7 @@ export interface MatchDetails {
     match_id:number;
 
 
-    league:{
-
-        league_id:number;
-
-        league_name:string;
-
-    };
+    league:League;
 
 
     match_date:string;

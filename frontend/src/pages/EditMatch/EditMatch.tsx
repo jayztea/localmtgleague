@@ -186,18 +186,7 @@ export default function EditMatch(){
 
                 setMatchState({
 
-                    league:{
-
-                        league_id:
-                            match.league.league_id,
-
-                        league_name:
-                            match.league.league_name,
-
-                        league_code:
-                            match.league.league_code
-
-                    },
+                    league: match.league,
 
 
                     leaguePlayers:[],
