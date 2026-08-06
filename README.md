@@ -20,7 +20,9 @@ Database:
 ## Project Structure
 
 /frontend - React frontend
+
 /backend - API backend
+
 /database - SQL scripts
 
 ## Feature Release w/ date available
