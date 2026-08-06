@@ -423,7 +423,7 @@ export async function findRecentGames(
 
 
             WHERE mp.player_id = ?
-
+            AND m.deleted_date IS NULL
 
             ORDER BY m.match_date DESC
 

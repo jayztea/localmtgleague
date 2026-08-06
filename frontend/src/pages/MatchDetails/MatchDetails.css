@@ -51,7 +51,107 @@
 
 }
 
+/* ================================
+   MATCH ACTIONS
+================================ */
 
+
+.match-header-actions {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:16px;
+
+    margin-bottom:24px;
+
+}
+
+
+
+.match-actions {
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+
+
+.match-edit-button,
+.match-delete-button {
+
+
+    min-height:var(--cm-touch-size);
+
+    padding:0 18px;
+
+    border-radius:var(--cm-radius-md);
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:var(--cm-transition);
+
+}
+
+
+
+
+.match-edit-button {
+
+
+    background:var(--cm-primary);
+
+    border:1px solid var(--cm-primary);
+
+    color:white;
+
+}
+
+
+
+
+.match-delete-button {
+
+
+    background:transparent;
+
+    border:1px solid #d9534f;
+
+    color:#d9534f;
+
+}
+
+
+
+
+.match-delete-button:hover {
+
+
+    background:#d9534f;
+
+    color:white;
+
+}
+
+
+
+
+.match-delete-button:disabled {
+
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
 
 /* ================================
    CONTENT
@@ -319,6 +419,41 @@
 
         font-size:18px;
 
+
+    }
+    @media(max-width:768px){
+
+
+    .match-header-actions {
+
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+
+    }
+
+
+
+    .match-actions {
+
+
+        flex-direction:column;
+
+
+    }
+
+
+
+    .match-edit-button,
+    .match-delete-button {
+
+
+        width:100%;
+
+
+    }
 
     }
 

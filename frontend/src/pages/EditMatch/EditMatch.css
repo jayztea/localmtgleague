@@ -1,0 +1,26 @@
+.edit-match-page {
+
+    min-height:100vh;
+
+    background:var(--cm-background);
+
+    padding:40px;
+
+}
+
+
+.edit-match-card {
+
+    max-width:900px;
+
+    margin:auto;
+
+    background:var(--cm-card);
+
+    border-radius:var(--cm-radius);
+
+    padding:32px;
+
+    box-shadow:var(--cm-shadow);
+
+}

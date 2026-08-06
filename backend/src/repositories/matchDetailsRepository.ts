@@ -1,6 +1,7 @@
 import { db } from "../db";
 
 
+
 export async function findMatchDetails(
     matchId:number
 ){
@@ -19,6 +20,10 @@ export async function findMatchDetails(
                 l.league_name,
 
                 m.match_date,
+
+                m.game_length_minutes,
+
+                m.notes,
 
 
                 mp.player_id,
@@ -70,6 +75,8 @@ export async function findMatchDetails(
 
 
             WHERE m.match_id = ?
+
+            AND m.deleted_date IS NULL
 
 
             ORDER BY

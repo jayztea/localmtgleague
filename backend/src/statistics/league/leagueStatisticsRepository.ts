@@ -41,6 +41,7 @@ export async function findLeagueMatchHistory(
                 ON d.commander_id = c.commander_id
 
             WHERE m.league_id = ?
+            AND m.deleted_date IS NULL
 
             ORDER BY
                 m.match_date DESC
@@ -98,6 +99,7 @@ export async function findLeagueMatchCount(
             FROM matches
 
             WHERE league_id = ?
+            AND deleted_date IS NULL
 
             `,
             [
@@ -151,6 +153,7 @@ export async function findRecentMatches(
                 ON p.player_id = mp.player_id
 
             WHERE m.league_id = ?
+            AND m.deleted_date IS NULL
 
             GROUP BY
 
