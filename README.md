@@ -23,16 +23,14 @@ Database:
 /backend - API backend
 /database - SQL scripts
 
+## Feature Release w/ date available
+- Feature: Edit and delete match on match details page for league owner and player who created match - **08/05/2026**
+- Feature: Player profile details and stats. Select from player list on league page. Select personal stats from Player Icon in top left of Dashboard - **08/03/2026** 
+
 ## Feature Backlog
 
-Upcoming in prioritized order:
-- Feature: Add an edit and delete match features, so that users can edit and delete matches that have already been recorded.
-  - We need to restrict to either person who recorded match, or only allow for people within the match, or only allow for league admin.
-  - What is the best experience?
-  - What is the most secure experience.
-  - Can we add notification to users who's matches have been edited/deleted and is that a requirement before we add edit and delete?
-  - Should delete be soft delete only?
-  - Do we need to add modified date to the tables?
+**Upcoming in prioritized order:*
+
 - Defect: Missing commander data
   - Consider calling scryfall rest API with commander flag instead of
     - Need to determine if there is a difference between scryfall ID
