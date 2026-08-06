@@ -30,6 +30,7 @@ import "../CreateMatch.css";
 
 
 
+
 interface Props {
 
 
@@ -40,6 +41,9 @@ interface Props {
 
 
     cancelMatch:()=>void;
+
+
+    saveMatch?:()=>Promise<void>;
 
 
 }
@@ -61,7 +65,10 @@ export default function Step5ReviewMatch({
     previousStep,
 
 
-    cancelMatch
+    cancelMatch,
+
+
+    saveMatch
 
 
 }:Props){
@@ -88,6 +95,7 @@ export default function Step5ReviewMatch({
 
 
 
+
     function getCommanderName(player:any){
 
 
@@ -98,6 +106,7 @@ export default function Step5ReviewMatch({
 
 
                 (commander:any)=>
+
 
                     commander.commander_id ===
 
@@ -172,12 +181,14 @@ export default function Step5ReviewMatch({
 
 
 
+
             const request = {
 
 
                 league_id:
 
                     matchState.league.league_id,
+
 
 
                 players:
@@ -210,6 +221,8 @@ export default function Step5ReviewMatch({
 
 
 
+
+
             await createMatch(
 
                 request
@@ -221,11 +234,14 @@ export default function Step5ReviewMatch({
 
 
 
+
+
             alert(
 
                 "Match recorded successfully!"
 
             );
+
 
 
 
@@ -275,6 +291,34 @@ export default function Step5ReviewMatch({
 
 
 
+    async function handleSave(){
+
+
+        if(saveMatch){
+
+
+            await saveMatch();
+
+
+            return;
+
+        }
+
+
+
+        await recordMatch();
+
+
+    }
+
+
+
+
+
+
+
+
+
     return (
 
         <>
@@ -290,6 +334,7 @@ export default function Step5ReviewMatch({
 
 
                 description="Review the match details below and record the results."
+
 
             />
 
@@ -320,6 +365,7 @@ export default function Step5ReviewMatch({
 
 
 
+
                     <p>
 
                         <strong>
@@ -328,7 +374,9 @@ export default function Step5ReviewMatch({
 
                         </strong>
 
+
                         {" "}
+
 
                         {
 
@@ -336,7 +384,9 @@ export default function Step5ReviewMatch({
 
                         }
 
+
                     </p>
+
 
 
 
@@ -351,7 +401,9 @@ export default function Step5ReviewMatch({
 
                         </strong>
 
+
                         {" "}
+
 
                         {
 
@@ -359,7 +411,9 @@ export default function Step5ReviewMatch({
 
                         }
 
+
                     </p>
+
 
 
 
@@ -374,7 +428,9 @@ export default function Step5ReviewMatch({
 
                         </strong>
 
+
                         {" "}
+
 
                         {
 
@@ -382,7 +438,9 @@ export default function Step5ReviewMatch({
 
                         }
 
+
                     </p>
+
 
 
 
@@ -403,6 +461,7 @@ export default function Step5ReviewMatch({
 
 
 
+
                     {
 
                     sortedPlayers()
@@ -413,11 +472,15 @@ export default function Step5ReviewMatch({
 
                         <div
 
+
                             key={player.player_id}
+
 
                             className="review-player-card"
 
+
                         >
+
 
 
 
@@ -429,6 +492,9 @@ export default function Step5ReviewMatch({
 
 
                             </div>
+
+
+
 
 
 
@@ -447,6 +513,8 @@ export default function Step5ReviewMatch({
 
 
 
+
+
                                 <div className="review-commander">
 
 
@@ -461,6 +529,7 @@ export default function Step5ReviewMatch({
 
 
 
+
                         </div>
 
 
@@ -468,6 +537,7 @@ export default function Step5ReviewMatch({
                     ))
 
                     }
+
 
 
 
@@ -501,11 +571,19 @@ export default function Step5ReviewMatch({
 
 
 
-                nextStep={recordMatch}
+                nextStep={handleSave}
 
 
 
-                nextLabel="Record Match +"
+                nextLabel={
+
+                    saveMatch
+
+                    ? "Save Changes"
+
+                    : "Record Match +"
+
+                }
 
 
 

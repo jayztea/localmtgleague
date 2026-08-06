@@ -20,6 +20,10 @@ import Step4RecordPlacements
 from "../CreateMatch/steps/Step4RecordPlacements";
 
 
+import Step5ReviewMatch
+from "../CreateMatch/steps/Step5ReviewMatch";
+
+
 import type {
     CreateMatchState,
     MatchPlayer
@@ -40,6 +44,9 @@ import "./EditMatch.css";
 
 
 
+
+
+
 export default function EditMatch(){
 
 
@@ -47,10 +54,12 @@ export default function EditMatch(){
         useNavigate();
 
 
+
     const {
         matchId
     } =
     useParams();
+
 
 
 
@@ -66,21 +75,13 @@ export default function EditMatch(){
 
 
 
+
     const [
         loading,
         setLoading
     ] =
     useState(true);
 
-
-
-
-
-    const [
-        saving,
-        setSaving
-    ] =
-    useState(false);
 
 
 
@@ -122,6 +123,8 @@ export default function EditMatch(){
 
 
 
+
+
             try{
 
 
@@ -132,6 +135,8 @@ export default function EditMatch(){
                         Number(matchId)
 
                     );
+
+
 
 
 
@@ -159,6 +164,7 @@ export default function EditMatch(){
                                     commander_id:
                                         player.commander_id,
 
+
                                     commander_name:
                                         player.commander_name
 
@@ -184,9 +190,12 @@ export default function EditMatch(){
 
 
 
+
+
                 setMatchState({
 
-                    league: match.league,
+                    league:
+                        match.league,
 
 
                     leaguePlayers:[],
@@ -225,6 +234,7 @@ export default function EditMatch(){
 
 
 
+
         loadMatch();
 
 
@@ -250,23 +260,30 @@ export default function EditMatch(){
 
 
 
+
+
         try{
-
-
-            setSaving(true);
-
-
-
 
 
             await updateMatch(
 
+
                 Number(matchId),
+
 
                 {
 
 
+                    game_length_minutes:
+                        undefined,
+
+
+                    notes:
+                        undefined,
+
+
                     players:
+
 
                         matchState.players.map(player=>({
 
@@ -291,8 +308,20 @@ export default function EditMatch(){
 
                 }
 
+
             );
 
+
+
+
+
+
+
+            alert(
+
+                "Match updated successfully."
+
+            );
 
 
 
@@ -311,25 +340,19 @@ export default function EditMatch(){
 
             console.error(
 
-                "Failed saving match",
+                "Failed to update match",
 
                 error
 
             );
 
 
+
             alert(
 
-                "Unable to save match."
+                "Unable to update match."
 
             );
-
-
-        }
-        finally{
-
-
-            setSaving(false);
 
 
         }
@@ -370,6 +393,7 @@ export default function EditMatch(){
 
     return (
 
+
         <div className="edit-match-page">
 
 
@@ -379,8 +403,11 @@ export default function EditMatch(){
 
 
 
+
+
                 {
                     step === 3 &&
+
 
                     <Step3AssignCommanders
 
@@ -397,7 +424,9 @@ export default function EditMatch(){
 
                         nextStep={()=>
 
+
                             setStep(4)
+
 
                         }
 
@@ -411,6 +440,7 @@ export default function EditMatch(){
 
                             )
 
+
                         }
 
 
@@ -422,6 +452,7 @@ export default function EditMatch(){
                                 `/matches/${matchId}`
 
                             )
+
 
                         }
 
@@ -464,13 +495,15 @@ export default function EditMatch(){
 
                             setStep(3)
 
+
                         }
 
 
                         nextStep={()=>
 
 
-                            saveMatch()
+                            setStep(5)
+
 
                         }
 
@@ -484,6 +517,7 @@ export default function EditMatch(){
 
                             )
 
+
                         }
 
 
@@ -491,6 +525,60 @@ export default function EditMatch(){
 
                 }
 
+
+
+
+
+
+
+
+
+                {
+                    step === 5 &&
+
+
+                    <Step5ReviewMatch
+
+
+                        matchState={
+
+                            matchState
+
+                        }
+
+
+                        previousStep={()=>
+
+
+                            setStep(4)
+
+
+                        }
+
+
+                        cancelMatch={()=>
+
+
+                            navigate(
+
+                                `/matches/${matchId}`
+
+                            )
+
+
+                        }
+
+
+                        saveMatch={
+
+                            saveMatch
+
+                        }
+
+
+                    />
+
+                }
 
 
 
