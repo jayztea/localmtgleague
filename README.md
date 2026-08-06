@@ -40,6 +40,7 @@ Database:
   -  If rest API will not work, then need to update logic for identifying commanders
 - Defect: Update node.js for deprecated package, causing git actions to fail
 - Defect: Same commander can be added for a user more than 1 time, need to only allow for a user to add the commander once.
+- Feature: Tournaments/non-league
 - Defect: "Record Match" button in the step 5 of recording match can be selected many times, causing duplicated records being created
 - Feature: Add Average position finish to the leaderboard and make leaderboard sortable.
   - Dropdown to choose view type on leaderboard
