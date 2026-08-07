@@ -183,3 +183,33 @@ export async function getLeaguePlayersWithCommanders(
 
 
 }
+export interface AddOfflinePlayerRequest {
+
+    display_name:string;
+
+}
+
+
+
+export async function addOfflinePlayer(
+
+    leagueId:number,
+
+    data:AddOfflinePlayerRequest
+
+){
+
+    const response =
+
+        await api.post(
+
+            `/leagues/${leagueId}/offline-player`,
+
+            data
+
+        );
+
+
+    return response.data;
+
+}

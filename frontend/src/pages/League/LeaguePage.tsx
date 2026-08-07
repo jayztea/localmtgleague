@@ -4,108 +4,204 @@ import {
 }
 from "react";
 
+
 import {
     useNavigate,
     useParams
 }
 from "react-router-dom";
 
+
 import StepHeader
 from "../../components/ui/StepHeader";
+
 
 import LeagueOverviewCard
 from "./components/LeagueOverviewCard";
 
+
 import LeagueLeaderboard
 from "./components/LeagueLeaderboard";
+
 
 import LeagueRecentMatches
 from "./components/LeagueRecentMatches";
 
+
 import LeagueStatistics
 from "./components/LeagueStatistics";
+
+
+import AddOfflinePlayerModal
+from "./components/AddOfflinePlayerModal";
+
 
 import {
     getLeagueStatistics
 }
 from "../../services/leagueStatisticsService";
 
+
+import api
+from "../../api/axios";
+
+
+import {
+    useAuth
+}
+from "../../auth/AuthContext";
+
+
 import type {
     LeagueStatistics as LeagueStatisticsType
 }
 from "../../types/leagueStatistics";
 
+
 import "./LeaguePage.css";
 
+
+
 export default function LeaguePage(){
+
 
     const navigate =
         useNavigate();
 
+
+
     const {
         leagueId
-    } =
-        useParams();
+    }
+    =
+    useParams();
+
+
+
+    const {
+        user
+    }
+    =
+    useAuth();
+
+
+
 
     const [
         statistics,
         setStatistics
-    ] =
-        useState<LeagueStatisticsType | null>(null);
+    ]
+    =
+    useState<LeagueStatisticsType | null>(null);
+
+
+
+    const [
+        league,
+        setLeague
+    ]
+    =
+    useState<any>(null);
+
+
 
     const [
         loading,
         setLoading
-    ] =
-        useState(true);
+    ]
+    =
+    useState(true);
+
+
+
+    const [
+        showOfflinePlayerModal,
+        setShowOfflinePlayerModal
+    ]
+    =
+    useState(false);
+
+
+
+
+    const isLeagueOwner =
+        user?.user_id === league?.created_by_user_id;
+
+
+
+
+
+    async function loadLeague(){
+
+        try{
+
+            if(!leagueId){
+
+                return;
+
+            }
+
+
+
+            const leagueResponse =
+                await api.get(
+                    `/leagues/${leagueId}`
+                );
+
+
+            setLeague(
+                leagueResponse.data
+            );
+
+
+
+            const data =
+                await getLeagueStatistics(
+                    Number(leagueId)
+                );
+
+
+            setStatistics(
+                data
+            );
+
+
+        }
+        catch(error){
+
+            console.error(
+                error
+            );
+
+        }
+        finally{
+
+            setLoading(
+                false
+            );
+
+        }
+
+    }
+
+
+
+
 
     useEffect(
         ()=>{
 
-            async function load(){
-
-                try{
-
-                    if(!leagueId){
-
-                        return;
-
-                    }
-
-                    const data =
-                        await getLeagueStatistics(
-                            Number(leagueId)
-                        );
-
-                    setStatistics(
-                        data
-                    );
-
-                }
-                catch(error){
-
-                    console.error(
-                        error
-                    );
-
-                }
-                finally{
-
-                    setLoading(
-                        false
-                    );
-
-                }
-
-            }
-
-            load();
+            loadLeague();
 
         },
         [
             leagueId
         ]
     );
+
+
+
+
 
     if(loading){
 
@@ -121,6 +217,10 @@ export default function LeaguePage(){
 
     }
 
+
+
+
+
     if(!statistics){
 
         return(
@@ -135,14 +235,21 @@ export default function LeaguePage(){
 
     }
 
+
+
+
+
     return(
 
+
         <div className="league-page">
+
+
 
             <StepHeader
 
                 step={0}
-                
+
                 showStep={false}
 
                 title="League"
@@ -151,21 +258,28 @@ export default function LeaguePage(){
 
             />
 
+
+
+
+
             <div className="league-header">
 
+
+
                 <div>
+
 
                     <button
 
                         className="league-back-button"
 
-                        onClick={()=>
+                        onClick={()=>{
 
                             navigate(
                                 "/dashboard"
-                            )
+                            );
 
-                        }
+                        }}
 
                     >
 
@@ -173,45 +287,111 @@ export default function LeaguePage(){
 
                     </button>
 
+
+
+
+
                     <h1 className="league-title">
+
 
                         {
                             statistics.league.league_name
                         }
 
+
                     </h1>
 
+
+
+
+
                     <p className="league-code">
+
 
                         League Code: {
                             statistics.league.league_code
                         }
 
+
                     </p>
+
+
 
                 </div>
 
-                <button
 
-                    className="league-create-match-button"
 
-                    onClick={()=>{
 
-                        navigate(
 
-                            `/matches/create?leagueId=${statistics.league.league_id}`
+                <div className="league-actions">
 
-                        );
 
-                    }}
 
-                >
-                    Create Match +
-                </button>
+                    {
+                        isLeagueOwner &&
+
+                        <button
+
+                            className="league-offline-player-button"
+
+                            onClick={()=>{
+
+                                setShowOfflinePlayerModal(
+                                    true
+                                );
+
+                            }}
+
+                        >
+
+                            Add Offline Player
+
+                        </button>
+                    }
+
+
+
+
+
+                    <button
+
+                        className="league-create-match-button"
+
+                        onClick={()=>{
+
+
+                            navigate(
+
+                                `/matches/create?leagueId=${statistics.league.league_id}`
+
+                            );
+
+
+                        }}
+
+                    >
+
+                        Create Match +
+
+                    </button>
+
+
+
+                </div>
+
+
 
             </div>
 
+
+
+
+
+
+
             <section className="league-overview-grid">
+
+
 
                 <LeagueOverviewCard
 
@@ -223,6 +403,10 @@ export default function LeaguePage(){
 
                 />
 
+
+
+
+
                 <LeagueOverviewCard
 
                     title="Players"
@@ -232,6 +416,10 @@ export default function LeaguePage(){
                     }
 
                 />
+
+
+
+
 
                 <LeagueOverviewCard
 
@@ -243,6 +431,10 @@ export default function LeaguePage(){
 
                 />
 
+
+
+
+
                 <LeagueOverviewCard
 
                     title="Unique Commanders"
@@ -253,9 +445,19 @@ export default function LeaguePage(){
 
                 />
 
+
+
             </section>
 
+
+
+
+
+
+
             <div className="league-content-grid">
+
+
 
                 <LeagueLeaderboard
 
@@ -265,6 +467,10 @@ export default function LeaguePage(){
 
                 />
 
+
+
+
+
                 <LeagueStatistics
 
                     highlights={
@@ -273,7 +479,15 @@ export default function LeaguePage(){
 
                 />
 
+
+
             </div>
+
+
+
+
+
+
 
             <LeagueRecentMatches
 
@@ -283,7 +497,62 @@ export default function LeaguePage(){
 
             />
 
+
+
+
+
+
+
+
+
+            {
+
+                showOfflinePlayerModal &&
+
+
+                <AddOfflinePlayerModal
+
+
+                    leagueId={
+                        statistics.league.league_id
+                    }
+
+
+                    onClose={()=>{
+
+
+                        setShowOfflinePlayerModal(
+                            false
+                        );
+
+
+                    }}
+
+
+                    onSuccess={async ()=>{
+
+
+                        setShowOfflinePlayerModal(
+                            false
+                        );
+
+
+                        await loadLeague();
+
+
+                    }}
+
+
+                />
+
+
+            }
+
+
+
+
         </div>
+
 
     );
 

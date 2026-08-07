@@ -1,0 +1,127 @@
+.offline-player-overlay {
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.6);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:1000;
+
+}
+
+
+
+.offline-player-modal {
+
+    width:100%;
+
+    max-width:420px;
+
+    background:var(--cm-card);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius-lg);
+
+    padding:32px;
+
+    box-shadow:var(--cm-shadow);
+
+}
+
+
+
+.offline-player-modal h2 {
+
+    margin-top:0;
+
+    color:var(--cm-text);
+
+}
+
+
+
+.offline-player-modal label {
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:var(--cm-text-muted);
+
+}
+
+
+
+.offline-player-modal input {
+
+    width:100%;
+
+    padding:12px;
+
+    border-radius:var(--cm-radius-md);
+
+    border:1px solid var(--cm-border);
+
+    background:var(--cm-background);
+
+    color:var(--cm-text);
+
+}
+
+
+
+.offline-player-actions {
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:12px;
+
+    margin-top:24px;
+
+}
+
+
+
+.offline-player-actions button {
+
+    min-height:42px;
+
+    padding:0 18px;
+
+    border-radius:var(--cm-radius-md);
+
+    border:none;
+
+    cursor:pointer;
+
+}
+
+
+
+.offline-player-actions button:last-child {
+
+    background:var(--cm-primary);
+
+    color:white;
+
+}
+
+
+
+.offline-player-error {
+
+    color:#ff6b6b;
+
+    margin-bottom:16px;
+
+}
