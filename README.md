@@ -26,6 +26,8 @@ Database:
 /database - SQL scripts
 
 ## Feature Release w/ date available
+- Defect: Update commander data to include missing Spacecraft and "can be you commander" cards - **08/06/2026**
+- Feature: League Owner to add players to a league when player is not a registered user - **08/06/2026**
 - Feature: Edit and delete match on match details page for league owner and player who created match - **08/05/2026**
 - Feature: Player profile details and stats. Select from player list on league page. Select personal stats from Player Icon in top left of Dashboard - **08/03/2026** 
 
@@ -33,14 +35,8 @@ Database:
 
 **Upcoming in prioritized order:*
 
-- Defect: Missing commander data
-  - Consider calling scryfall rest API with commander flag instead of
-    - Need to determine if there is a difference between scryfall ID
-    - Need to determine if duplicate commander cards exist for the difference in Commander
-  -  If rest API will not work, then need to update logic for identifying commanders
 - Defect: Update node.js for deprecated package, causing git actions to fail
 - Defect: Same commander can be added for a user more than 1 time, need to only allow for a user to add the commander once.
-- Feature: Tournaments/non-league
 - Defect: "Record Match" button in the step 5 of recording match can be selected many times, causing duplicated records being created
 - Feature: Add Average position finish to the leaderboard and make leaderboard sortable.
   - Dropdown to choose view type on leaderboard
@@ -52,6 +48,7 @@ Database:
 - User Behavior: Players are "creating match" before they complete their match. The "created match" will disappear after a certain amount of time, and token might not have forever persistence. Maybe we need a better workflow.
 - User Behavior: User creating leagues when league already available. More documentation on what purpose of league versus match is.
 - Feature: Complete reset password
+- Feature: QR for joining league
 - Player Stats V2
   - 🏆 Achievement badges
   - 📈 Win streaks
@@ -70,8 +67,12 @@ Database:
 -   Match added
 -   Badge earned
 - Feature: Submit feedback form
-- Player Admin Settings
+- Feature: Admin/League Owner responsibilities
+  - Feature: User to claim an unregistered player account from a league
+  - Add league owners to a league
+- Player Settings
     - Update name
+    - Update profile picture
 - Feature: Life counter/redesign of record match feature
 - Feature: Update League feature
   - Update name
