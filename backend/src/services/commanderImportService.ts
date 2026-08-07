@@ -61,16 +61,19 @@ function writeDebug(
 
 
 function isCommander(
-    card: any
-): boolean {
+    card:any
+):boolean {
 
     const typeLine =
         card.type_line ?? "";
+
 
     const oracleText =
         (
             card.oracle_text ?? ""
         ).toLowerCase();
+
+
 
     return (
 
@@ -82,8 +85,18 @@ function isCommander(
 
             &&
 
-            typeLine.includes(
-                "Creature"
+            (
+
+                typeLine.includes(
+                    "Creature"
+                )
+
+                ||
+
+                typeLine.includes(
+                    "Spacecraft"
+                )
+
             )
 
         )
@@ -156,6 +169,14 @@ export function transformCommander(
 
 
 export async function importCommanders() {
+
+
+    fs.mkdirSync(
+        path.dirname(DEBUG_FILE),
+        {
+            recursive:true
+        }
+    );
 
 
     fs.writeFileSync(
