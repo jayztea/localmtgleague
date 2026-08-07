@@ -767,3 +767,60 @@
 
 
 }
+.league-actions {
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+
+.league-offline-player-button {
+
+    min-height:52px;
+
+    padding:0 24px;
+
+    border-radius:var(--cm-radius-md);
+
+    background:var(--cm-card);
+
+    color:var(--cm-text);
+
+    border:1px solid var(--cm-border);
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+
+.league-offline-player-button:hover {
+
+    background:var(--cm-card-hover);
+
+}
+
+
+@media(max-width:768px){
+
+    .league-actions {
+
+        width:100%;
+
+        flex-direction:column;
+
+    }
+
+
+    .league-offline-player-button {
+
+        width:100%;
+
+    }
+
+}

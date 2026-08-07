@@ -1,11 +1,14 @@
 import * as leagueRepository 
     from "../repositories/leagueRepository";
 
+
 import * as leaguePlayerRepository 
     from "../repositories/leaguePlayerRepository";
 
+
 import * as userRepository 
     from "../repositories/userRepository";
+
 
 import * as playerRepository 
     from "../repositories/playerRepository";
@@ -14,15 +17,17 @@ import * as playerRepository
 import { ConflictError } 
     from "../errors/ConflictError";
 
+
 import { NotFoundError } 
     from "../errors/NotFoundError";
 
 
 
+
 export async function addPlayerToLeague(
-    leagueId: number,
-    emailAddress: string
-) {
+    leagueId:number,
+    emailAddress:string
+){
 
     const league =
         await leagueRepository.findById(
@@ -30,7 +35,7 @@ export async function addPlayerToLeague(
         );
 
 
-    if (!league) {
+    if(!league){
 
         throw new NotFoundError(
             "League not found."
@@ -40,13 +45,14 @@ export async function addPlayerToLeague(
 
 
 
+
     const user =
         await userRepository.findByEmail(
             emailAddress
         );
 
 
-    if (!user) {
+    if(!user){
 
         throw new NotFoundError(
             "User not found."
@@ -56,19 +62,21 @@ export async function addPlayerToLeague(
 
 
 
+
     const player =
         await playerRepository.findByUserId(
             user.user_id
         );
 
 
-    if (!player) {
+    if(!player){
 
         throw new NotFoundError(
             "Player profile not found."
         );
 
     }
+
 
 
 
@@ -80,8 +88,8 @@ export async function addPlayerToLeague(
 
 
 
-    if (!membership) {
 
+    if(!membership){
 
         const leaguePlayerId =
             await leaguePlayerRepository.createMembership(
@@ -103,15 +111,15 @@ export async function addPlayerToLeague(
 
 
 
-    if (membership.status === "ACTIVE") {
 
+    if(membership.status === "ACTIVE"){
 
         throw new ConflictError(
             "Player is already a member of this league."
         );
 
-
     }
+
 
 
 
@@ -119,6 +127,7 @@ export async function addPlayerToLeague(
         leagueId,
         player.player_id
     );
+
 
 
 
@@ -137,9 +146,90 @@ export async function addPlayerToLeague(
 
 
 
+
+export async function addOfflinePlayerToLeague(
+    leagueId:number,
+    userId:number,
+    displayName:string
+){
+
+    const league =
+        await leagueRepository.findById(
+            leagueId
+        );
+
+
+
+    if(!league){
+
+        throw new NotFoundError(
+            "League not found."
+        );
+
+    }
+
+
+
+
+    if(
+        league.created_by_user_id !== userId
+    ){
+
+        throw new ConflictError(
+            "Only the league owner can add players."
+        );
+
+    }
+
+
+
+
+    const playerId =
+        await playerRepository.createOfflinePlayer(
+            displayName
+        );
+
+
+
+
+    const leaguePlayerId =
+        await leaguePlayerRepository.createMembership(
+            leagueId,
+            playerId,
+            "PLAYER"
+        );
+
+
+
+
+    const player =
+        await playerRepository.findById(
+            playerId
+        );
+
+
+
+
+    return {
+
+        league_player_id:
+            leaguePlayerId,
+
+        player
+
+    };
+
+}
+
+
+
+
+
+
+
 export async function getLeaguePlayers(
     leagueId:number
-) {
+){
 
     return leaguePlayerRepository.findPlayersByLeague(
         leagueId
@@ -151,19 +241,20 @@ export async function getLeaguePlayers(
 
 
 
+
+
 export async function getPlayersWithCommanders(
     leagueId:number
 ){
 
-    const players =
-        await leaguePlayerRepository.findPlayersWithCommanders(
-            leagueId
-        );
-
-
-    return players;
+    return leaguePlayerRepository.findPlayersWithCommanders(
+        leagueId
+    );
 
 }
+
+
+
 
 
 
@@ -172,8 +263,7 @@ export async function getPlayersWithCommanders(
 export async function removePlayer(
     leagueId:number,
     playerId:number
-) {
-
+){
 
     const membership =
         await leaguePlayerRepository.findActiveMembership(
@@ -190,6 +280,7 @@ export async function removePlayer(
         );
 
     }
+
 
 
 

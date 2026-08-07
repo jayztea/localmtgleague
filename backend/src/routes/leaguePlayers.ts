@@ -1,15 +1,30 @@
 import { Router } from "express";
 
-import * as leaguePlayerController from "../controllers/leaguePlayerController";
+import * as leaguePlayerController
+from "../controllers/leaguePlayerController";
 
-import { authenticateToken } from "../middleware/authMiddleware";
-import { validateRequest } from "../middleware/validateRequest";
+import { authenticateToken }
+from "../middleware/authMiddleware";
 
-import { addPlayerSchema } from "../dtos/leaguePlayerDTO";
+import { validateRequest }
+from "../middleware/validateRequest";
 
-const router = Router();
+import {
+    addPlayerSchema,
+    addOfflinePlayerSchema
+}
+from "../dtos/leaguePlayerDTO";
 
-router.use(authenticateToken);
+
+const router =
+    Router();
+
+
+router.use(
+    authenticateToken
+);
+
+
 
 router.post(
     "/:leagueId/players",
@@ -17,19 +32,35 @@ router.post(
     leaguePlayerController.addPlayer
 );
 
+
+
+router.post(
+    "/:leagueId/offline-player",
+    validateRequest(addOfflinePlayerSchema),
+    leaguePlayerController.addOfflinePlayer
+);
+
+
+
 router.get(
     "/:leagueId/players",
     leaguePlayerController.getPlayers
 );
+
+
 
 router.patch(
     "/:leagueId/players/:playerId/remove",
     leaguePlayerController.removePlayer
 );
 
+
+
 router.get(
     "/:leagueId/players-with-commanders",
     leaguePlayerController.getPlayersWithCommanders
 );
+
+
 
 export default router;

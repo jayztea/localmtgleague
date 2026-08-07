@@ -127,3 +127,38 @@ export async function getMyLeagues(
     }
 
 }
+
+export async function getLeagueOwner(
+    req: Request,
+    res: Response,
+    next: NextFunction
+){
+
+    try {
+
+        const leagueId =
+            Number(req.params.leagueId);
+
+
+        const league =
+            await leagueService.getLeagueById(
+                leagueId
+            );
+
+
+        res.json({
+
+            created_by_user_id:
+                league.created_by_user_id
+
+        });
+
+
+    }
+    catch(error){
+
+        next(error);
+
+    }
+
+}

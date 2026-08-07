@@ -1,12 +1,13 @@
 import { db } from "../db";
 
 
-export async function createPlayer(
-    userId: number,
-    displayName: string
-) {
 
-    const [result]: any =
+export async function createPlayer(
+    userId:number,
+    displayName:string
+){
+
+    const [result]:any =
         await db.execute(
             `
             INSERT INTO players
@@ -29,19 +30,57 @@ export async function createPlayer(
 
 
 
-export async function findByUserId(
-    userId: number
-) {
 
-    const [rows]: any =
+
+export async function createOfflinePlayer(
+    displayName:string
+){
+
+    const [result]:any =
+        await db.execute(
+            `
+            INSERT INTO players
+            (
+                user_id,
+                display_name
+            )
+            VALUES
+            (
+                NULL,
+                ?
+            )
+            `,
+            [
+                displayName
+            ]
+        );
+
+
+    return result.insertId;
+
+}
+
+
+
+
+
+export async function findByUserId(
+    userId:number
+){
+
+    const [rows]:any =
         await db.execute(
             `
             SELECT
+
                 player_id,
                 user_id,
                 display_name
+
             FROM players
+
             WHERE user_id = ?
+
             `,
             [
                 userId
@@ -54,6 +93,11 @@ export async function findByUserId(
         : null;
 
 }
+
+
+
+
+
 export async function findById(
     playerId:number
 ){

@@ -2,7 +2,8 @@ import {
     Request,
     Response,
     NextFunction
-} from "express";
+}
+from "express";
 
 
 import * as leaguePlayerService
@@ -10,21 +11,26 @@ import * as leaguePlayerService
 
 
 
-export async function addPlayer(
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
 
-    try {
+export async function addPlayer(
+    req:Request,
+    res:Response,
+    next:NextFunction
+){
+
+    try{
+
 
         const leagueId =
             Number(req.params.leagueId);
 
 
+
         const {
             email_address
-        } = req.body;
+        }
+        =
+        req.body;
 
 
 
@@ -54,13 +60,73 @@ export async function addPlayer(
 
 
 
-export async function getPlayers(
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
 
-    try {
+
+
+export async function addOfflinePlayer(
+    req:Request,
+    res:Response,
+    next:NextFunction
+){
+
+    try{
+
+
+        const leagueId =
+            Number(req.params.leagueId);
+
+
+
+        const userId =
+            (req as any).user.user_id;
+
+
+
+        const {
+            display_name
+        }
+        =
+        req.body;
+
+
+
+        const result =
+            await leaguePlayerService.addOfflinePlayerToLeague(
+                leagueId,
+                userId,
+                display_name
+            );
+
+
+
+        res
+            .status(201)
+            .json(result);
+
+
+    }
+    catch(error){
+
+        next(error);
+
+    }
+
+}
+
+
+
+
+
+
+
+
+export async function getPlayers(
+    req:Request,
+    res:Response,
+    next:NextFunction
+){
+
+    try{
 
 
         const leagueId =
@@ -75,7 +141,9 @@ export async function getPlayers(
 
 
 
-        res.json(players);
+        res.json(
+            players
+        );
 
 
     }
@@ -91,13 +159,16 @@ export async function getPlayers(
 
 
 
+
+
+
 export async function getPlayersWithCommanders(
-    req: Request,
-    res: Response,
-    next: NextFunction
+    req:Request,
+    res:Response,
+    next:NextFunction
 ){
 
-    try {
+    try{
 
 
         const leagueId =
@@ -112,7 +183,9 @@ export async function getPlayersWithCommanders(
 
 
 
-        res.json(players);
+        res.json(
+            players
+        );
 
 
     }
@@ -128,13 +201,16 @@ export async function getPlayersWithCommanders(
 
 
 
+
+
+
 export async function removePlayer(
-    req: Request,
-    res: Response,
-    next: NextFunction
+    req:Request,
+    res:Response,
+    next:NextFunction
 ){
 
-    try {
+    try{
 
 
         const leagueId =
