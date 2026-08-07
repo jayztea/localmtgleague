@@ -44,6 +44,7 @@ Database:
   - Highlights: Best Commander, Best Color, Worst Color all not working. (only when 10 or more games played maybe?)
   - Commander Statistics, Color Statistics, Recent Match History are all not mobile friendly tables/views
 - Feature: Add ability to have backgrounds & partner commanders
+- Feature: Add in season feature for league, default all existing matches in a league to S1
 - User Behavior: Players are "creating match" before they complete their match. The "created match" will disappear after a certain amount of time, and token might not have forever persistence. Maybe we need a better workflow.
 - User Behavior: User creating leagues when league already available. More documentation on what purpose of league versus match is.
 - Feature: Complete reset password
