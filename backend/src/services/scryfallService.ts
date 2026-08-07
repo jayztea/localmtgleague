@@ -1,6 +1,7 @@
 import axios from "axios";
 import fs from "fs";
 import path from "path";
+import zlib from "zlib";
 
 const BULK_URL =
     "https://api.scryfall.com/bulk-data";
@@ -8,7 +9,7 @@ const BULK_URL =
 
 
 export async function downloadOracleCards()
-:Promise<string>{
+: Promise<string> {
 
 
     console.log(
@@ -24,16 +25,32 @@ export async function downloadOracleCards()
 
     const oracle =
         bulkResponse.data.data.find(
-            (item:any)=>
+            (item:any) =>
                 item.type === "oracle_cards"
         );
 
 
 
-    if(!oracle){
+    if (!oracle) {
 
         throw new Error(
             "Oracle bulk file not found"
+        );
+
+    }
+
+
+
+    const downloadUri =
+        oracle.download_uri ??
+        oracle.jsonl_download_uri;
+
+
+
+    if (!downloadUri) {
+
+        throw new Error(
+            "Oracle bulk download URL not found"
         );
 
     }
@@ -64,53 +81,116 @@ export async function downloadOracleCards()
 
 
 
+    console.log(
+        downloadUri
+    );
+
+
+
     const response =
         await axios({
 
             url:
-                oracle.download_uri,
+                downloadUri,
 
-            method:"GET",
+            method:
+                "GET",
 
-            responseType:"stream"
+            responseType:
+                "arraybuffer"
 
         });
 
 
 
-    await new Promise<void>(
-        (
-            resolve,
-            reject
-        )=>{
+    let jsonData: string;
 
 
-            const writer =
-                fs.createWriteStream(
-                    outputPath
+
+    if (
+        downloadUri.endsWith(".gz")
+    ) {
+
+        console.log(
+            "Extracting gzip archive..."
+        );
+
+
+        jsonData =
+            zlib
+                .gunzipSync(
+                    response.data
+                )
+                .toString(
+                    "utf8"
                 );
 
+    }
+    else {
 
-            response.data.pipe(
-                writer
+        jsonData =
+            Buffer
+                .from(
+                    response.data
+                )
+                .toString(
+                    "utf8"
+                );
+
+    }
+
+
+
+    let cards;
+
+
+
+    /*
+        New Scryfall bulk files are JSONL.
+        Existing importer expects JSON array.
+        Convert only when needed.
+    */
+
+    if (
+        jsonData.trim().startsWith("[")
+    ) {
+
+        cards =
+            JSON.parse(
+                jsonData
             );
 
+    }
+    else {
 
-            writer.on(
-                "finish",
-                resolve
-            );
+        cards =
+            jsonData
+                .split("\n")
+                .filter(
+                    line =>
+                        line.trim().length > 0
+                )
+                .map(
+                    line =>
+                        JSON.parse(line)
+                );
+
+    }
 
 
-            writer.on(
-                "error",
-                reject
-            );
 
-
-        }
+    fs.writeFileSync(
+        outputPath,
+        JSON.stringify(
+            cards
+        )
     );
 
+
+
+    console.log(
+        `Downloaded ${cards.length} cards`
+    );
 
 
     console.log(
@@ -121,6 +201,7 @@ export async function downloadOracleCards()
     console.log(
         outputPath
     );
+
 
 
     return outputPath;
