@@ -35,7 +35,6 @@ Database:
 
 **Upcoming in prioritized order:*
 
-- Defect: Update node.js for deprecated package, causing git actions to fail
 - Defect: Same commander can be added for a user more than 1 time, need to only allow for a user to add the commander once.
 - Defect: "Record Match" button in the step 5 of recording match can be selected many times, causing duplicated records being created
 - Feature: Add Average position finish to the leaderboard and make leaderboard sortable.
