@@ -4,6 +4,7 @@ import {
 }
 from "react";
 
+
 import {
     useNavigate,
     useSearchParams
@@ -21,6 +22,10 @@ from "./steps/Step2AddPlayers";
 
 import Step3AssignCommanders
 from "./steps/Step3AssignCommanders";
+
+
+import StepCommanderLifeTracker
+from "./steps/StepCommanderLifeTracker";
 
 
 import Step4RecordPlacements
@@ -60,16 +65,12 @@ export default function CreateMatch(){
 
 
 
-
-
     const [
         step,
         setStep
     ]
     =
     useState(1);
-
-
 
 
 
@@ -90,8 +91,6 @@ export default function CreateMatch(){
 
 
 
-
-
     useEffect(()=>{
 
 
@@ -105,14 +104,11 @@ export default function CreateMatch(){
                 );
 
 
-
             if(!leagueId){
 
                 return;
 
             }
-
-
 
 
 
@@ -129,8 +125,6 @@ export default function CreateMatch(){
 
 
 
-
-
                 setMatchState({
 
                     league,
@@ -143,10 +137,7 @@ export default function CreateMatch(){
 
 
 
-
-
                 setStep(2);
-
 
 
             }
@@ -165,22 +156,14 @@ export default function CreateMatch(){
 
             }
 
-
         }
-
-
 
 
 
         loadLeagueFromQuery();
 
 
-
     },[searchParams]);
-
-
-
-
 
 
 
@@ -198,12 +181,9 @@ export default function CreateMatch(){
             );
 
 
-
         if(!confirmed)
 
             return;
-
-
 
 
 
@@ -219,11 +199,7 @@ export default function CreateMatch(){
 
 
 
-
-
         setStep(1);
-
-
 
 
 
@@ -233,11 +209,7 @@ export default function CreateMatch(){
 
         );
 
-
     }
-
-
-
 
 
 
@@ -251,13 +223,12 @@ export default function CreateMatch(){
             <div className="create-match-card">
 
 
-
                 {
+
                     step === 1 &&
 
 
                     <Step1SelectLeague
-
 
                         selectedLeague={
 
@@ -266,11 +237,9 @@ export default function CreateMatch(){
                         }
 
 
-
                         setSelectedLeague={
 
                             (league)=>
-
 
                                 setMatchState({
 
@@ -284,9 +253,7 @@ export default function CreateMatch(){
 
                                 })
 
-
                         }
-
 
 
                         nextStep={
@@ -296,13 +263,11 @@ export default function CreateMatch(){
                         }
 
 
-
                         cancelMatch={
 
                             cancelMatch
 
                         }
-
 
                     />
 
@@ -312,22 +277,18 @@ export default function CreateMatch(){
 
 
 
-
-
-
                 {
+
                     step === 2 &&
 
 
                     <Step2AddPlayers
-
 
                         matchState={
 
                             matchState
 
                         }
-
 
 
                         setMatchState={
@@ -337,13 +298,11 @@ export default function CreateMatch(){
                         }
 
 
-
                         nextStep={
 
                             ()=>setStep(3)
 
                         }
-
 
 
                         previousStep={
@@ -353,13 +312,11 @@ export default function CreateMatch(){
                         }
 
 
-
                         cancelMatch={
 
                             cancelMatch
 
                         }
-
 
                     />
 
@@ -369,22 +326,18 @@ export default function CreateMatch(){
 
 
 
-
-
-
                 {
+
                     step === 3 &&
 
 
                     <Step3AssignCommanders
-
 
                         matchState={
 
                             matchState
 
                         }
-
 
 
                         setMatchState={
@@ -394,13 +347,11 @@ export default function CreateMatch(){
                         }
 
 
-
                         nextStep={
 
                             ()=>setStep(4)
 
                         }
-
 
 
                         previousStep={
@@ -410,13 +361,11 @@ export default function CreateMatch(){
                         }
 
 
-
                         cancelMatch={
 
                             cancelMatch
 
                         }
-
 
                     />
 
@@ -426,23 +375,18 @@ export default function CreateMatch(){
 
 
 
-
-
-
-
                 {
+
                     step === 4 &&
 
 
-                    <Step4RecordPlacements
-
+                    <StepCommanderLifeTracker
 
                         matchState={
 
                             matchState
 
                         }
-
 
 
                         setMatchState={
@@ -452,13 +396,11 @@ export default function CreateMatch(){
                         }
 
 
-
                         previousStep={
 
                             ()=>setStep(3)
 
                         }
-
 
 
                         nextStep={
@@ -468,13 +410,11 @@ export default function CreateMatch(){
                         }
 
 
-
                         cancelMatch={
 
                             cancelMatch
 
                         }
-
 
                     />
 
@@ -484,16 +424,12 @@ export default function CreateMatch(){
 
 
 
-
-
-
-
                 {
-                    step ===5 &&
+
+                    step === 5 &&
 
 
-                    <Step5ReviewMatch
-
+                    <Step4RecordPlacements
 
                         matchState={
 
@@ -501,6 +437,12 @@ export default function CreateMatch(){
 
                         }
 
+
+                        setMatchState={
+
+                            setMatchState
+
+                        }
 
 
                         previousStep={
@@ -510,6 +452,12 @@ export default function CreateMatch(){
                         }
 
 
+                        nextStep={
+
+                            ()=>setStep(6)
+
+                        }
+
 
                         cancelMatch={
 
@@ -517,11 +465,44 @@ export default function CreateMatch(){
 
                         }
 
-
                     />
 
                 }
 
+
+
+
+
+                {
+
+                    step === 6 &&
+
+
+                    <Step5ReviewMatch
+
+                        matchState={
+
+                            matchState
+
+                        }
+
+
+                        previousStep={
+
+                            ()=>setStep(5)
+
+                        }
+
+
+                        cancelMatch={
+
+                            cancelMatch
+
+                        }
+
+                    />
+
+                }
 
 
             </div>
@@ -529,8 +510,6 @@ export default function CreateMatch(){
 
         </div>
 
-
     );
-
 
 }

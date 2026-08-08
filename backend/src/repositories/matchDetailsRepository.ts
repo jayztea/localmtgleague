@@ -33,6 +33,8 @@ export async function findMatchDetails(
 
                 mp.finish_position,
 
+                mp.ending_life,
+
 
                 d.deck_id,
 
@@ -43,7 +45,9 @@ export async function findMatchDetails(
 
                 c.commander_name,
 
-                c.color_identity
+                c.color_identity,
+
+                c.image_url
 
 
             FROM matches m

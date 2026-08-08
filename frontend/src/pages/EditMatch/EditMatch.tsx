@@ -178,8 +178,10 @@ export default function EditMatch(){
 
 
                             placement:
-                                player.finish_position
-
+                                player.finish_position,
+                            
+                            ending_life:
+                                player.ending_life
 
                         })
 

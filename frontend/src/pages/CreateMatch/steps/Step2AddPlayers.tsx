@@ -38,87 +38,54 @@ from "../../../types/match";
 
 
 
-
-
 interface Props {
 
-
     matchState: CreateMatchState;
-
 
     setMatchState:
     React.Dispatch<
         React.SetStateAction<CreateMatchState>
     >;
 
-
     nextStep: () => void;
-
 
     previousStep: () => void;
 
-
     cancelMatch: () => void;
-
 
 }
 
 
 
-
-
-
-
-
 export default function Step2AddPlayers({
-
 
     matchState,
 
-
     setMatchState,
-
 
     nextStep,
 
-
     previousStep,
-
 
     cancelMatch
 
-
 }: Props){
 
-
-
     const [
-
         loading,
-
         setLoading
-
-    ]
-
-    =
+    ] =
     useState(false);
-
-
-
-
 
 
 
     useEffect(()=>{
 
-
         async function loadPlayers(){
-
 
             if(!matchState.league)
 
                 return;
-
 
 
             if(matchState.leaguePlayers.length > 0)
@@ -126,13 +93,9 @@ export default function Step2AddPlayers({
                 return;
 
 
-
-
             try{
 
-
                 setLoading(true);
-
 
 
                 const players:
@@ -146,24 +109,17 @@ export default function Step2AddPlayers({
                     );
 
 
-
                 setMatchState(previous => ({
-
 
                     ...previous,
 
-
                     leaguePlayers: players
-
 
                 }));
 
-
             }
 
-
             catch(error){
-
 
                 console.error(
 
@@ -173,25 +129,18 @@ export default function Step2AddPlayers({
 
                 );
 
-
             }
-
 
             finally{
 
-
                 setLoading(false);
 
-
             }
-
 
         }
 
 
-
         loadPlayers();
-
 
 
     },[
@@ -206,105 +155,79 @@ export default function Step2AddPlayers({
 
 
 
-
-
-
-
-
-
     const availablePlayers = useMemo(()=>{
-
 
         return matchState.leaguePlayers
 
             .filter(player =>
 
-
                 !matchState.players.some(
-
 
                     selected =>
 
-
                         selected.player_id === player.player_id
-
 
                 )
 
-
             )
 
-
             .map(player => ({
-
 
                 player_id:
 
                     player.player_id,
 
-
                 display_name:
 
                     player.display_name,
-
 
                 commanders:
 
                     player.commanders.map(commander => ({
 
-
                         deck_id:
 
                             commander.deck_id,
-
 
                         commander_id:
 
                             commander.commander_id,
 
-
                         commander_name:
 
                             commander.commander_name,
 
-
                         color_identity:
 
-                            commander.color_identity
+                            commander.color_identity,
 
+                        image_url:
+
+                            commander.image_url
 
                     })),
-
 
                 selected_commander_id:
 
                     null,
 
-
                 placement:
+
+                    null,
+
+                ending_life:
 
                     null
 
-
-
             }));
-
-
 
     },[
 
-
         matchState.leaguePlayers,
-
 
         matchState.players
 
-
     ]);
-
-
-
-
 
 
 
@@ -316,9 +239,7 @@ export default function Step2AddPlayers({
 
     ){
 
-
         return players;
-
 
     }
 
@@ -326,32 +247,19 @@ export default function Step2AddPlayers({
 
 
 
-
-
-
     return(
-
 
         <>
 
-
             <StepHeader
-
 
                 step={2}
 
-
                 title="Add Players"
-
 
                 description="Select players from your league to play in this match."
 
-
             />
-
-
-
-
 
 
 
@@ -359,7 +267,6 @@ export default function Step2AddPlayers({
             {
 
             loading &&
-
 
                 <p>
 
@@ -372,76 +279,46 @@ export default function Step2AddPlayers({
 
 
 
-
-
-
-
-
             {
-
 
             !loading &&
 
-
                 <PlayerSelector
-
 
                     availablePlayers={availablePlayers}
 
-
                     selectedPlayers={matchState.players}
-
-
 
                     setAvailablePlayers={()=>{}}
 
-
-
                     setSelectedPlayers={(players)=>{
-
 
                         setMatchState(previous => ({
 
-
                             ...previous,
-
 
                             players:
 
                                 convertSelectedPlayers(players)
 
-
                         }));
-
 
                     }}
 
-
-
                 />
-
 
             }
 
 
 
 
-
-
-
-
-
             <StepNavigation
-
 
                 previousStep={previousStep}
 
-
                 nextStep={nextStep}
 
-
                 cancelMatch={cancelMatch}
-
 
                 disableNext={
 
@@ -449,17 +326,10 @@ export default function Step2AddPlayers({
 
                 }
 
-
             />
-
-
-
-
 
         </>
 
-
     );
-
 
 }
