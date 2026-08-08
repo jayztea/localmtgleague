@@ -13,13 +13,11 @@ export async function getMatchDetails(
     matchId:number
 ){
 
-
     const rows =
 
         await repository.findMatchDetails(
             matchId
         );
-
 
 
     if(!rows.length){
@@ -29,7 +27,6 @@ export async function getMatchDetails(
         );
 
     }
-
 
 
     return {
@@ -54,7 +51,6 @@ export async function getMatchDetails(
             rows[0].match_date,
 
 
-
         players:
 
             rows.map(
@@ -72,6 +68,10 @@ export async function getMatchDetails(
                         player.finish_position,
 
 
+                    ending_life:
+                        player.ending_life,
+
+
                     deck_id:
                         player.deck_id,
 
@@ -85,7 +85,11 @@ export async function getMatchDetails(
 
 
                     color_identity:
-                        player.color_identity
+                        player.color_identity,
+
+
+                    image_url:
+                        player.image_url
 
                 })
             )

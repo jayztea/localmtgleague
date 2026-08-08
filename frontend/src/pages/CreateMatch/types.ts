@@ -20,27 +20,24 @@ export interface MatchCommander {
 
     color_identity?: string;
 
-}
+    image_url?: string;
 
+}
 
 
 export interface MatchPlayer {
 
-
     player_id:number;
-
 
     display_name:string;
 
-
     commanders:MatchCommander[];
-
 
     selected_commander_id:number | null;
 
-
     placement:number | null;
 
+    ending_life:number | null;
 
 }
 
@@ -48,22 +45,16 @@ export interface MatchPlayer {
 
 export interface CreateMatchState {
 
-
     league:League | null;
-
-
 
     /**
      * Players available from selected league
      */
     leaguePlayers:LeaguePlayer[];
 
-
-
     /**
      * Players selected for this match
      */
     players:MatchPlayer[];
-
 
 }

@@ -13,8 +13,9 @@ export interface LeaguePlayerCommander {
 
     color_identity?:string;
 
-}
+    image_url:string;
 
+}
 
 
 export interface LeaguePlayer {
