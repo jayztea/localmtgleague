@@ -1,3 +1,4 @@
+
 import CommanderSelector
 from "../components/CommanderSelector";
 
@@ -155,31 +156,48 @@ export default function Step3AssignCommanders({
             players:
 
 
-                matchState.players.map(player =>
+                matchState.players.map(player => {
 
 
-                    player.player_id === playerId
+                    if (player.player_id !== playerId) {
+
+                        return player;
+
+                    }
 
 
-                    ?
+                    const commanderAlreadyExists =
+
+                        player.commanders.some(
+
+                            existingCommander =>
+
+                                existingCommander.commander_id ===
+
+                                commander.commander_id
+
+                        );
 
 
-                    {
+                    return {
 
 
                         ...player,
 
 
-                        commanders:[
+                        commanders:
 
+                            commanderAlreadyExists
 
-                            ...player.commanders,
+                                ? player.commanders
 
+                                : [
 
-                            commander
+                                    ...player.commanders,
 
+                                    commander
 
-                        ],
+                                ],
 
 
                         selected_commander_id:
@@ -187,16 +205,9 @@ export default function Step3AssignCommanders({
                             commander.commander_id
 
 
-                    }
+                    };
 
-
-                    :
-
-
-                    player
-
-
-                )
+                })
 
 
         });
@@ -234,6 +245,7 @@ export default function Step3AssignCommanders({
 
 
 
+
     return (
 
         <>
@@ -252,6 +264,8 @@ export default function Step3AssignCommanders({
 
 
             />
+
+
 
 
 
@@ -291,6 +305,8 @@ export default function Step3AssignCommanders({
 
 
 
+
+
                         <div className="assignment-label">
 
 
@@ -298,6 +314,7 @@ export default function Step3AssignCommanders({
 
 
                         </div>
+
 
 
 
@@ -331,10 +348,14 @@ export default function Step3AssignCommanders({
 
 
 
+
+
                     </div>
 
 
                 ))
+
+
 
                 }
 
