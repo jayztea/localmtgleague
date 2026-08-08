@@ -1,3 +1,10 @@
+
+import {
+    useState
+}
+from "react";
+
+
 import {
     useNavigate
 }
@@ -29,8 +36,6 @@ import "../CreateMatch.css";
 
 
 
-
-
 interface Props {
 
 
@@ -47,11 +52,6 @@ interface Props {
 
 
 }
-
-
-
-
-
 
 
 
@@ -80,6 +80,13 @@ export default function Step5ReviewMatch({
 
 
 
+    const [
+        isSubmitting,
+        setIsSubmitting
+    ] = useState(false);
+
+
+
 
 
     const today =
@@ -87,8 +94,6 @@ export default function Step5ReviewMatch({
         new Date()
 
         .toLocaleDateString();
-
-
 
 
 
@@ -127,26 +132,32 @@ export default function Step5ReviewMatch({
 
 
 
-
-
     function sortedPlayers(){
 
 
         return [
 
+
             ...matchState.players
+
 
         ]
 
+
         .sort(
+
 
             (a,b)=>
 
+
                 (a.placement ?? 0)
+
 
                 -
 
+
                 (b.placement ?? 0)
+
 
         );
 
@@ -159,9 +170,27 @@ export default function Step5ReviewMatch({
 
 
 
-
-
     async function recordMatch(){
+
+
+        /*
+         * Prevent multiple submissions.
+         *
+         * This check happens before the API request is
+         * created, so repeated clicks cannot create
+         * multiple matches.
+         */
+        if(isSubmitting){
+
+            return;
+
+        }
+
+
+
+        setIsSubmitting(true);
+
+
 
 
         try {
@@ -220,16 +249,11 @@ export default function Step5ReviewMatch({
 
 
 
-
-
-
             await createMatch(
 
                 request
 
             );
-
-
 
 
 
@@ -246,13 +270,11 @@ export default function Step5ReviewMatch({
 
 
 
-
             navigate(
 
                 "/dashboard"
 
             );
-
 
 
         }
@@ -271,12 +293,21 @@ export default function Step5ReviewMatch({
 
 
 
+            /*
+             * Re-enable the button if the request failed.
+             *
+             * This allows the user to correct/retry the
+             * operation rather than being permanently locked
+             * on the review screen.
+             */
+            setIsSubmitting(false);
+
+
             alert(
 
                 "Failed to record match."
 
             );
-
 
         }
 
@@ -289,15 +320,55 @@ export default function Step5ReviewMatch({
 
 
 
-
-
     async function handleSave(){
+
+
+        /*
+         * Protect both the normal "Record Match" path
+         * and the optional edit/save path.
+         */
+        if(isSubmitting){
+
+            return;
+
+        }
+
 
 
         if(saveMatch){
 
 
-            await saveMatch();
+            setIsSubmitting(true);
+
+
+            try {
+
+
+                await saveMatch();
+
+
+            }
+
+
+            catch(error){
+
+
+                console.error(
+
+                    "FAILED TO SAVE MATCH",
+
+                    error
+
+                );
+
+
+                setIsSubmitting(false);
+
+
+                throw error;
+
+
+            }
 
 
             return;
@@ -310,8 +381,6 @@ export default function Step5ReviewMatch({
 
 
     }
-
-
 
 
 
@@ -337,8 +406,6 @@ export default function Step5ReviewMatch({
 
 
             />
-
-
 
 
 
@@ -461,8 +528,8 @@ export default function Step5ReviewMatch({
 
 
 
-
                     {
+
 
                     sortedPlayers()
 
@@ -492,7 +559,6 @@ export default function Step5ReviewMatch({
 
 
                             </div>
-
 
 
 
@@ -577,11 +643,27 @@ export default function Step5ReviewMatch({
 
                 nextLabel={
 
-                    saveMatch
+                    isSubmitting
 
-                    ? "Save Changes"
+                    ? (
 
-                    : "Record Match +"
+                        saveMatch
+
+                        ? "Saving..."
+
+                        : "Recording..."
+
+                    )
+
+                    : (
+
+                        saveMatch
+
+                        ? "Save Changes"
+
+                        : "Record Match +"
+
+                    )
 
                 }
 
