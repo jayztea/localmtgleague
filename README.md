@@ -26,6 +26,7 @@ Database:
 /database - SQL scripts
 
 ## Feature Release w/ date available
+- Defect: "Record Match" button in the step 5 of recording match can be selected many times, causing duplicated records being created - **08/07/2026**
 - Defect: Update commander data to include missing Spacecraft and "can be you commander" cards - **08/06/2026**
 - Feature: League Owner to add players to a league when player is not a registered user - **08/06/2026**
 - Feature: Edit and delete match on match details page for league owner and player who created match - **08/05/2026**
@@ -35,7 +36,6 @@ Database:
 
 **Upcoming in prioritized order:*
 
-- Defect: "Record Match" button in the step 5 of recording match can be selected many times, causing duplicated records being created
 - Feature: Add Average position finish to the leaderboard and make leaderboard sortable.
   - Dropdown to choose view type on leaderboard
   - Defect: Make league leaderboard more mobile friendly, currently getting cutoff in mobile app
