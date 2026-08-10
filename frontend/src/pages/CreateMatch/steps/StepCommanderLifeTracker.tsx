@@ -1,22 +1,17 @@
 import {
     useEffect,
+    useMemo,
     useState
 }
 from "react";
 
-
-import StepNavigation
-from "../components/StepNavigation";
-
-
 import type {
-    CreateMatchState
+    CreateMatchState,
+    MatchPlayer
 }
 from "../types";
 
-
-import "./StepCommanderLifeTracker.css";
-
+import "../CreateMatch.css";
 
 
 interface Props {
@@ -24,9 +19,9 @@ interface Props {
     matchState:CreateMatchState;
 
     setMatchState:
-    React.Dispatch<
-        React.SetStateAction<CreateMatchState>
-    >;
+        React.Dispatch<
+            React.SetStateAction<CreateMatchState>
+        >;
 
     nextStep:()=>void;
 
@@ -37,24 +32,17 @@ interface Props {
 }
 
 
-
-type LayoutType =
-    | "table"
-    | "grid"
-    | "vertical";
-
+type Arrangement =
+    | "standard"
+    | "clockwise"
+    | "counterClockwise";
 
 
-type SeatPosition =
-    | "top"
-    | "right"
-    | "bottom"
-    | "left";
+interface LifeValues {
 
+    [playerId:number]:number;
 
-
-const STARTING_LIFE = 40;
-
+}
 
 
 export default function StepCommanderLifeTracker({
@@ -74,14 +62,42 @@ export default function StepCommanderLifeTracker({
 
     const [
 
-        layout,
+        lifeValues,
 
-        setLayout
+        setLifeValues
 
     ] =
 
-    useState<LayoutType>("table");
+    useState<LifeValues>(()=>{
 
+        const initial:LifeValues = {};
+
+
+        matchState.players.forEach(player=>{
+
+            initial[player.player_id] =
+
+                player.ending_life ??
+
+                40;
+
+        });
+
+
+        return initial;
+
+    });
+
+
+    const [
+
+        arrangement,
+
+        setArrangement
+
+    ] =
+
+    useState<Arrangement>("standard");
 
 
     const [
@@ -95,82 +111,106 @@ export default function StepCommanderLifeTracker({
     useState(false);
 
 
-
     const [
 
-        bottomPlayerId,
+        editingPlayerId,
 
-        setBottomPlayerId
+        setEditingPlayerId
 
     ] =
 
-    useState<number | null>(
+    useState<number | null>(null);
 
-        matchState.players[0]?.player_id ?? null
+
+    const [
+
+        exactLife,
+
+        setExactLife
+
+    ] =
+
+    useState("");
+
+
+    const [
+
+        orderedPlayers,
+
+        setOrderedPlayers
+
+    ] =
+
+    useState<MatchPlayer[]>(
+
+        matchState.players
 
     );
 
 
 
-
-
     useEffect(()=>{
 
-        const needsInitialization =
+        setOrderedPlayers(
 
-            matchState.players.some(
+            matchState.players
 
-                player =>
+        );
 
-                    player.ending_life === null
-
-            );
+    },[matchState.players]);
 
 
-        if(!needsInitialization){
 
-            return;
+    const arrangedPlayers = useMemo(()=>{
+
+        if(orderedPlayers.length !== 4)
+
+            return orderedPlayers;
+
+
+        if(arrangement === "clockwise"){
+
+            return [
+
+                orderedPlayers[0],
+
+                orderedPlayers[1],
+
+                orderedPlayers[2],
+
+                orderedPlayers[3]
+
+            ];
 
         }
 
 
-        setMatchState(current => ({
+        if(arrangement === "counterClockwise"){
 
-            ...current,
+            return [
 
-            players:
+                orderedPlayers[0],
 
-                current.players.map(player =>
+                orderedPlayers[3],
 
-                    player.ending_life === null
+                orderedPlayers[2],
 
-                    ?
+                orderedPlayers[1]
 
-                    {
+            ];
 
-                        ...player,
+        }
 
-                        ending_life:STARTING_LIFE
 
-                    }
-
-                    :
-
-                    player
-
-                )
-
-        }));
+        return orderedPlayers;
 
     },[
 
-        matchState.players,
+        orderedPlayers,
 
-        setMatchState
+        arrangement
 
     ]);
-
-
 
 
 
@@ -182,37 +222,19 @@ export default function StepCommanderLifeTracker({
 
     ){
 
-        setMatchState(current => ({
+        setLifeValues(previous=>({
 
-            ...current,
+            ...previous,
 
-            players:
+            [playerId]:
 
-                current.players.map(player =>
+                Math.max(
 
-                    player.player_id === playerId
+                    0,
 
-                    ?
+                    (previous[playerId] ?? 40) +
 
-                    {
-
-                        ...player,
-
-                        ending_life:
-
-                            (
-
-                                player.ending_life ??
-
-                                STARTING_LIFE
-
-                            ) + amount
-
-                    }
-
-                    :
-
-                    player
+                    amount
 
                 )
 
@@ -222,106 +244,125 @@ export default function StepCommanderLifeTracker({
 
 
 
-
-
-    function setLifeDirectly(
+    function openExactLife(
 
         playerId:number
 
     ){
 
-        const player =
+        setEditingPlayerId(
 
-            matchState.players.find(
+            playerId
 
-                currentPlayer =>
-
-                    currentPlayer.player_id === playerId
-
-            );
+        );
 
 
-        if(!player){
+        setExactLife(
 
-            return;
+            String(
 
-        }
+                lifeValues[playerId] ?? 40
 
+            )
 
-        const currentLife =
-
-            player.ending_life ??
-
-            STARTING_LIFE;
-
-
-        const value =
-
-            window.prompt(
-
-                "Enter life total:",
-
-                currentLife.toString()
-
-            );
-
-
-        if(value === null){
-
-            return;
-
-        }
-
-
-        const newLife = Number(value);
-
-
-        if(!Number.isFinite(newLife)){
-
-            return;
-
-        }
-
-
-        setMatchState(current => ({
-
-            ...current,
-
-            players:
-
-                current.players.map(currentPlayer =>
-
-                    currentPlayer.player_id === playerId
-
-                    ?
-
-                    {
-
-                        ...currentPlayer,
-
-                        ending_life:newLife
-
-                    }
-
-                    :
-
-                    currentPlayer
-
-                )
-
-        }));
+        );
 
     }
 
 
 
+    function saveExactLife(){
+
+        if(
+
+            editingPlayerId === null
+
+        )
+
+            return;
 
 
-    function getCommander(player:any){
+        const value = Number(
+
+            exactLife
+
+        );
+
+
+        if(
+
+            !Number.isFinite(value)
+
+        )
+
+            return;
+
+
+        setLifeValues(previous=>({
+
+            ...previous,
+
+            [editingPlayerId]:
+
+                Math.max(
+
+                    0,
+
+                    Math.floor(value)
+
+                )
+
+        }));
+
+
+        setEditingPlayerId(null);
+
+        setExactLife("");
+
+    }
+
+
+
+    function finishTracker(){
+
+        setMatchState(previous=>({
+
+            ...previous,
+
+            players:
+
+                previous.players.map(player=>({
+
+                    ...player,
+
+                    ending_life:
+
+                        lifeValues[
+
+                            player.player_id
+
+                        ] ?? 40
+
+                }))
+
+        }));
+
+
+        nextStep();
+
+    }
+
+
+
+    function getCommander(
+
+        player:MatchPlayer
+
+    ){
 
         return player.commanders.find(
 
-            (commander:any) =>
+            commander=>
 
                 commander.commander_id ===
 
@@ -333,148 +374,366 @@ export default function StepCommanderLifeTracker({
 
 
 
+    function movePlayer(
+
+        fromIndex:number,
+
+        toIndex:number
+
+    ){
+
+        const next = [
+
+            ...orderedPlayers
+
+        ];
 
 
-    function getPlayerImage(player:any){
+        const [
+
+            moved
+
+        ] = next.splice(
+
+            fromIndex,
+
+            1
+
+        );
+
+
+        next.splice(
+
+            toIndex,
+
+            0,
+
+            moved
+
+        );
+
+
+        setOrderedPlayers(next);
+
+    }
+
+
+
+    function playerCard(
+
+        player:MatchPlayer,
+
+        position:string
+
+    ){
 
         const commander =
 
             getCommander(player);
 
 
-        return commander?.image_url ?? null;
+        return (
+
+            <div
+
+                key={player.player_id}
+
+                className={`life-player-card ${position}`}
+
+            >
+
+                {
+
+                    commander?.image_url &&
+
+                    <img
+
+                        src={commander.image_url}
+
+                        alt=""
+
+                        className="life-player-image"
+
+                    />
+
+                }
+
+
+                <div className="life-player-overlay" />
+
+
+                <div className="life-player-content">
+
+
+                    <div className="life-player-name">
+
+                        {player.display_name}
+
+                    </div>
+
+
+                    <div className="life-player-commander">
+
+                        {commander?.commander_name ??
+
+                            "Commander"
+
+                        }
+
+                    </div>
+
+
+                    <div className="life-controls">
+
+
+                        <button
+
+                            type="button"
+
+                            className="life-adjust-button"
+
+                            onClick={()=>updateLife(
+
+                                player.player_id,
+
+                                -1
+
+                            )}
+
+                            aria-label="Decrease life"
+
+                        >
+
+                            −
+
+                        </button>
+
+
+                        <button
+
+                            type="button"
+
+                            className="life-total"
+
+                            onClick={()=>openExactLife(
+
+                                player.player_id
+
+                            )}
+
+                        >
+
+                            {lifeValues[player.player_id] ?? 40}
+
+                        </button>
+
+
+                        <button
+
+                            type="button"
+
+                            className="life-adjust-button"
+
+                            onClick={()=>updateLife(
+
+                                player.player_id,
+
+                                1
+
+                            )}
+
+                            aria-label="Increase life"
+
+                        >
+
+                            +
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        );
 
     }
-
-
-
-
-
-    function getTablePlayers(){
-
-        if(!bottomPlayerId){
-
-            return matchState.players;
-
-        }
-
-
-        const bottomPlayer =
-
-            matchState.players.find(
-
-                player =>
-
-                    player.player_id ===
-
-                    bottomPlayerId
-
-            );
-
-
-        if(!bottomPlayer){
-
-            return matchState.players;
-
-        }
-
-
-        const remainingPlayers =
-
-            matchState.players.filter(
-
-                player =>
-
-                    player.player_id !==
-
-                    bottomPlayerId
-
-            );
-
-
-        return [
-
-            remainingPlayers[0],
-
-            remainingPlayers[1],
-
-            bottomPlayer,
-
-            remainingPlayers[2]
-
-        ].filter(Boolean);
-
-    }
-
-
-
-
-
-    function getSeatPosition(
-
-        index:number
-
-    ):SeatPosition{
-
-        const positions:SeatPosition[] = [
-
-            "top",
-
-            "right",
-
-            "bottom",
-
-            "left"
-
-        ];
-
-
-        return positions[index];
-
-    }
-
-
-
-
-
-    function selectLayout(
-
-        selectedLayout:LayoutType
-
-    ){
-
-        setLayout(selectedLayout);
-
-        setShowSettings(false);
-
-    }
-
-
 
 
 
     return (
 
-        <div className="commander-life-tracker">
+        <div className="life-tracker">
 
 
             <button
 
                 type="button"
 
-                className="life-tracker-settings"
+                className="life-settings-button"
 
-                onClick={()=>setShowSettings(
+                onClick={()=>setShowSettings(true)}
 
-                    current => !current
-
-                )}
-
-                aria-label="Table layout settings"
+                aria-label="Table settings"
 
             >
 
                 ⚙
+
+            </button>
+
+
+            <div className="life-table">
+
+
+                {
+
+                    arrangedPlayers.length === 4
+
+                    ? <>
+
+
+                        {
+
+                            playerCard(
+
+                                arrangedPlayers[0],
+
+                                "life-player-top"
+
+                            )
+
+                        }
+
+
+                        {
+
+                            playerCard(
+
+                                arrangedPlayers[1],
+
+                                "life-player-left"
+
+                            )
+
+                        }
+
+
+                        <div className="life-table-center">
+
+                            <div>
+
+                                COMMANDER
+
+                            </div>
+
+                            <span>
+
+                                LIFE
+
+                            </span>
+
+                        </div>
+
+
+                        {
+
+                            playerCard(
+
+                                arrangedPlayers[2],
+
+                                "life-player-right"
+
+                            )
+
+                        }
+
+
+                        {
+
+                            playerCard(
+
+                                arrangedPlayers[3],
+
+                                "life-player-bottom"
+
+                            )
+
+                        }
+
+                    </>
+
+                    :
+
+                    arrangedPlayers.map(
+
+                        (player,index)=>
+
+                            playerCard(
+
+                                player,
+
+                                `life-player-position-${index}`
+
+                            )
+
+                    )
+
+                }
+
+
+            </div>
+
+
+            <div className="life-tracker-actions">
+
+
+                <button
+
+                    type="button"
+
+                    className="life-back-button"
+
+                    onClick={previousStep}
+
+                >
+
+                    ← Back
+
+                </button>
+
+
+                <button
+
+                    type="button"
+
+                    className="life-next-button"
+
+                    onClick={finishTracker}
+
+                >
+
+                    Continue →
+
+                </button>
+
+            </div>
+
+
+            <button
+
+                type="button"
+
+                className="life-cancel-button"
+
+                onClick={cancelMatch}
+
+            >
+
+                Cancel Match
 
             </button>
 
@@ -484,608 +743,322 @@ export default function StepCommanderLifeTracker({
 
                 showSettings &&
 
-                <div className="life-tracker-settings-menu">
+                <div className="life-settings-overlay">
 
 
-                    <div className="life-tracker-settings-title">
+                    <div className="life-settings-panel">
 
-                        Table Layout
 
-                    </div>
+                        <div className="life-settings-header">
 
+                            <h2>
 
+                                Table Settings
 
-                    <button
+                            </h2>
 
-                        type="button"
 
-                        className={
+                            <button
 
-                            `layout-option ${
+                                type="button"
 
-                                layout === "table"
-
-                                    ? "layout-option--active"
-
-                                    : ""
-
-                            }`
-
-                        }
-
-                        onClick={()=>selectLayout("table")}
-
-                    >
-
-                        <span>
-
-                            4 Seat Table
-
-                        </span>
-
-                        <span>
-
-                            ✓
-
-                        </span>
-
-                    </button>
-
-
-
-                    <button
-
-                        type="button"
-
-                        className={
-
-                            `layout-option ${
-
-                                layout === "grid"
-
-                                    ? "layout-option--active"
-
-                                    : ""
-
-                            }`
-
-                        }
-
-                        onClick={()=>selectLayout("grid")}
-
-                    >
-
-                        <span>
-
-                            2 × 2 Grid
-
-                        </span>
-
-                        <span>
-
-                            ✓
-
-                        </span>
-
-                    </button>
-
-
-
-                    <button
-
-                        type="button"
-
-                        className={
-
-                            `layout-option ${
-
-                                layout === "vertical"
-
-                                    ? "layout-option--active"
-
-                                    : ""
-
-                            }`
-
-                        }
-
-                        onClick={()=>selectLayout("vertical")}
-
-                    >
-
-                        <span>
-
-                            Vertical
-
-                        </span>
-
-                        <span>
-
-                            ✓
-
-                        </span>
-
-                    </button>
-
-
-
-                    {
-
-                        layout === "table" &&
-
-                        matchState.players.length === 4 &&
-
-                        <div className="bottom-seat-selector">
-
-
-                            <div className="bottom-seat-selector__label">
-
-                                Your Seat
-
-                            </div>
-
-
-
-                            <select
-
-                                value={
-
-                                    bottomPlayerId ?? ""
-
-                                }
-
-                                onChange={event =>
-
-                                    setBottomPlayerId(
-
-                                        Number(
-
-                                            event.target.value
-
-                                        )
-
-                                    )
-
-                                }
+                                onClick={()=>setShowSettings(false)}
 
                             >
 
-                                {
+                                ×
 
-                                    matchState.players.map(
-
-                                        player => (
-
-                                            <option
-
-                                                key={
-
-                                                    player.player_id
-
-                                                }
-
-                                                value={
-
-                                                    player.player_id
-
-                                                }
-
-                                            >
-
-                                                {player.display_name}
-
-                                            </option>
-
-                                        )
-
-                                    )
-
-                                }
-
-                            </select>
-
+                            </button>
 
                         </div>
 
-                    }
 
-                </div>
+                        <p>
 
-            }
+                            Choose how players are arranged around the table.
 
+                        </p>
 
 
-            <div
+                        <button
 
-                className={
+                            type="button"
 
-                    `commander-life-table commander-life-table--${layout}`
+                            className={
 
-                }
+                                arrangement === "standard"
 
-            >
+                                    ? "life-arrangement active"
 
-                {
+                                    : "life-arrangement"
 
-                    layout === "table"
+                            }
 
-                    ?
+                            onClick={()=>{
 
-                    getTablePlayers().map(
+                                setArrangement(
 
-                        (player,index) => {
+                                    "standard"
 
-                            const commander =
+                                );
 
-                                getCommander(player);
+                                setShowSettings(false);
 
+                            }}
 
-                            const life =
+                        >
 
-                                player.ending_life ??
+                            Standard
 
-                                STARTING_LIFE;
+                        </button>
 
 
-                            const position =
+                        <button
 
-                                getSeatPosition(index);
+                            type="button"
 
+                            className={
 
-                            return (
+                                arrangement === "clockwise"
 
-                                <LifePlayerCard
+                                    ? "life-arrangement active"
 
-                                    key={
+                                    : "life-arrangement"
 
-                                        player.player_id
+                            }
 
-                                    }
+                            onClick={()=>{
 
-                                    player={player}
+                                setArrangement(
 
-                                    commander={commander}
+                                    "clockwise"
 
-                                    life={life}
+                                );
 
-                                    position={position}
+                                setShowSettings(false);
 
-                                    getPlayerImage={
+                            }}
 
-                                        getPlayerImage
+                        >
 
-                                    }
+                            Rotate Clockwise
 
-                                    updateLife={
+                        </button>
 
-                                        updateLife
 
-                                    }
+                        <button
 
-                                    setLifeDirectly={
+                            type="button"
 
-                                        setLifeDirectly
+                            className={
 
-                                    }
+                                arrangement === "counterClockwise"
 
-                                />
+                                    ? "life-arrangement active"
 
-                            );
+                                    : "life-arrangement"
 
-                        }
+                            }
 
-                    )
+                            onClick={()=>{
 
-                    :
+                                setArrangement(
 
-                    matchState.players.map(
+                                    "counterClockwise"
 
-                        player => {
+                                );
 
-                            const commander =
+                                setShowSettings(false);
 
-                                getCommander(player);
+                            }}
 
+                        >
 
-                            const life =
+                            Rotate Counter-Clockwise
 
-                                player.ending_life ??
+                        </button>
 
-                                STARTING_LIFE;
 
+                        <h3>
 
-                            return (
+                            Rearrange Players
 
-                                <LifePlayerCard
+                        </h3>
 
-                                    key={
-
-                                        player.player_id
-
-                                    }
-
-                                    player={player}
-
-                                    commander={commander}
-
-                                    life={life}
-
-                                    getPlayerImage={
-
-                                        getPlayerImage
-
-                                    }
-
-                                    updateLife={
-
-                                        updateLife
-
-                                    }
-
-                                    setLifeDirectly={
-
-                                        setLifeDirectly
-
-                                    }
-
-                                />
-
-                            );
-
-                        }
-
-                    )
-
-                }
-
-            </div>
-
-
-
-            <div className="commander-life-tracker__navigation">
-
-                <StepNavigation
-
-                    previousStep={previousStep}
-
-                    cancelMatch={cancelMatch}
-
-                    nextStep={nextStep}
-
-                    nextLabel="Continue to Placements →"
-
-                />
-
-            </div>
-
-        </div>
-
-    );
-
-}
-
-
-
-
-
-interface LifePlayerCardProps {
-
-    player:any;
-
-    commander:any;
-
-    life:number;
-
-    position?:SeatPosition;
-
-    getPlayerImage:(player:any)=>string | null;
-
-    updateLife:(playerId:number,amount:number)=>void;
-
-    setLifeDirectly:(playerId:number)=>void;
-
-}
-
-
-
-
-
-function LifePlayerCard({
-
-    player,
-
-    commander,
-
-    life,
-
-    position,
-
-    getPlayerImage,
-
-    updateLife,
-
-    setLifeDirectly
-
-}:LifePlayerCardProps){
-
-
-    const imageUrl =
-
-        getPlayerImage(player);
-
-
-    const positionClass =
-
-        position
-
-            ? `life-player-card--${position}`
-
-            : "";
-
-
-
-    return (
-
-        <div
-
-            className={
-
-                `life-player-card ${positionClass}`
-
-            }
-
-        >
-
-            <div className="life-player-card__content">
-
-
-                {
-
-                    imageUrl
-
-                    ?
-
-                    <img
-
-                        className="life-player-card__image"
-
-                        src={imageUrl}
-
-                        alt={
-
-                            commander?.commander_name ??
-
-                            "Commander"
-
-                        }
-
-                    />
-
-                    :
-
-                    <div className="life-player-card__image-placeholder">
-
-                        🃏
-
-                    </div>
-
-                }
-
-
-
-                <div className="life-player-card__info">
-
-                    <div className="life-player-card__name">
-
-                        {player.display_name}
-
-                    </div>
-
-
-
-                    <div className="life-player-card__commander">
 
                         {
 
-                            commander?.commander_name ??
+                            orderedPlayers.map(
 
-                            "Unknown Commander"
+                                (player,index)=>(
+
+                                    <div
+
+                                        key={player.player_id}
+
+                                        className="life-seat-row"
+
+                                    >
+
+                                        <span>
+
+                                            {index + 1}.
+
+                                            {" "}
+
+                                            {player.display_name}
+
+                                        </span>
+
+
+                                        <div>
+
+                                            <button
+
+                                                type="button"
+
+                                                disabled={index === 0}
+
+                                                onClick={()=>movePlayer(
+
+                                                    index,
+
+                                                    index - 1
+
+                                                )}
+
+                                            >
+
+                                                ↑
+
+                                            </button>
+
+
+                                            <button
+
+                                                type="button"
+
+                                                disabled={
+
+                                                    index ===
+
+                                                    orderedPlayers.length - 1
+
+                                                }
+
+                                                onClick={()=>movePlayer(
+
+                                                    index,
+
+                                                    index + 1
+
+                                                )}
+
+                                            >
+
+                                                ↓
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                )
+
+                            )
 
                         }
+
 
                     </div>
 
                 </div>
 
+            }
 
 
-                <div className="life-player-card__life">
+            {
+
+                editingPlayerId !== null &&
+
+                <div className="life-exact-overlay">
 
 
-                    <button
-
-                        type="button"
-
-                        className="life-control"
-
-                        onClick={()=>updateLife(
-
-                            player.player_id,
-
-                            -1
-
-                        )}
-
-                        aria-label={
-
-                            `Decrease ${player.display_name}'s life`
-
-                        }
-
-                    >
-
-                        −
-
-                    </button>
+                    <div className="life-exact-panel">
 
 
+                        <h2>
 
-                    <button
+                            Set Life Total
 
-                        type="button"
-
-                        className="life-total"
-
-                        onClick={()=>setLifeDirectly(
-
-                            player.player_id
-
-                        )}
-
-                        aria-label={
-
-                            `Edit ${player.display_name}'s life total`
-
-                        }
-
-                    >
-
-                        {life}
-
-                    </button>
+                        </h2>
 
 
+                        <input
 
-                    <button
+                            type="number"
 
-                        type="button"
+                            inputMode="numeric"
 
-                        className="life-control"
+                            value={exactLife}
 
-                        onClick={()=>updateLife(
+                            onChange={event=>
 
-                            player.player_id,
+                                setExactLife(
 
-                            1
+                                    event.target.value
 
-                        )}
+                                )
 
-                        aria-label={
+                            }
 
-                            `Increase ${player.display_name}'s life`
+                            autoFocus
 
-                        }
+                        />
 
-                    >
 
-                        +
+                        <div>
 
-                    </button>
+                            <button
 
+                                type="button"
+
+                                onClick={()=>{
+
+                                    setEditingPlayerId(null);
+
+                                    setExactLife("");
+
+                                }}
+
+                            >
+
+                                Cancel
+
+                            </button>
+
+
+                            <button
+
+                                type="button"
+
+                                onClick={saveExactLife}
+
+                            >
+
+                                Save
+
+                            </button>
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 
-            </div>
+            }
 
         </div>
 
