@@ -26,6 +26,7 @@ Database:
 /database - SQL scripts
 
 ## Feature Release w/ date available
+- Feature: Add additional views to the league leaderboard, with a dropdown selector. League leaderboard to use card view when in mobile. - **08/10/2026**
 - Defect: "Record Match" button in the step 5 of recording match can be selected many times, causing duplicated records being created - **08/07/2026**
 - Defect: Update commander data to include missing Spacecraft and "can be you commander" cards - **08/06/2026**
 - Feature: League Owner to add players to a league when player is not a registered user - **08/06/2026**
@@ -35,10 +36,6 @@ Database:
 ## Feature Backlog
 
 **Upcoming in prioritized order:*
-
-- Feature: Add Average position finish to the leaderboard and make leaderboard sortable.
-  - Dropdown to choose view type on leaderboard
-  - Defect: Make league leaderboard more mobile friendly, currently getting cutoff in mobile app
 - Defect: Player Statistics
   - Highlights: Best Commander, Best Color, Worst Color all not working. (only when 10 or more games played maybe?)
   - Commander Statistics, Color Statistics, Recent Match History are all not mobile friendly tables/views
