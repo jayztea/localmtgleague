@@ -25,7 +25,7 @@ Database:
 
 /database - SQL scripts
 
-## Feature Release w/ date available
+## Feature Release & Date
 - Feature: Player Statistics - **08/13/2026**
   - Highlights: Best Commander, Best Color, Worst Color. Change to require minimum 2 games in each category instead of 5.
   - Commander Statistics, Color Statistics, Recent Match History created mobile friendly view
