@@ -39,11 +39,14 @@ Database:
 ## Feature Backlog
 
 **Upcoming in prioritized order:*
-- Feature: League Statistics is a bit confusing, it is majorly favorite commander * favorite color. I think it needs to be updated.
+
+- Feature: Global Navigation & Hamburger menu
+  - When user navigates back from page it takes them to the page they were previously on. Currently not working for back when selecting player match from dashboard page
+- Feature: Submit feedback form
 - Feature: Add ability to have backgrounds & partner commanders
 - Feature: Add in season feature for league, default all existing matches in a league to S1
-- User Behavior: Players are "creating match" before they complete their match. The "created match" will disappear after a certain amount of time, and token might not have forever persistence. Maybe we need a better workflow.
 - User Behavior: User creating leagues when league already available. More documentation on what purpose of league versus match is.
+- Feature: League Statistics is a bit confusing, it is majorly favorite commander * favorite color. I think it needs to be updated.
 - Feature: Complete reset password
 - Feature: QR for joining league
 - Player Stats V2
@@ -57,13 +60,10 @@ Database:
   - 💀 Most Eliminations
   - ❤️ Most Played Partner
   - 📅 Activity calendar (GitHub-style heatmap)
-- Feature: Global Navigation & Hamburger menu
-  - When user navigates back from page it takes them to the page they were previously on. Currently not working for back when selecting player match from dashboard page
 - Feature: Notifications
 -   Match edited or deleted
 -   Match added
 -   Badge earned
-- Feature: Submit feedback form
 - Feature: Admin/League Owner responsibilities
   - Feature: User to claim an unregistered player account from a league
   - Add league owners to a league
