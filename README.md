@@ -26,6 +26,9 @@ Database:
 /database - SQL scripts
 
 ## Feature Release w/ date available
+- Feature: Player Statistics - **08/13/2026**
+  - Highlights: Best Commander, Best Color, Worst Color. Change to require minimum 2 games in each category instead of 5.
+  - Commander Statistics, Color Statistics, Recent Match History created mobile friendly view
 - Feature: Add additional views to the league leaderboard, with a dropdown selector. League leaderboard to use card view when in mobile. - **08/10/2026**
 - Defect: "Record Match" button in the step 5 of recording match can be selected many times, causing duplicated records being created - **08/07/2026**
 - Defect: Update commander data to include missing Spacecraft and "can be you commander" cards - **08/06/2026**
