@@ -66,7 +66,6 @@ export default function PlayerColorStatistics({
 
 
 
-
             <div className="player-table-container">
 
 
@@ -75,9 +74,7 @@ export default function PlayerColorStatistics({
 
                     <thead>
 
-
                         <tr>
-
 
                             <th>
 
@@ -113,9 +110,7 @@ export default function PlayerColorStatistics({
 
                             </th>
 
-
                         </tr>
-
 
                     </thead>
 
@@ -204,6 +199,125 @@ export default function PlayerColorStatistics({
 
                 </table>
 
+            </div>
+
+
+
+            <div className="player-mobile-stat-list">
+
+                {
+
+                    colors.map(
+
+                        color=>(
+
+                            <div
+
+                                className="player-mobile-stat-card"
+
+                                key={
+                                    color.color_identity
+                                }
+
+                            >
+
+                                <div className="player-mobile-stat-title">
+
+                                    {
+                                        color.color_identity
+                                    }
+
+                                </div>
+
+
+                                <div className="player-mobile-stat-grid">
+
+
+                                    <div>
+
+                                        <span>
+
+                                            Games
+
+                                        </span>
+
+                                        <strong>
+
+                                            {
+                                                color.games_played
+                                            }
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+
+                                            Wins
+
+                                        </span>
+
+                                        <strong>
+
+                                            {
+                                                color.wins
+                                            }
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+
+                                            Losses
+
+                                        </span>
+
+                                        <strong>
+
+                                            {
+                                                color.losses
+                                            }
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+
+                                            Win Rate
+
+                                        </span>
+
+                                        <strong>
+
+                                            {
+                                                color.win_rate
+                                            }%
+
+                                        </strong>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        )
+
+                    )
+
+                }
 
             </div>
 

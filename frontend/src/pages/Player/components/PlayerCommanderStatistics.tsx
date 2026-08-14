@@ -3,7 +3,6 @@ import type {
 }
 from "../../../types/playerStatistics";
 
-
 import "./PlayerCommanderStatistics.css";
 
 
@@ -110,9 +109,7 @@ export default function PlayerCommanderStatistics({
 
                             </th>
 
-
                         </tr>
-
 
                     </thead>
 
@@ -197,6 +194,125 @@ export default function PlayerCommanderStatistics({
 
                 </table>
 
+            </div>
+
+
+
+            <div className="player-mobile-stat-list">
+
+                {
+
+                    commanders.map(
+
+                        commander=>(
+
+                            <div
+
+                                className="player-mobile-stat-card"
+
+                                key={
+                                    commander.commander_id
+                                }
+
+                            >
+
+                                <div className="player-mobile-stat-title">
+
+                                    {
+                                        commander.commander_name
+                                    }
+
+                                </div>
+
+
+                                <div className="player-mobile-stat-grid">
+
+
+                                    <div>
+
+                                        <span>
+
+                                            Games
+
+                                        </span>
+
+                                        <strong>
+
+                                            {
+                                                commander.games_played
+                                            }
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+
+                                            Wins
+
+                                        </span>
+
+                                        <strong>
+
+                                            {
+                                                commander.wins
+                                            }
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+
+                                            Losses
+
+                                        </span>
+
+                                        <strong>
+
+                                            {
+                                                commander.losses
+                                            }
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+
+                                            Win Rate
+
+                                        </span>
+
+                                        <strong>
+
+                                            {
+                                                commander.win_rate
+                                            }%
+
+                                        </strong>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        )
+
+                    )
+
+                }
 
             </div>
 
