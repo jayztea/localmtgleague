@@ -50,16 +50,15 @@ Database:
 - Feature: Complete reset password
 - Feature: QR for joining league
 - Player Stats V2
-  - 🏆 Achievement badges
-  - 📈 Win streaks
-  - 🔥 Current streak
-  - 📊 Lifetime trends
-  - ⭐ Favorite opponents
-  - 🎯 Nemesis (lowest win % against)
-  - 👑 MVP Commander
-  - 💀 Most Eliminations
-  - ❤️ Most Played Partner
-  - 📅 Activity calendar (GitHub-style heatmap)
+  - Achievement badges
+  - Win streaks
+  - Current streak
+  - Lifetime trends
+  - Favorite opponents
+  - Nemesis (lowest win % against)
+  - MVP Commander
+  - Most Eliminations
+  - Activity calendar (GitHub-style heatmap)
 - Feature: Notifications
 -   Match edited or deleted
 -   Match added
