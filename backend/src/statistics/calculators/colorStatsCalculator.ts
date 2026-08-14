@@ -10,7 +10,6 @@ export function calculateColorStats(
     games: PlayerMatchHistory[]
 ): ColorStatistics[] {
 
-
     const colors =
         new Map<
             string,
@@ -20,7 +19,6 @@ export function calculateColorStats(
 
 
     for (const game of games) {
-
 
         const color =
             game.color_identity
@@ -32,7 +30,6 @@ export function calculateColorStats(
         if (
             !colors.has(color)
         ) {
-
 
             colors.set(
                 color,
@@ -90,7 +87,6 @@ export function calculateColorStats(
 
     for (const color of statistics) {
 
-
         color.losses =
             color.games_played -
             color.wins;
@@ -133,9 +129,8 @@ export function calculateColorStats(
 
 export function getBestColor(
     colors: ColorStatistics[],
-    minimumGames:number = 5
+    minimumGames: number = 2
 ): ColorStatistics | null {
-
 
     const eligible =
         colors.filter(
@@ -184,9 +179,8 @@ export function getBestColor(
 
 export function getWorstColor(
     colors: ColorStatistics[],
-    minimumGames:number = 5
+    minimumGames: number = 2
 ): ColorStatistics | null {
-
 
     const eligible =
         colors.filter(

@@ -3,12 +3,10 @@ import {
 }
 from "react-router-dom";
 
-
 import type {
     PlayerMatchHistory
 }
 from "../../../types/playerStatistics";
-
 
 import "./PlayerRecentMatches.css";
 
@@ -28,11 +26,8 @@ export default function PlayerRecentMatches({
 
 }:Props){
 
-
     const navigate =
         useNavigate();
-
-
 
 
 
@@ -69,18 +64,21 @@ export default function PlayerRecentMatches({
 
 
 
-
-
     function formatDate(
         date:Date | string
     ){
 
         return new Date(date)
-            .toLocaleDateString();
+            .toLocaleDateString(
+                "en-US",
+                {
+                    month:"short",
+                    day:"numeric",
+                    year:"numeric"
+                }
+            );
 
     }
-
-
 
 
 
@@ -118,8 +116,6 @@ export default function PlayerRecentMatches({
         return `#${placement}`;
 
     }
-
-
 
 
 
@@ -294,6 +290,116 @@ export default function PlayerRecentMatches({
 
                 </table>
 
+
+            </div>
+
+
+
+            <div className="player-mobile-match-list">
+
+                {
+
+                    matches.map(
+
+                        match=>(
+
+                            <div
+
+                                className="player-mobile-match-card"
+
+                                key={
+                                    match.match_player_id
+                                }
+
+                            >
+
+
+                                <div className="player-mobile-match-date">
+
+                                    {
+                                        formatDate(
+                                            match.match_date
+                                        )
+                                    }
+
+                                </div>
+
+
+
+                                <div className="player-mobile-match-commander">
+
+                                    {
+                                        match.commander_name
+                                    }
+
+                                </div>
+
+
+
+                                <div className="player-mobile-match-deck">
+
+                                    <span>
+
+                                        Deck
+
+                                    </span>
+
+                                    <strong>
+
+                                        {
+                                            match.deck_name
+                                        }
+
+                                    </strong>
+
+                                </div>
+
+
+
+                                <div className="player-mobile-match-footer">
+
+
+                                    <span className="player-mobile-match-placement">
+
+                                        {
+                                            getPlacementLabel(
+                                                match.finish_position
+                                            )
+                                        }
+
+                                    </span>
+
+
+
+                                    <button
+
+                                        className="player-match-button"
+
+                                        onClick={
+
+                                            ()=>navigate(
+                                                `/matches/${match.match_id}`
+                                            )
+
+                                        }
+
+                                    >
+
+                                        View Match
+
+                                    </button>
+
+
+                                </div>
+
+
+                            </div>
+
+                        )
+
+                    )
+
+                }
 
             </div>
 

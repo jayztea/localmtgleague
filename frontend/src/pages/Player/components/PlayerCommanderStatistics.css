@@ -2,10 +2,6 @@
 
     width:100%;
 
-    overflow-x:auto;
-
-    -webkit-overflow-scrolling:touch;
-
 }
 
 
@@ -13,8 +9,6 @@
 .player-stat-table {
 
     width:100%;
-
-    min-width:650px;
 
     border-collapse:separate;
 
@@ -60,8 +54,6 @@
 
     border-bottom:1px solid var(--cm-border);
 
-    white-space:nowrap;
-
 }
 
 
@@ -86,42 +78,110 @@
 
     font-weight:600;
 
-    min-width:180px;
+}
+
+
+
+.player-mobile-stat-list {
+
+    display:none;
 
 }
 
 
 
-
-
 @media(max-width:700px){
-
-
 
     .player-table-container {
 
-        margin-right:-4px;
+        display:none;
 
     }
 
 
 
-    .player-stat-table th,
-    .player-stat-table td {
+    .player-mobile-stat-list {
 
-        padding:12px 14px;
+        display:flex;
 
-        font-size:13px;
+        flex-direction:column;
+
+        gap:12px;
+
+    }
+
+
+
+    .player-mobile-stat-card {
+
+        background:var(--cm-background);
+
+        border:1px solid var(--cm-border);
+
+        border-radius:var(--cm-radius);
+
+        padding:16px;
 
     }
 
 
 
-    .player-primary-column {
+    .player-mobile-stat-title {
 
-        min-width:150px;
+        font-size:16px;
+
+        font-weight:600;
+
+        line-height:1.4;
+
+        overflow-wrap:anywhere;
+
+        margin-bottom:16px;
 
     }
 
+
+
+    .player-mobile-stat-grid {
+
+        display:grid;
+
+        grid-template-columns:repeat(2,1fr);
+
+        gap:12px;
+
+    }
+
+
+
+    .player-mobile-stat-grid > div {
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:4px;
+
+    }
+
+
+
+    .player-mobile-stat-grid span {
+
+        color:var(--cm-muted);
+
+        font-size:12px;
+
+    }
+
+
+
+    .player-mobile-stat-grid strong {
+
+        font-size:15px;
+
+        font-weight:600;
+
+    }
 
 }

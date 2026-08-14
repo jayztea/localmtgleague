@@ -36,13 +36,17 @@ export function calculateCommanderStats(
                     commander_name:
                         game.commander_name,
 
-                    games_played: 0,
+                    games_played:
+                        0,
 
-                    wins: 0,
+                    wins:
+                        0,
 
-                    losses: 0,
+                    losses:
+                        0,
 
-                    win_rate: 0
+                    win_rate:
+                        0
 
                 }
             );
@@ -134,7 +138,7 @@ export function getMostPlayedCommander(
 
 export function getBestCommander(
     commanders: CommanderStatistics[],
-    minimumGames:number = 5
+    minimumGames: number = 2
 ): CommanderStatistics | null {
 
     const eligible =

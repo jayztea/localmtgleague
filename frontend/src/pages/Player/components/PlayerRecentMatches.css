@@ -25,3 +25,155 @@
     box-shadow:var(--cm-shadow);
 
 }
+
+
+
+.player-mobile-match-list {
+
+    display:none;
+
+}
+
+
+
+@media(max-width:700px){
+
+    .player-table-container {
+
+        display:none;
+
+    }
+
+
+
+    .player-mobile-match-list {
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:12px;
+
+    }
+
+
+
+    .player-mobile-match-card {
+
+        background:var(--cm-background);
+
+        border:1px solid var(--cm-border);
+
+        border-radius:var(--cm-radius);
+
+        padding:16px;
+
+    }
+
+
+
+    .player-mobile-match-date {
+
+        color:var(--cm-muted);
+
+        font-size:13px;
+
+        margin-bottom:8px;
+
+    }
+
+
+
+    .player-mobile-match-commander {
+
+        font-size:17px;
+
+        font-weight:600;
+
+        line-height:1.4;
+
+        overflow-wrap:anywhere;
+
+        margin-bottom:14px;
+
+    }
+
+
+
+    .player-mobile-match-deck {
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:4px;
+
+        padding-bottom:14px;
+
+        border-bottom:1px solid var(--cm-border);
+
+    }
+
+
+
+    .player-mobile-match-deck span {
+
+        color:var(--cm-muted);
+
+        font-size:12px;
+
+    }
+
+
+
+    .player-mobile-match-deck strong {
+
+        font-size:14px;
+
+        font-weight:500;
+
+        line-height:1.4;
+
+        overflow-wrap:anywhere;
+
+    }
+
+
+
+    .player-mobile-match-footer {
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        gap:12px;
+
+        padding-top:14px;
+
+    }
+
+
+
+    .player-mobile-match-placement {
+
+        font-size:15px;
+
+        font-weight:600;
+
+        white-space:nowrap;
+
+    }
+
+
+
+    .player-mobile-match-footer .player-match-button {
+
+        flex:1;
+
+        min-height:40px;
+
+    }
+
+}
