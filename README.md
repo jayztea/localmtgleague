@@ -41,6 +41,7 @@ Database:
 
 **Upcoming in prioritized order:*
 
+- Feature: Change league name
 - Feature: Submit feedback form
 - Feature: Add ability to have backgrounds & partner commanders
 - Feature: Add in season feature for league, default all existing matches in a league to S1
