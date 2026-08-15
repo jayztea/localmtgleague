@@ -26,6 +26,7 @@ Database:
 /database - SQL scripts
 
 ## Feature Release & Date
+- Feature: Create hamburger, and adjust global navigation - **08/14/2026**
 - Feature: Player Statistics - **08/13/2026**
   - Highlights: Best Commander, Best Color, Worst Color. Change to require minimum 2 games in each category instead of 5.
   - Commander Statistics, Color Statistics, Recent Match History created mobile friendly view
@@ -40,8 +41,6 @@ Database:
 
 **Upcoming in prioritized order:*
 
-- Feature: Global Navigation & Hamburger menu
-  - When user navigates back from page it takes them to the page they were previously on. Currently not working for back when selecting player match from dashboard page
 - Feature: Submit feedback form
 - Feature: Add ability to have backgrounds & partner commanders
 - Feature: Add in season feature for league, default all existing matches in a league to S1
