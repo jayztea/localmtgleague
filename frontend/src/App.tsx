@@ -6,75 +6,60 @@ import {
 }
 from "react-router-dom";
 
-
 import Login
 from "./pages/Login/Login";
-
 
 import Register
 from "./pages/Register/Register";
 
-
 import ForgotPassword
 from "./pages/ForgotPassword/ForgotPassword";
-
 
 import ResetPassword
 from "./pages/ResetPassword/ResetPassword";
 
-
 import Dashboard
 from "./pages/Dashboard";
-
 
 import CreateMatch
 from "./pages/CreateMatch/CreateMatch";
 
-
 import CreateLeague
 from "./pages/CreateLeague/CreateLeague";
-
 
 import JoinLeague
 from "./pages/JoinLeague/JoinLeague";
 
+import LeaguesPage
+from "./pages/League/LeaguesPage";
 
 import LeaguePage
 from "./pages/League/LeaguePage";
 
-
 import PlayerPage
 from "./pages/Player/PlayerPage";
-
 
 import MatchDetails
 from "./pages/MatchDetails/MatchDetails";
 
-
 import EditMatch
 from "./pages/EditMatch/EditMatch";
-
 
 import ProtectedRoute
 from "./auth/ProtectedRoute";
 
-
-
-
+import AppLayout
+from "./components/navigation/AppLayout";
 
 
 export default function App(){
 
-
-    return (
+    return(
 
         <BrowserRouter>
 
 
             <Routes>
-
-
-
 
 
                 <Route
@@ -88,9 +73,6 @@ export default function App(){
                 />
 
 
-
-
-
                 <Route
 
                     path="/register"
@@ -100,9 +82,6 @@ export default function App(){
                     }
 
                 />
-
-
-
 
 
                 <Route
@@ -116,9 +95,6 @@ export default function App(){
                 />
 
 
-
-
-
                 <Route
 
                     path="/reset-password/:token"
@@ -130,202 +106,121 @@ export default function App(){
                 />
 
 
-
-
-
-
-
-
-
-
-
                 <Route
-
-                    path="/dashboard"
 
                     element={
 
                         <ProtectedRoute>
 
+                            <AppLayout />
+
+                        </ProtectedRoute>
+
+                    }
+
+                >
+
+
+                    <Route
+
+                        path="/dashboard"
+
+                        element={
                             <Dashboard />
+                        }
 
-                        </ProtectedRoute>
-
-                    }
-
-                />
+                    />
 
 
+                    <Route
+
+                        path="/leagues"
+
+                        element={
+                            <LeaguesPage />
+                        }
+
+                    />
 
 
+                    <Route
 
+                        path="/player/:playerId"
 
-
-
-
-                <Route
-
-                    path="/player/:playerId"
-
-                    element={
-
-                        <ProtectedRoute>
-
+                        element={
                             <PlayerPage />
+                        }
 
-                        </ProtectedRoute>
-
-                    }
-
-                />
+                    />
 
 
+                    <Route
 
+                        path="/league/:leagueId"
 
-
-
-
-
-
-                <Route
-
-                    path="/league/:leagueId"
-
-                    element={
-
-                        <ProtectedRoute>
-
+                        element={
                             <LeaguePage />
+                        }
 
-                        </ProtectedRoute>
-
-                    }
-
-                />
+                    />
 
 
+                    <Route
 
+                        path="/matches/create"
 
-
-
-
-
-
-                <Route
-
-                    path="/matches/create"
-
-                    element={
-
-                        <ProtectedRoute>
-
+                        element={
                             <CreateMatch />
+                        }
 
-                        </ProtectedRoute>
-
-                    }
-
-                />
+                    />
 
 
+                    <Route
 
+                        path="/matches/:matchId"
 
-
-
-
-
-
-                <Route
-
-                    path="/matches/:matchId"
-
-                    element={
-
-                        <ProtectedRoute>
-
+                        element={
                             <MatchDetails />
+                        }
 
-                        </ProtectedRoute>
-
-                    }
-
-                />
+                    />
 
 
+                    <Route
 
+                        path="/matches/:matchId/edit"
 
-
-
-                <Route
-
-                    path="/matches/:matchId/edit"
-
-                    element={
-
-                        <ProtectedRoute>
-
+                        element={
                             <EditMatch />
+                        }
 
-                        </ProtectedRoute>
-
-                    }
-
-                />
+                    />
 
 
+                    <Route
 
+                        path="/leagues/create"
 
-
-
-
-
-
-                <Route
-
-                    path="/leagues/create"
-
-                    element={
-
-                        <ProtectedRoute>
-
+                        element={
                             <CreateLeague />
+                        }
 
-                        </ProtectedRoute>
-
-                    }
-
-                />
+                    />
 
 
+                    <Route
 
+                        path="/leagues/join"
 
-
-
-
-
-
-                <Route
-
-                    path="/leagues/join"
-
-                    element={
-
-                        <ProtectedRoute>
-
+                        element={
                             <JoinLeague />
+                        }
 
-                        </ProtectedRoute>
-
-                    }
-
-                />
+                    />
 
 
-
-
-
-
-
+                </Route>
 
 
                 <Route
@@ -347,13 +242,6 @@ export default function App(){
                 />
 
 
-
-
-
-
-
-
-
                 <Route
 
                     path="*"
@@ -371,9 +259,6 @@ export default function App(){
                     }
 
                 />
-
-
-
 
 
             </Routes>

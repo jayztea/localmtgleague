@@ -1,0 +1,393 @@
+.hamburger-navigation {
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+}
+
+
+.hamburger-menu-button {
+
+    width:44px;
+
+    height:44px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:5px;
+
+    padding:0;
+
+    background:var(--cm-card);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius-md);
+
+    color:var(--cm-text);
+
+    cursor:pointer;
+
+    box-shadow:var(--cm-shadow);
+
+    transition:var(--cm-transition);
+
+}
+
+
+.hamburger-menu-button:hover {
+
+    background:var(--cm-card-hover);
+
+}
+
+
+.hamburger-menu-button:active {
+
+    transform:scale(.96);
+
+}
+
+
+.hamburger-menu-button span {
+
+    width:20px;
+
+    height:2px;
+
+    background:currentColor;
+
+    border-radius:2px;
+
+}
+
+
+.hamburger-navigation-brand {
+
+    color:var(--cm-text);
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+
+.hamburger-menu-overlay {
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:1200;
+
+    background:rgba(0,0,0,.5);
+
+}
+
+
+.hamburger-menu {
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    z-index:1300;
+
+    width:320px;
+
+    max-width:85vw;
+
+    height:100dvh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:var(--cm-card);
+
+    border-right:1px solid var(--cm-border);
+
+    box-shadow:var(--cm-shadow);
+
+    animation:hamburger-menu-slide-in .2s ease-out;
+
+}
+
+
+@keyframes hamburger-menu-slide-in {
+
+    from {
+
+        transform:translateX(-100%);
+
+    }
+
+    to {
+
+        transform:translateX(0);
+
+    }
+
+}
+
+
+.hamburger-menu-header {
+
+    min-height:72px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:16px;
+
+    padding:0 20px;
+
+    border-bottom:1px solid var(--cm-border);
+
+}
+
+
+.hamburger-menu-header h2 {
+
+    margin:0;
+
+    color:var(--cm-text);
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+
+.hamburger-menu-close {
+
+    width:40px;
+
+    height:40px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:0;
+
+    background:transparent;
+
+    border:none;
+
+    border-radius:var(--cm-radius-md);
+
+    color:var(--cm-text);
+
+    font-size:30px;
+
+    line-height:1;
+
+    cursor:pointer;
+
+}
+
+
+.hamburger-menu-close:hover {
+
+    background:var(--cm-background);
+
+}
+
+
+.hamburger-menu-navigation {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    padding:16px;
+
+}
+
+
+.hamburger-menu-item {
+
+    width:100%;
+
+    min-height:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:0 16px;
+
+    border:none;
+
+    border-radius:var(--cm-radius-md);
+
+    background:transparent;
+
+    color:var(--cm-text);
+
+    font-size:15px;
+
+    font-weight:500;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    transition:var(--cm-transition);
+
+}
+
+
+.hamburger-menu-item:hover {
+
+    background:var(--cm-background);
+
+}
+
+
+.hamburger-menu-item.active {
+
+    background:var(--cm-background);
+
+    color:var(--cm-primary);
+
+    font-weight:700;
+
+}
+
+.hamburger-menu-item:disabled {
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+
+.hamburger-menu-item-disabled:hover {
+
+    background:transparent;
+
+}
+
+
+.hamburger-menu-footer {
+
+    margin-top:auto;
+
+    padding:16px;
+
+    border-top:1px solid var(--cm-border);
+
+}
+
+
+.hamburger-menu-logout {
+
+    color:var(--cm-text-muted);
+
+}
+
+
+@media(max-width:768px){
+
+    .hamburger-navigation {
+
+        gap:12px;
+
+    }
+
+
+    .hamburger-navigation-brand {
+
+        font-size:16px;
+
+    }
+
+
+    .hamburger-menu {
+
+        width:300px;
+
+        max-width:88vw;
+
+    }
+
+
+    .hamburger-menu-item {
+
+        min-height:52px;
+
+        font-size:16px;
+
+    }
+
+}
+
+
+@media(max-width:480px){
+
+    .hamburger-navigation-brand {
+
+        font-size:15px;
+
+    }
+
+
+    .hamburger-menu {
+
+        width:100%;
+
+        max-width:100%;
+
+    }
+
+
+    .hamburger-menu-header {
+
+        padding:0 16px;
+
+    }
+
+
+    .hamburger-menu-navigation {
+
+        padding:12px;
+
+    }
+
+
+    .hamburger-menu-footer {
+
+        padding:12px;
+
+    }
+
+}

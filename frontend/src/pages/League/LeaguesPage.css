@@ -1,0 +1,224 @@
+.leagues-page {
+
+    min-height:100vh;
+
+    background:var(--cm-background);
+
+    padding:32px;
+
+    max-width:1280px;
+
+    margin:auto;
+
+}
+
+
+.leagues-page-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:24px;
+
+    margin-bottom:32px;
+
+}
+
+
+.leagues-page-title {
+
+    margin:0;
+
+    color:var(--cm-text);
+
+    font-size:36px;
+
+    font-weight:700;
+
+}
+
+
+.leagues-page-subtitle {
+
+    margin:8px 0 0;
+
+    color:var(--cm-text-muted);
+
+    font-size:15px;
+
+}
+
+
+.leagues-page-actions {
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.leagues-page-button {
+
+    min-height:48px;
+
+    padding:0 20px;
+
+    border:none;
+
+    border-radius:var(--cm-radius-md);
+
+    background:var(--cm-primary);
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    box-shadow:var(--cm-shadow);
+
+    transition:var(--cm-transition);
+
+}
+
+
+.leagues-page-button:hover {
+
+    background:var(--cm-primary-hover);
+
+    transform:translateY(-2px);
+
+}
+
+
+.leagues-page-grid {
+
+    display:grid;
+
+    grid-template-columns:repeat(
+        auto-fit,
+        minmax(300px, 1fr)
+    );
+
+    gap:20px;
+
+}
+
+
+.leagues-page-empty {
+
+    padding:64px 32px;
+
+    background:var(--cm-card);
+
+    border:1px solid var(--cm-border);
+
+    border-radius:var(--cm-radius-lg);
+
+    box-shadow:var(--cm-shadow);
+
+    text-align:center;
+
+}
+
+
+.leagues-page-empty h2 {
+
+    margin:0;
+
+    color:var(--cm-text);
+
+    font-size:24px;
+
+}
+
+
+.leagues-page-empty p {
+
+    margin:12px 0 0;
+
+    color:var(--cm-text-muted);
+
+}
+
+
+.leagues-page-empty-actions {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    margin-top:24px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.leagues-page-loading,
+.leagues-page-error {
+
+    min-height:50vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--cm-text-muted);
+
+    font-size:18px;
+
+}
+
+
+@media(max-width:768px){
+
+    .leagues-page {
+
+        padding:24px 16px;
+
+    }
+
+
+    .leagues-page-header {
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+
+    .leagues-page-actions {
+
+        width:100%;
+
+        flex-direction:column;
+
+    }
+
+
+    .leagues-page-button {
+
+        width:100%;
+
+    }
+
+
+    .leagues-page-title {
+
+        font-size:30px;
+
+    }
+
+}
