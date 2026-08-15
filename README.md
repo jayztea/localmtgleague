@@ -46,6 +46,7 @@ Database:
 - Feature: Add in season feature for league, default all existing matches in a league to S1
 - User Behavior: User creating leagues when league already available. More documentation on what purpose of league versus match is.
 - Feature: League Statistics is a bit confusing, it is majorly favorite commander * favorite color. I think it needs to be updated.
+- Feature: Non-League Play & Exhibition Match Recording
 - Feature: Complete reset password
 - Feature: QR for joining league
 - Player Stats V2
