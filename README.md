@@ -41,7 +41,6 @@ Database:
 
 **Upcoming in prioritized order:*
 
-- Feature: Change league name
 - Feature: Submit feedback form
 - Feature: Add ability to have backgrounds & partner commanders
 - Feature: Add in season feature for league, default all existing matches in a league to S1
@@ -67,6 +66,8 @@ Database:
 - Feature: Admin/League Owner responsibilities
   - Feature: User to claim an unregistered player account from a league
   - Add league owners to a league
+  - Change league name
+  - Change league picture
 - Player Settings
     - Update name
     - Update profile picture
