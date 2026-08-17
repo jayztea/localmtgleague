@@ -60,9 +60,9 @@ Database:
   - Most Eliminations
   - Activity calendar (GitHub-style heatmap)
 - Feature: Notifications
--   Match edited or deleted
--   Match added
--   Badge earned
+  - Match edited or deleted
+  - Match added
+  - Badge earned
 - Feature: Admin/League Owner responsibilities
   - Feature: User to claim an unregistered player account from a league
   - Add league owners to a league
