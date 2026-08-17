@@ -26,6 +26,7 @@ Database:
 /database - SQL scripts
 
 ## Feature Release & Date
+- Feature: Submit feedback form so that users can submit feedback and help to improve the app -**08/16/2026**
 - Feature: Create hamburger, and adjust global navigation - **08/14/2026**
 - Feature: Player Statistics - **08/13/2026**
   - Highlights: Best Commander, Best Color, Worst Color. Change to require minimum 2 games in each category instead of 5.
@@ -41,7 +42,6 @@ Database:
 
 **Upcoming in prioritized order:*
 
-- Feature: Submit feedback form
 - Feature: Add ability to have backgrounds & partner commanders
 - Feature: Add in season feature for league, default all existing matches in a league to S1
 - User Behavior: User creating leagues when league already available. More documentation on what purpose of league versus match is.
@@ -77,6 +77,7 @@ Database:
   - Update image, that updates dashboard
   - Season start/end date
 - Feature: Tournaments
+- Feature: Finalize hamburger menu and global navigation for sub actions. Breakout player stats into several pages. Breakout League stats into several pages.
 - Feature: Trends, year over year
 - Feature: Email Verification
 - AIDLC? DevOps? Vulnerabilities?
