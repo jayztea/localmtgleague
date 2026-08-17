@@ -1,0 +1,428 @@
+.submit-feedback-page {
+
+    width: 100%;
+    min-height: 100%;
+
+    padding: 32px 20px 48px;
+
+    box-sizing: border-box;
+
+}
+
+
+
+.submit-feedback-container {
+
+    width: 100%;
+    max-width: 760px;
+
+    margin: 0 auto;
+
+}
+
+
+
+.submit-feedback-back-button {
+
+    border: none;
+    background: transparent;
+
+    color: var(--cm-text);
+
+    font-size: 15px;
+    font-weight: 600;
+
+    padding: 8px 0;
+    margin-bottom: 16px;
+
+    cursor: pointer;
+
+}
+
+
+
+.submit-feedback-back-button:hover {
+
+    opacity: 0.75;
+
+}
+
+
+
+.submit-feedback-card {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    background: var(--cm-card);
+
+    border: 1px solid var(--cm-border);
+
+    border-radius: var(--cm-radius);
+
+    padding: 32px;
+
+}
+
+
+
+.submit-feedback-header {
+
+    margin-bottom: 28px;
+
+}
+
+
+
+.submit-feedback-header h1 {
+
+    margin: 0 0 10px;
+
+    color: var(--cm-text);
+
+    font-size: 28px;
+    line-height: 1.2;
+
+}
+
+
+
+.submit-feedback-header p {
+
+    margin: 0;
+
+    max-width: 620px;
+
+    color: var(--cm-muted);
+
+    font-size: 15px;
+    line-height: 1.6;
+
+}
+
+
+
+.submit-feedback-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+
+}
+
+
+
+.submit-feedback-field {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+
+.submit-feedback-field label {
+
+    color: var(--cm-text);
+
+    font-size: 14px;
+    font-weight: 600;
+
+}
+
+
+
+.submit-feedback-field select,
+.submit-feedback-field textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid var(--cm-border);
+
+    border-radius: 8px;
+
+    background: var(--cm-background);
+
+    color: var(--cm-text);
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+
+}
+
+
+
+.submit-feedback-field select {
+
+    height: 46px;
+
+    padding: 0 12px;
+
+}
+
+
+
+.submit-feedback-field textarea {
+
+    min-height: 180px;
+
+    padding: 12px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+
+}
+
+
+
+.submit-feedback-field select:focus,
+.submit-feedback-field textarea:focus {
+
+    outline: none;
+
+    border-color: var(--cm-accent);
+
+    box-shadow:
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--cm-accent) 15%,
+            transparent
+        );
+
+}
+
+
+
+.submit-feedback-field select:disabled,
+.submit-feedback-field textarea:disabled {
+
+    opacity: 0.7;
+
+    cursor: not-allowed;
+
+}
+
+
+
+.submit-feedback-character-count {
+
+    align-self: flex-end;
+
+    margin-top: -2px;
+
+    color: var(--cm-muted);
+
+    font-size: 12px;
+
+}
+
+
+
+.submit-feedback-error {
+
+    padding: 12px 14px;
+
+    border: 1px solid var(--cm-danger);
+
+    border-radius: 8px;
+
+    background: color-mix(
+        in srgb,
+        var(--cm-danger) 10%,
+        transparent
+    );
+
+    color: var(--cm-danger);
+
+    font-size: 14px;
+    line-height: 1.4;
+
+}
+
+
+
+.submit-feedback-submit-button {
+
+    width: 100%;
+
+    min-height: 46px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: var(--cm-accent);
+
+    color: var(--cm-accent-text);
+
+    font-family: inherit;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+
+}
+
+
+
+.submit-feedback-submit-button:hover:not(:disabled) {
+
+    opacity: 0.9;
+
+}
+
+
+
+.submit-feedback-submit-button:active:not(:disabled) {
+
+    transform: translateY(1px);
+
+}
+
+
+
+.submit-feedback-submit-button:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+}
+
+
+
+.submit-feedback-success {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    padding: 20px;
+
+    border: 1px solid var(--cm-border);
+
+    border-radius: 10px;
+
+    background: var(--cm-background);
+
+}
+
+
+
+.submit-feedback-success strong {
+
+    color: var(--cm-text);
+
+    font-size: 18px;
+
+}
+
+
+
+.submit-feedback-success span {
+
+    color: var(--cm-muted);
+
+    font-size: 14px;
+    line-height: 1.5;
+
+}
+
+
+
+.submit-feedback-success button {
+
+    margin-top: 6px;
+
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: var(--cm-accent);
+
+    color: var(--cm-accent-text);
+
+    font-family: inherit;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+
+@media (max-width: 600px) {
+
+    .submit-feedback-page {
+
+        padding:
+            20px 12px
+            32px;
+
+    }
+
+
+
+    .submit-feedback-card {
+
+        padding: 22px 18px;
+
+        border-radius: 10px;
+
+    }
+
+
+
+    .submit-feedback-header h1 {
+
+        font-size: 24px;
+
+    }
+
+
+
+    .submit-feedback-header p {
+
+        font-size: 14px;
+
+    }
+
+
+
+    .submit-feedback-field textarea {
+
+        min-height: 160px;
+
+    }
+
+}

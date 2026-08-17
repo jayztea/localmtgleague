@@ -4,23 +4,32 @@ import {
 }
 from "react";
 
+
+
 import {
     useLocation,
     useNavigate
 }
 from "react-router-dom";
 
+
+
 import {
     useAuth
 }
 from "../../auth/AuthContext";
+
+
 
 import {
     getDashboard
 }
 from "../../services/dashboardService";
 
+
+
 import "./HamburgerMenu.css";
+
 
 
 export default function HamburgerMenu(){
@@ -31,12 +40,15 @@ export default function HamburgerMenu(){
     useAuth();
 
 
+
     const navigate =
         useNavigate();
 
 
+
     const location =
         useLocation();
+
 
 
     const [
@@ -46,11 +58,13 @@ export default function HamburgerMenu(){
     useState(false);
 
 
+
     const [
         playerId,
         setPlayerId
     ] =
     useState<number | null>(null);
+
 
 
     useEffect(
@@ -62,6 +76,7 @@ export default function HamburgerMenu(){
 
                     const dashboard =
                         await getDashboard();
+
 
                     setPlayerId(
                         dashboard.player.player_id
@@ -87,10 +102,13 @@ export default function HamburgerMenu(){
     );
 
 
+
     useEffect(
         ()=>{
 
-            setIsOpen(false);
+            setIsOpen(
+                false
+            );
 
         },
         [
@@ -99,18 +117,21 @@ export default function HamburgerMenu(){
     );
 
 
+
     useEffect(
         ()=>{
 
             function handleKeyDown(
-                event:KeyboardEvent
+                event: KeyboardEvent
             ){
 
                 if(
                     event.key === "Escape"
                 ){
 
-                    setIsOpen(false);
+                    setIsOpen(
+                        false
+                    );
 
                 }
 
@@ -137,17 +158,22 @@ export default function HamburgerMenu(){
     );
 
 
+
     function navigateTo(
-        path:string
+        path: string
     ){
 
-        setIsOpen(false);
+        setIsOpen(
+            false
+        );
+
 
         navigate(
             path
         );
 
     }
+
 
 
     function navigateToProfile(){
@@ -168,6 +194,7 @@ export default function HamburgerMenu(){
     }
 
 
+
     return(
 
         <div className="hamburger-navigation">
@@ -179,11 +206,15 @@ export default function HamburgerMenu(){
 
                 className="hamburger-menu-button"
 
-                onClick={()=>setIsOpen(true)}
+                onClick={
+                    ()=>setIsOpen(true)
+                }
 
                 aria-label="Open navigation menu"
 
-                aria-expanded={isOpen}
+                aria-expanded={
+                    isOpen
+                }
 
             >
 
@@ -196,11 +227,13 @@ export default function HamburgerMenu(){
             </button>
 
 
+
             <div className="hamburger-navigation-brand">
 
                 Local Magic League
 
             </div>
+
 
 
             {
@@ -212,7 +245,9 @@ export default function HamburgerMenu(){
 
                         className="hamburger-menu-overlay"
 
-                        onClick={()=>setIsOpen(false)}
+                        onClick={
+                            ()=>setIsOpen(false)
+                        }
 
                     />
 
@@ -242,7 +277,9 @@ export default function HamburgerMenu(){
 
                                 className="hamburger-menu-close"
 
-                                onClick={()=>setIsOpen(false)}
+                                onClick={
+                                    ()=>setIsOpen(false)
+                                }
 
                                 aria-label="Close navigation menu"
 
@@ -254,6 +291,7 @@ export default function HamburgerMenu(){
 
 
                         </div>
+
 
 
                         <nav className="hamburger-menu-navigation">
@@ -271,15 +309,18 @@ export default function HamburgerMenu(){
                                     }`
                                 }
 
-                                onClick={()=>navigateTo(
-                                    "/dashboard"
-                                )}
+                                onClick={
+                                    ()=>navigateTo(
+                                        "/dashboard"
+                                    )
+                                }
 
                             >
 
                                 Dashboard
 
                             </button>
+
 
 
                             <button
@@ -309,6 +350,7 @@ export default function HamburgerMenu(){
                             </button>
 
 
+
                             <button
 
                                 type="button"
@@ -322,15 +364,18 @@ export default function HamburgerMenu(){
                                     }`
                                 }
 
-                                onClick={()=>navigateTo(
-                                    "/leagues"
-                                )}
+                                onClick={
+                                    ()=>navigateTo(
+                                        "/leagues"
+                                    )
+                                }
 
                             >
 
                                 Leagues
 
                             </button>
+
 
 
                             <button
@@ -345,9 +390,11 @@ export default function HamburgerMenu(){
                                     }`
                                 }
 
-                                onClick={()=>navigateTo(
-                                    "/matches/create"
-                                )}
+                                onClick={
+                                    ()=>navigateTo(
+                                        "/matches/create"
+                                    )
+                                }
 
                             >
 
@@ -356,7 +403,34 @@ export default function HamburgerMenu(){
                             </button>
 
 
+
+                            <button
+
+                                type="button"
+
+                                className={
+                                    `hamburger-menu-item ${
+                                        location.pathname === "/feedback"
+                                            ? "active"
+                                            : ""
+                                    }`
+                                }
+
+                                onClick={
+                                    ()=>navigateTo(
+                                        "/feedback"
+                                    )
+                                }
+
+                            >
+
+                                Submit Feedback
+
+                            </button>
+
+
                         </nav>
+
 
 
                         <div className="hamburger-menu-footer">
@@ -370,7 +444,10 @@ export default function HamburgerMenu(){
 
                                 onClick={()=>{
 
-                                    setIsOpen(false);
+                                    setIsOpen(
+                                        false
+                                    );
+
 
                                     logout();
 

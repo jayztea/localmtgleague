@@ -6,6 +6,8 @@ import {
 }
 from "react-router-dom";
 
+
+
 import Login
 from "./pages/Login/Login";
 
@@ -45,11 +47,15 @@ from "./pages/MatchDetails/MatchDetails";
 import EditMatch
 from "./pages/EditMatch/EditMatch";
 
+import SubmitFeedback
+from "./pages/SubmitFeedback/SubmitFeedback";
+
 import ProtectedRoute
 from "./auth/ProtectedRoute";
 
 import AppLayout
 from "./components/navigation/AppLayout";
+
 
 
 export default function App(){
@@ -215,6 +221,17 @@ export default function App(){
 
                         element={
                             <JoinLeague />
+                        }
+
+                    />
+
+
+                    <Route
+
+                        path="/feedback"
+
+                        element={
+                            <SubmitFeedback />
                         }
 
                     />
