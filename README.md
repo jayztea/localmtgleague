@@ -26,7 +26,7 @@ Database:
 /database - SQL scripts
 
 ## Feature Release & Date
-- Feature: Submit feedback form so that users can submit feedback and help to improve the app -**08/16/2026**
+- Feature: Submit feedback form so that users can submit feedback and help to improve the app - **08/16/2026**
 - Feature: Create hamburger, and adjust global navigation - **08/14/2026**
 - Feature: Player Statistics - **08/13/2026**
   - Highlights: Best Commander, Best Color, Worst Color. Change to require minimum 2 games in each category instead of 5.
