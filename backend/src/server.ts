@@ -16,20 +16,19 @@ import dashboardRoutes from "./routes/dashboard";
 import commanderRoutes from "./routes/commander";
 import adminRoutes from "./routes/admin";
 import matchDetailsRoutes from "./routes/matchDetails";
+import feedbackRoutes from "./routes/feedback";
 
 import { errorHandler } from "./middleware/errorHandler";
+
 
 
 const app = express();
 
 
-/*
-|--------------------------------------------------------------------------
-| Environment
-|--------------------------------------------------------------------------
-*/
 
-const PORT = Number(env.PORT) || 3000;
+const PORT =
+    Number(env.PORT) || 3000;
+
 
 
 const allowedOrigins =
@@ -45,13 +44,6 @@ const allowedOrigins =
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Middleware
-|--------------------------------------------------------------------------
-*/
-
-
 app.use(
     cors({
 
@@ -60,17 +52,12 @@ app.use(
             callback
         ) => {
 
-
             console.log(
                 "Incoming CORS Origin:",
                 origin
             );
 
 
-            /*
-             * Allow server-to-server requests,
-             * health checks, curl, etc.
-             */
             if (!origin) {
 
                 return callback(
@@ -138,23 +125,18 @@ app.use(
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Routes
-|--------------------------------------------------------------------------
-*/
-
-
 app.use(
     "/auth",
     authRoutes
 );
 
 
+
 app.use(
     "/test",
     testRoutes
 );
+
 
 
 app.use(
@@ -168,6 +150,7 @@ app.use(
     "/leagues",
     leagueRoutes
 );
+
 
 
 app.use(
@@ -201,16 +184,34 @@ app.use(
     dashboardRoutes
 );
 
+
+
 app.use(
     leagueStatisticsRoutes
 );
+
+
 
 app.use(
     "/commanders",
     commanderRoutes
 );
 
-app.use("/admin", adminRoutes);
+
+
+app.use(
+    "/admin",
+    adminRoutes
+);
+
+
+
+app.use(
+    "/feedback",
+    feedbackRoutes
+);
+
+
 
 app.use(
     matchDetailsRoutes
@@ -218,30 +219,16 @@ app.use(
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Global Error Handler
-|--------------------------------------------------------------------------
-*/
-
 app.use(
     errorHandler
 );
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Start Server
-|--------------------------------------------------------------------------
-*/
-
-
 app.listen(
     PORT,
     "0.0.0.0",
     () => {
-
 
         console.log(
             "========================================"
@@ -270,7 +257,6 @@ app.listen(
         console.log(
             "========================================"
         );
-
 
     }
 );
