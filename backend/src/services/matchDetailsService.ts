@@ -68,6 +68,10 @@ export async function getMatchDetails(
                         player.finish_position,
 
 
+                    starting_life:
+                        player.starting_life,
+
+
                     ending_life:
                         player.ending_life,
 
@@ -89,7 +93,27 @@ export async function getMatchDetails(
 
 
                     image_url:
-                        player.image_url
+                        player.image_url,
+
+
+                    secondary_commander_id:
+                        player.secondary_commander_id
+                            ?? null,
+
+
+                    secondary_commander_name:
+                        player.secondary_commander_name
+                            ?? null,
+
+
+                    secondary_color_identity:
+                        player.secondary_color_identity
+                            ?? null,
+
+
+                    secondary_image_url:
+                        player.secondary_image_url
+                            ?? null
 
                 })
             )

@@ -2,13 +2,9 @@ import type {
     League
 } from "../../services/leagueService";
 
-
 import type {
     LeaguePlayer
-}
-from "../../types/match";
-
-
+} from "../../types/match";
 
 export interface MatchCommander {
 
@@ -22,39 +18,34 @@ export interface MatchCommander {
 
     image_url?: string;
 
-}
+    type_line?: string | null;
 
+}
 
 export interface MatchPlayer {
 
-    player_id:number;
+    player_id: number;
 
-    display_name:string;
+    display_name: string;
 
-    commanders:MatchCommander[];
+    commanders: MatchCommander[];
 
-    selected_commander_id:number | null;
+    selected_commander_id: number | null;
 
-    placement:number | null;
+    selected_secondary_commander_id: number | null;
 
-    ending_life:number | null;
+    placement: number | null;
+
+    ending_life: number | null;
 
 }
 
-
-
 export interface CreateMatchState {
 
-    league:League | null;
+    league: League | null;
 
-    /**
-     * Players available from selected league
-     */
-    leaguePlayers:LeaguePlayer[];
+    leaguePlayers: LeaguePlayer[];
 
-    /**
-     * Players selected for this match
-     */
-    players:MatchPlayer[];
+    players: MatchPlayer[];
 
 }

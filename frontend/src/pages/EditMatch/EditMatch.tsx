@@ -26,7 +26,8 @@ from "../CreateMatch/steps/Step5ReviewMatch";
 
 import type {
     CreateMatchState,
-    MatchPlayer
+    MatchPlayer,
+    MatchCommander
 }
 from "../CreateMatch/types";
 
@@ -39,11 +40,6 @@ from "../../services/matchDetailsService";
 
 
 import "./EditMatch.css";
-
-
-
-
-
 
 
 
@@ -62,9 +58,6 @@ export default function EditMatch(){
 
 
 
-
-
-
     const [
         step,
         setStep
@@ -73,17 +66,11 @@ export default function EditMatch(){
 
 
 
-
-
-
     const [
         loading,
         setLoading
     ] =
     useState(true);
-
-
-
 
 
 
@@ -103,12 +90,6 @@ export default function EditMatch(){
 
 
 
-
-
-
-
-
-
     useEffect(()=>{
 
 
@@ -120,9 +101,6 @@ export default function EditMatch(){
                 return;
 
             }
-
-
-
 
 
             try{
@@ -138,59 +116,94 @@ export default function EditMatch(){
 
 
 
-
-
-
-
                 const players:MatchPlayer[] =
 
                     match.players.map(
 
-                        (player:any)=>({
+                        (player:any)=>{
 
 
-                            player_id:
-                                player.player_id,
+                            const primaryCommander:
+                                MatchCommander = {
+
+                                commander_id:
+                                    player.commander_id,
+
+                                commander_name:
+                                    player.commander_name,
+
+                                color_identity:
+                                    player.color_identity,
+
+                                image_url:
+                                    player.image_url
+
+                            };
 
 
-                            display_name:
-                                player.display_name,
+
+                            const commanders:
+                                MatchCommander[] = [
+
+                                primaryCommander
+
+                            ];
 
 
-                            commanders:[
 
-                                {
+                            if(
+                                player.secondary_commander_id
+                            ){
+
+                                commanders.push({
 
                                     commander_id:
-                                        player.commander_id,
-
+                                        player.secondary_commander_id,
 
                                     commander_name:
-                                        player.commander_name
+                                        player.secondary_commander_name
+                                            ?? "",
 
-                                }
+                                    color_identity:
+                                        player.secondary_color_identity,
 
-                            ],
+                                    image_url:
+                                        player.secondary_image_url
+
+                                });
+
+                            }
 
 
-                            selected_commander_id:
-                                player.commander_id,
 
+                            return {
 
-                            placement:
-                                player.finish_position,
-                            
-                            ending_life:
-                                player.ending_life
+                                player_id:
+                                    player.player_id,
 
-                        })
+                                display_name:
+                                    player.display_name,
+
+                                commanders,
+
+                                selected_commander_id:
+                                    player.commander_id,
+
+                                selected_secondary_commander_id:
+                                    player.secondary_commander_id
+                                        ?? null,
+
+                                placement:
+                                    player.finish_position,
+
+                                ending_life:
+                                    player.ending_life
+
+                            };
+
+                        }
 
                     );
-
-
-
-
-
 
 
 
@@ -199,14 +212,11 @@ export default function EditMatch(){
                     league:
                         match.league,
 
-
                     leaguePlayers:[],
-
 
                     players
 
                 });
-
 
             }
             catch(error){
@@ -220,20 +230,15 @@ export default function EditMatch(){
 
                 );
 
-
             }
             finally{
 
 
                 setLoading(false);
 
-
             }
 
-
         }
-
-
 
 
 
@@ -241,12 +246,6 @@ export default function EditMatch(){
 
 
     },[matchId]);
-
-
-
-
-
-
 
 
 
@@ -261,61 +260,44 @@ export default function EditMatch(){
 
 
 
-
-
-
         try{
 
 
             await updateMatch(
 
-
                 Number(matchId),
 
-
                 {
-
 
                     game_length_minutes:
                         undefined,
 
-
                     notes:
                         undefined,
 
-
                     players:
-
 
                         matchState.players.map(player=>({
 
-
                             player_id:
-
                                 player.player_id,
 
-
                             commander_id:
-
                                 player.selected_commander_id!,
 
+                            secondary_commander_id:
+                                player.selected_secondary_commander_id
+                                    ?? undefined,
 
                             finish_position:
-
-                                player.placement ?? undefined
-
+                                player.placement
+                                    ?? undefined
 
                         }))
 
-
                 }
 
-
             );
-
-
-
-
 
 
 
@@ -327,14 +309,11 @@ export default function EditMatch(){
 
 
 
-
-
             navigate(
 
                 `/matches/${matchId}`
 
             );
-
 
         }
         catch(error){
@@ -349,24 +328,15 @@ export default function EditMatch(){
             );
 
 
-
             alert(
 
                 "Unable to update match."
 
             );
 
-
         }
 
-
     }
-
-
-
-
-
-
 
 
 
@@ -387,14 +357,7 @@ export default function EditMatch(){
 
 
 
-
-
-
-
-
-
     return (
-
 
         <div className="edit-match-page">
 
@@ -402,17 +365,12 @@ export default function EditMatch(){
             <div className="edit-match-card">
 
 
-
-
-
-
-
                 {
+
                     step === 3 &&
 
 
                     <Step3AssignCommanders
-
 
                         matchState={
                             matchState
@@ -458,25 +416,18 @@ export default function EditMatch(){
 
                         }
 
-
                     />
 
                 }
 
 
 
-
-
-
-
-
-
                 {
+
                     step === 4 &&
 
 
                     <Step4RecordPlacements
-
 
                         matchState={
 
@@ -522,25 +473,18 @@ export default function EditMatch(){
 
                         }
 
-
                     />
 
                 }
 
 
 
-
-
-
-
-
-
                 {
+
                     step === 5 &&
 
 
                     <Step5ReviewMatch
-
 
                         matchState={
 
@@ -577,12 +521,9 @@ export default function EditMatch(){
 
                         }
 
-
                     />
 
                 }
-
-
 
 
             </div>
@@ -590,8 +531,6 @@ export default function EditMatch(){
 
         </div>
 
-
     );
-
 
 }

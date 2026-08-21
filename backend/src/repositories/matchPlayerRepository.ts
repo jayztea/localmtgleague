@@ -1,43 +1,35 @@
 import { db } from "../db";
 
-
-
 interface CreateMatchPlayerParams {
 
+    match_id:
+        number;
 
-    match_id:number;
+    player_id:
+        number;
 
+    deck_id:
+        number;
 
-    player_id:number;
+    secondary_commander_id?:
+        number;
 
+    finish_position?:
+        number;
 
-    deck_id:number;
+    starting_life?:
+        number;
 
-
-    finish_position?:number;
-
-
-    starting_life?:number;
-
-
-    ending_life?:number;
-
+    ending_life?:
+        number;
 
 }
 
-
-
-
-
-
-
-
-
 export async function createMatchPlayer(
-    data:CreateMatchPlayerParams
+    data: CreateMatchPlayerParams
 ){
 
-    const [result]:any =
+    const [result]: any =
 
         await db.execute(
 
@@ -47,12 +39,13 @@ export async function createMatchPlayer(
                 match_id,
                 player_id,
                 deck_id,
+                secondary_commander_id,
                 finish_position,
                 starting_life,
                 ending_life
             )
 
-            VALUES (?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
 
             `,
 
@@ -64,6 +57,8 @@ export async function createMatchPlayer(
 
                 data.deck_id,
 
+                data.secondary_commander_id ?? null,
+
                 data.finish_position ?? null,
 
                 data.starting_life ?? 40,
@@ -74,24 +69,15 @@ export async function createMatchPlayer(
 
         );
 
-
     return result.insertId;
 
 }
 
-
-
-
-
-
-
-
-
 export async function findByMatchId(
-    matchId:number
+    matchId: number
 ){
 
-    const [rows]:any =
+    const [rows]: any =
 
         await db.execute(
 
@@ -104,11 +90,11 @@ export async function findByMatchId(
 
                 p.display_name,
 
-
                 mp.deck_id,
 
                 d.deck_name,
 
+                mp.secondary_commander_id,
 
                 mp.finish_position,
 
@@ -116,22 +102,15 @@ export async function findByMatchId(
 
                 mp.ending_life
 
-
             FROM match_players mp
 
-
             JOIN players p
-
                 ON mp.player_id = p.player_id
 
-
             JOIN decks d
-
                 ON mp.deck_id = d.deck_id
 
-
             WHERE mp.match_id = ?
-
 
             ORDER BY mp.finish_position ASC
 
@@ -143,21 +122,12 @@ export async function findByMatchId(
 
         );
 
-
     return rows;
 
 }
 
-
-
-
-
-
-
-
-
 export async function deleteMatchPlayers(
-    matchId:number
+    matchId: number
 ){
 
     await db.execute(
@@ -177,27 +147,27 @@ export async function deleteMatchPlayers(
 
 }
 
-
-
-
-
-
-
-
-
 export async function replaceMatchPlayers(
-    matchId:number,
-    players:Array<{
+    matchId: number,
+    players: Array<{
 
-        player_id:number;
+        player_id:
+            number;
 
-        deck_id:number;
+        deck_id:
+            number;
 
-        finish_position?:number;
+        secondary_commander_id?:
+            number;
 
-        starting_life?:number;
+        finish_position?:
+            number;
 
-        ending_life?:number;
+        starting_life?:
+            number;
+
+        ending_life?:
+            number;
 
     }>
 ){
@@ -206,38 +176,34 @@ export async function replaceMatchPlayers(
         matchId
     );
 
-
-
-    for(const player of players){
-
+    for(
+        const player of players
+    ){
 
         await createMatchPlayer({
 
             match_id:
                 matchId,
 
-
             player_id:
                 player.player_id,
-
 
             deck_id:
                 player.deck_id,
 
+            secondary_commander_id:
+                player.secondary_commander_id,
 
             finish_position:
                 player.finish_position,
 
-
             starting_life:
                 player.starting_life,
-
 
             ending_life:
                 player.ending_life
 
         });
-
 
     }
 

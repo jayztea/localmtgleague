@@ -99,7 +99,6 @@ export default function Step2AddPlayers({
 
 
                 const players:
-
                 LeaguePlayer[] =
 
                     await getLeaguePlayersWithCommanders(
@@ -208,6 +207,10 @@ export default function Step2AddPlayers({
                     })),
 
                 selected_commander_id:
+
+                    null,
+
+                selected_secondary_commander_id:
 
                     null,
 

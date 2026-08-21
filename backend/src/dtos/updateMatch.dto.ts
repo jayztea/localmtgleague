@@ -1,120 +1,91 @@
 import { z } from "zod";
 
-
-
 export const updateMatchPlayerSchema = z.object({
 
-
-    player_id: z.number()
-
+    player_id:
+        z.number()
         .int()
-
         .positive(),
 
-
-
-    commander_id: z.number()
-
+    commander_id:
+        z.number()
         .int()
-
         .positive(),
 
-
-
-    finish_position: z.number()
-
+    secondary_commander_id:
+        z.number()
         .int()
-
         .positive()
-
         .optional(),
 
-
-
-    starting_life: z.number()
-
+    finish_position:
+        z.number()
         .int()
-
+        .positive()
         .optional(),
 
-
-
-    ending_life: z.number()
-
+    starting_life:
+        z.number()
         .int()
+        .optional(),
 
+    ending_life:
+        z.number()
+        .int()
         .optional()
 
-
 });
-
-
-
-
-
-
-
-
 
 export const updateMatchSchema = z.object({
 
-
-    game_length_minutes: z.number()
-
+    game_length_minutes:
+        z.number()
         .int()
-
         .positive()
-
         .optional(),
 
-
-
-    notes: z.string()
-
+    notes:
+        z.string()
         .max(500)
-
         .optional(),
 
-
-
-    players: z.array(
-
-        updateMatchPlayerSchema
-
-    )
-
-    .min(
-        2,
-        "A match requires at least 2 players."
-    )
-
+    players:
+        z.array(
+            updateMatchPlayerSchema
+        )
+        .min(
+            2,
+            "A match requires at least 2 players."
+        )
 
 });
 
-
-
-
-
 export type UpdateMatchDTO =
-
     z.infer<typeof updateMatchSchema> & {
 
+        players: Array<{
 
-        players:Array<{
+            player_id:
+                number;
 
-            player_id:number;
+            commander_id:
+                number;
 
-            commander_id:number;
+            secondary_commander_id?:
+                number;
 
-            deck_id?:number;
+            deck_id?:
+                number;
 
-            finish_position?:number;
+            finish_position?:
+                number;
 
-            starting_life?:number;
+            starting_life?:
+                number;
 
-            ending_life?:number;
+            ending_life?:
+                number;
 
         }>;
-
 
     };

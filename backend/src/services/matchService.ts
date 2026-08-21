@@ -1,68 +1,55 @@
 import * as matchRepository
 from "../repositories/matchRepository";
 
-
 import * as matchPlayerRepository
 from "../repositories/matchPlayerRepository";
-
 
 import * as playerRepository
 from "../repositories/playerRepository";
 
-
 import * as leaguePlayerRepository
 from "../repositories/leaguePlayerRepository";
 
-
 import * as deckService
 from "./deckService";
-
 
 import {
     CreateMatchDTO
 }
 from "../dtos/createMatch.dto";
 
-
 import {
     UpdateMatchDTO
 }
 from "../dtos/updateMatch.dto";
-
 
 import {
     UnauthorizedError
 }
 from "../errors/UnauthorizedError";
 
-
 import {
     NotFoundError
 }
 from "../errors/NotFoundError";
-
 
 import {
     canManageMatch as checkMatchPermission
 }
 from "./matchPermissionService";
 
-
 import * as matchAuditRepository
 from "../repositories/matchAuditRepository";
 
-
-
 export async function createMatch(
-    userId:number,
-    data:CreateMatchDTO
+    userId: number,
+    data: CreateMatchDTO
 ){
 
     const submittingPlayer =
         await playerRepository.findByUserId(
             userId
         );
-
 
     if(!submittingPlayer){
 
@@ -72,15 +59,11 @@ export async function createMatch(
 
     }
 
-
-
-
     const membership =
         await leaguePlayerRepository.findMembership(
             data.league_id,
             submittingPlayer.player_id
         );
-
 
     if(!membership){
 
@@ -90,18 +73,15 @@ export async function createMatch(
 
     }
 
-
-
-
-
-    for(const matchPlayer of data.players){
+    for(
+        const matchPlayer of data.players
+    ){
 
         const playerMembership =
             await leaguePlayerRepository.findMembership(
                 data.league_id,
                 matchPlayer.player_id
             );
-
 
         if(!playerMembership){
 
@@ -111,24 +91,16 @@ export async function createMatch(
 
         }
 
-
-
         const deck =
             await deckService.getOrCreateCommanderDeck(
                 matchPlayer.player_id,
                 matchPlayer.commander_id
             );
 
-
         matchPlayer.deck_id =
             deck.deck_id;
 
     }
-
-
-
-
-
 
     const matchId =
         await matchRepository.createMatch(
@@ -143,47 +115,36 @@ export async function createMatch(
 
         );
 
-
-
-
-
-
-    for(const matchPlayer of data.players){
-
+    for(
+        const matchPlayer of data.players
+    ){
 
         await matchPlayerRepository.createMatchPlayer({
 
             match_id:
                 matchId,
 
-
             player_id:
                 matchPlayer.player_id,
-
 
             deck_id:
                 matchPlayer.deck_id!,
 
+            secondary_commander_id:
+                matchPlayer.secondary_commander_id,
 
             finish_position:
                 matchPlayer.finish_position,
 
-
             starting_life:
                 matchPlayer.starting_life,
-
 
             ending_life:
                 matchPlayer.ending_life
 
         });
 
-
     }
-
-
-
-
 
     return {
 
@@ -194,14 +155,8 @@ export async function createMatch(
 
 }
 
-
-
-
-
-
-
 export async function getMatchesByLeague(
-    leagueId:number
+    leagueId: number
 ){
 
     return await matchRepository.findByLeagueId(
@@ -210,15 +165,9 @@ export async function getMatchesByLeague(
 
 }
 
-
-
-
-
-
-
 export async function canManageMatch(
-    matchId:number,
-    userId:number
+    matchId: number,
+    userId: number
 ){
 
     return await checkMatchPermission(
@@ -228,16 +177,10 @@ export async function canManageMatch(
 
 }
 
-
-
-
-
-
-
 export async function updateMatch(
-    userId:number,
-    matchId:number,
-    data:UpdateMatchDTO
+    userId: number,
+    matchId: number,
+    data: UpdateMatchDTO
 ){
 
     const allowed =
@@ -245,7 +188,6 @@ export async function updateMatch(
             matchId,
             userId
         );
-
 
     if(!allowed){
 
@@ -255,16 +197,10 @@ export async function updateMatch(
 
     }
 
-
-
-
-
-
     const match =
         await matchRepository.findById(
             matchId
         );
-
 
     if(!match){
 
@@ -274,17 +210,10 @@ export async function updateMatch(
 
     }
 
-
-
-
-
-
-
     const player =
         await playerRepository.findByUserId(
             userId
         );
-
 
     if(!player){
 
@@ -294,34 +223,31 @@ export async function updateMatch(
 
     }
 
+    const updatedPlayers: Array<{
 
+        player_id:
+            number;
 
+        deck_id:
+            number;
 
+        secondary_commander_id?:
+            number;
 
+        finish_position?:
+            number;
 
+        starting_life?:
+            number;
 
-    const updatedPlayers:Array<{
-
-        player_id:number;
-
-        deck_id:number;
-
-        finish_position?:number;
-
-        starting_life?:number;
-
-        ending_life?:number;
+        ending_life?:
+            number;
 
     }> = [];
 
-
-
-
-
-
-
-    for(const matchPlayer of data.players){
-
+    for(
+        const matchPlayer of data.players
+    ){
 
         const deck =
             await deckService.getOrCreateCommanderDeck(
@@ -332,68 +258,46 @@ export async function updateMatch(
 
             );
 
-
-
         updatedPlayers.push({
 
             player_id:
                 matchPlayer.player_id,
 
-
             deck_id:
                 deck.deck_id,
 
+            secondary_commander_id:
+                matchPlayer.secondary_commander_id,
 
             finish_position:
                 matchPlayer.finish_position,
 
-
             starting_life:
                 matchPlayer.starting_life,
-
 
             ending_life:
                 matchPlayer.ending_life
 
         });
 
-
     }
-
-
-
-
-
-
 
     await matchRepository.updateMatch(
 
         matchId,
 
-
         data.game_length_minutes ?? null,
 
-
         data.notes ?? null,
-
 
         player.player_id
 
     );
 
-
-
-
-
-
-
     const previousPlayers =
         await matchPlayerRepository.findByMatchId(
             matchId
         );
-
-
-
 
     await matchPlayerRepository.replaceMatchPlayers(
 
@@ -403,9 +307,6 @@ export async function updateMatch(
 
     );
 
-
-
-
     await matchAuditRepository.createAuditEntry(
 
         matchId,
@@ -419,12 +320,10 @@ export async function updateMatch(
             previous_match:
                 match,
 
-
             previous_players:
                 previousPlayers
 
         },
-
 
         {
 
@@ -444,12 +343,11 @@ export async function updateMatch(
         player.player_id,
 
         {
-            previous_match:
 
+            previous_match:
                 match,
 
             previous_players:
-
                 await matchPlayerRepository.findByMatchId(
                     matchId
                 )
@@ -457,27 +355,23 @@ export async function updateMatch(
         },
 
         {
+
             updated_match: {
 
                 game_length_minutes:
                     data.game_length_minutes ?? null,
-
 
                 notes:
                     data.notes ?? null
 
             },
 
-
             updated_players:
-
                 updatedPlayers
 
         }
 
     );
-
-
 
     return {
 
@@ -488,15 +382,9 @@ export async function updateMatch(
 
 }
 
-
-
-
-
-
-
 export async function deleteMatch(
-    userId:number,
-    matchId:number
+    userId: number,
+    matchId: number
 ){
 
     const allowed =
@@ -504,7 +392,6 @@ export async function deleteMatch(
             matchId,
             userId
         );
-
 
     if(!allowed){
 
@@ -514,17 +401,10 @@ export async function deleteMatch(
 
     }
 
-
-
-
-
-
-
     const match =
         await matchRepository.findById(
             matchId
         );
-
 
     if(!match){
 
@@ -534,17 +414,10 @@ export async function deleteMatch(
 
     }
 
-
-
-
-
-
-
     const player =
         await playerRepository.findByUserId(
             userId
         );
-
 
     if(!player){
 
@@ -554,12 +427,6 @@ export async function deleteMatch(
 
     }
 
-
-
-
-
-
-
     await matchRepository.softDeleteMatch(
 
         matchId,
@@ -567,9 +434,6 @@ export async function deleteMatch(
         player.player_id
 
     );
-
-
-
 
     await matchAuditRepository.createAuditEntry(
 
@@ -593,4 +457,5 @@ export async function deleteMatch(
         }
 
     );
+
 }
