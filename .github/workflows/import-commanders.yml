@@ -27,20 +27,23 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v4
+
         with:
           node-version: 22
 
 
       - name: Install dependencies
-        run:
-          npm install
+        run: npm install
 
 
       - name: Import commanders
-        run:
-          npm run import-commanders
+        run: npm run import-commanders
 
         env:
+
+          NODE_ENV: production
+
+          ALLOW_COMMANDER_IMPORT: "true"
 
           DB_HOST: ${{ secrets.DB_HOST }}
 
