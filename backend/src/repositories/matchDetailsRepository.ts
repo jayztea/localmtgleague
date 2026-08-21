@@ -1,4 +1,5 @@
-import { db } from "../db";
+import { db }
+from "../db";
 
 
 
@@ -33,6 +34,8 @@ export async function findMatchDetails(
 
                 mp.finish_position,
 
+                mp.starting_life,
+
                 mp.ending_life,
 
 
@@ -47,7 +50,20 @@ export async function findMatchDetails(
 
                 c.color_identity,
 
-                c.image_url
+                c.image_url,
+
+
+                mp.secondary_commander_id,
+
+
+                secondary.commander_name
+                    AS secondary_commander_name,
+
+                secondary.color_identity
+                    AS secondary_color_identity,
+
+                secondary.image_url
+                    AS secondary_image_url
 
 
             FROM matches m
@@ -76,6 +92,12 @@ export async function findMatchDetails(
             JOIN commanders c
 
                 ON d.commander_id = c.commander_id
+
+
+            LEFT JOIN commanders secondary
+
+                ON mp.secondary_commander_id =
+                    secondary.commander_id
 
 
             WHERE m.match_id = ?

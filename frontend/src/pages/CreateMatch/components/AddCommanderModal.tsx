@@ -1,134 +1,94 @@
 import { useState } from "react";
 
-
 import {
     searchCommanders
-}
-from "../../../services/commanderService";
-
+} from "../../../services/commanderService";
 
 import {
     getOrCreateCommanderDeck
-}
-from "../../../services/deckService";
-
+} from "../../../services/deckService";
 
 import "../CreateMatch.css";
 
-
-
 interface PlayerInfo {
 
-    player_id:number;
+    player_id: number;
 
-    display_name:string;
+    display_name: string;
 
 }
-
-
 
 interface Props {
 
-    player:PlayerInfo;
+    player: PlayerInfo;
 
-    onClose:()=>void;
+    onClose: () => void;
 
-    onCommanderAdded:(commander:any)=>void;
+    onCommanderAdded: (
+        commander: any
+    ) => void;
 
 }
 
-
-
 export default function AddCommanderModal({
-
     player,
-
     onClose,
-
     onCommanderAdded
-
-}:Props){
-
+}: Props) {
 
     const [
-
         query,
-
         setQuery
-
-    ] =
-
-    useState("");
-
+    ] = useState("");
 
     const [
-
         loading,
-
         setLoading
-
-    ] =
-
-    useState(false);
-
+    ] = useState(false);
 
     const [
-
         results,
-
         setResults
+    ] = useState<any[]>([]);
 
-    ] =
+    async function handleSearch() {
 
-    useState<any[]>([]);
-
-
-
-
-
-    async function handleSearch(){
-
-
-        if(!query.trim())
+        if (
+            !query.trim()
+        ) {
 
             return;
 
+        }
 
-        try{
+        try {
 
             setLoading(true);
 
-
             const commanders =
-
                 await searchCommanders(
-
                     query
-
                 );
 
-
             setResults(
-
                 commanders
-
             );
 
         }
+        catch (
+            error
+        ) {
 
-        catch(error){
-
-            console.error(error);
+            console.error(
+                error
+            );
 
             alert(
-
                 "Failed to search commanders."
-
             );
 
         }
-
-        finally{
+        finally {
 
             setLoading(false);
 
@@ -136,82 +96,62 @@ export default function AddCommanderModal({
 
     }
 
-
-
-
-
     async function selectCommander(
+        commander: any
+    ) {
 
-        commander:any
-
-    ){
-
-
-        try{
-
+        try {
 
             const deck =
-
                 await getOrCreateCommanderDeck(
-
                     player.player_id,
-
                     commander.commander_id
-
                 );
-
 
             onCommanderAdded({
 
                 deck_id:
-
                     deck.deck_id,
 
                 commander_id:
-
                     commander.commander_id,
 
                 commander_name:
-
                     commander.commander_name,
 
                 color_identity:
-
                     commander.color_identity,
 
                 image_url:
+                    commander.image_url,
 
-                    commander.image_url
+                type_line:
+                    commander.type_line ?? null
 
             });
 
         }
+        catch (
+            error
+        ) {
 
-        catch(error){
-
-            console.error(error);
+            console.error(
+                error
+            );
 
             alert(
-
                 "Unable to add commander."
-
             );
 
         }
 
     }
 
-
-
-
-
-    return(
+    return (
 
         <div className="modal-overlay">
 
-
             <div className="modal-card">
-
 
                 <h2>
 
@@ -219,40 +159,37 @@ export default function AddCommanderModal({
 
                 </h2>
 
-
                 <p className="modal-subtitle">
 
                     Search for a commander to add to
-
                     {` ${player.display_name}`}'s decks.
 
                 </p>
 
-
                 <div className="modal-search">
-
 
                     <input
 
                         className="search-input"
 
-                        value={query}
+                        value={
+                            query
+                        }
 
-                        onChange={(e)=>
-
+                        onChange={(e) =>
                             setQuery(
-
                                 e.target.value
-
                             )
-
                         }
 
                         placeholder="Search commander..."
 
-                        onKeyDown={(e)=>{
+                        onKeyDown={(e) => {
 
-                            if(e.key === "Enter"){
+                            if (
+                                e.key ===
+                                "Enter"
+                            ) {
 
                                 handleSearch();
 
@@ -262,12 +199,13 @@ export default function AddCommanderModal({
 
                     />
 
-
                     <button
 
                         className="primary-button"
 
-                        onClick={handleSearch}
+                        onClick={
+                            handleSearch
+                        }
 
                     >
 
@@ -275,9 +213,7 @@ export default function AddCommanderModal({
 
                     </button>
 
-
                 </div>
-
 
                 {
 
@@ -291,84 +227,70 @@ export default function AddCommanderModal({
 
                 }
 
-
                 <div className="search-results">
-
 
                     {
 
-                        results.map(commander=>(
+                        results.map(
+                            commander => (
 
+                                <div
 
-                            <div
+                                    key={
+                                        commander.commander_id
+                                    }
 
-                                key={
-
-                                    commander.commander_id
-
-                                }
-
-                                className="search-result-row"
-
-                            >
-
-
-                                <div>
-
-                                    <div className="commander-name">
-
-                                        {
-
-                                            commander.commander_name
-
-                                        }
-
-                                    </div>
-
-
-                                    <div className="commander-colors">
-
-                                        {
-
-                                            commander.color_identity
-
-                                        }
-
-                                    </div>
-
-                                </div>
-
-
-                                <button
-
-                                    className="primary-button"
-
-                                    onClick={()=>selectCommander(
-
-                                        commander
-
-                                    )}
+                                    className="search-result-row"
 
                                 >
 
-                                    Add
+                                    <div>
 
-                                </button>
+                                        <div className="commander-name">
 
+                                            {
+                                                commander.commander_name
+                                            }
 
-                            </div>
+                                        </div>
 
-                        ))
+                                        <div className="commander-colors">
+
+                                            {
+                                                commander.color_identity
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                    <button
+
+                                        className="primary-button"
+
+                                        onClick={() =>
+                                            selectCommander(
+                                                commander
+                                            )
+                                        }
+
+                                    >
+
+                                        Add
+
+                                    </button>
+
+                                </div>
+
+                            )
+                        )
 
                     }
-
 
                     {
 
                         !loading &&
-
                         results.length === 0 &&
-
                         query !== "" &&
 
                         <div className="empty-search">
@@ -379,18 +301,17 @@ export default function AddCommanderModal({
 
                     }
 
-
                 </div>
 
-
                 <div className="modal-footer">
-
 
                     <button
 
                         className="secondary-button"
 
-                        onClick={onClose}
+                        onClick={
+                            onClose
+                        }
 
                     >
 
@@ -398,12 +319,9 @@ export default function AddCommanderModal({
 
                     </button>
 
-
                 </div>
 
-
             </div>
-
 
         </div>
 

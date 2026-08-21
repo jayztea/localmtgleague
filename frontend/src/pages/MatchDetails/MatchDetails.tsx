@@ -39,7 +39,6 @@ import "./MatchDetails.css";
 
 
 
-
 export default function MatchDetails(){
 
 
@@ -56,14 +55,12 @@ export default function MatchDetails(){
 
 
 
-
     const [
         match,
         setMatch
     ]
     =
     useState<MatchDetailsType | null>(null);
-
 
 
 
@@ -78,7 +75,6 @@ export default function MatchDetails(){
 
 
 
-
     const [
         canManage,
         setCanManage
@@ -89,16 +85,12 @@ export default function MatchDetails(){
 
 
 
-
     const [
         deleting,
         setDeleting
     ]
     =
     useState(false);
-
-
-
 
 
 
@@ -119,13 +111,8 @@ export default function MatchDetails(){
                     return;
 
 
-
-
                 const id =
                     Number(matchId);
-
-
-
 
 
                 const data =
@@ -135,13 +122,9 @@ export default function MatchDetails(){
                     );
 
 
-
                 setMatch(
                     data
                 );
-
-
-
 
 
                 const permissions =
@@ -149,7 +132,6 @@ export default function MatchDetails(){
                     await getMatchPermissions(
                         id
                     );
-
 
 
                 setCanManage(
@@ -181,14 +163,10 @@ export default function MatchDetails(){
         }
 
 
-
         load();
 
 
     },[matchId]);
-
-
-
 
 
 
@@ -205,9 +183,6 @@ export default function MatchDetails(){
             return;
 
 
-
-
-
         const confirmed =
 
             window.confirm(
@@ -217,14 +192,9 @@ export default function MatchDetails(){
             );
 
 
-
-
         if(!confirmed)
 
             return;
-
-
-
 
 
         try{
@@ -235,9 +205,6 @@ export default function MatchDetails(){
             );
 
 
-
-
-
             await deleteMatch(
 
                 Number(matchId)
@@ -245,17 +212,11 @@ export default function MatchDetails(){
             );
 
 
-
-
-
             alert(
 
                 "Match deleted successfully."
 
             );
-
-
-
 
 
             if(match){
@@ -282,7 +243,6 @@ export default function MatchDetails(){
                 error
 
             );
-
 
 
             alert(
@@ -313,7 +273,6 @@ export default function MatchDetails(){
 
 
 
-
     if(loading){
 
 
@@ -328,7 +287,6 @@ export default function MatchDetails(){
         );
 
     }
-
 
 
 
@@ -359,15 +317,12 @@ export default function MatchDetails(){
 
 
 
-
     return (
 
         <div className="match-details-page">
 
 
-
             <StepHeader
-
 
                 step={0}
 
@@ -378,10 +333,6 @@ export default function MatchDetails(){
                 description="Review the recorded match results."
 
             />
-
-
-
-
 
 
 
@@ -399,6 +350,7 @@ export default function MatchDetails(){
 
                     )
 
+
                 }
 
             >
@@ -410,14 +362,9 @@ export default function MatchDetails(){
 
 
 
-
-
-
-
-
             {
-                canManage &&
 
+                canManage &&
 
                 <div className="match-actions">
 
@@ -447,9 +394,6 @@ export default function MatchDetails(){
 
 
 
-
-
-
                     <button
 
                         className="match-delete-button"
@@ -465,6 +409,7 @@ export default function MatchDetails(){
                     >
 
                         {
+
                             deleting
 
                             ?
@@ -474,8 +419,8 @@ export default function MatchDetails(){
                             :
 
                             "Delete Match"
-                        }
 
+                        }
 
                     </button>
 
@@ -487,17 +432,7 @@ export default function MatchDetails(){
 
 
 
-
-
-
-
-
             <div className="review-layout">
-
-
-
-
-
 
 
                 <div className="summary-card">
@@ -508,7 +443,6 @@ export default function MatchDetails(){
                         Match Summary
 
                     </h2>
-
 
 
 
@@ -526,8 +460,6 @@ export default function MatchDetails(){
                         {match.league.league_name}
 
                     </p>
-
-
 
 
 
@@ -556,9 +488,6 @@ export default function MatchDetails(){
 
 
 
-
-
-
                     <p>
 
                         <strong>
@@ -574,14 +503,7 @@ export default function MatchDetails(){
                     </p>
 
 
-
-
                 </div>
-
-
-
-
-
 
 
 
@@ -589,8 +511,8 @@ export default function MatchDetails(){
                 <div className="review-results">
 
 
-
                     {
+
                         match.players.map(player=>(
 
 
@@ -605,7 +527,6 @@ export default function MatchDetails(){
                             >
 
 
-
                                 <div className="review-placement">
 
                                     #{player.finish_position}
@@ -615,63 +536,69 @@ export default function MatchDetails(){
 
 
 
-
-                                <div>
+                                <div className="review-player-content">
 
 
                                     <div className="review-player-name">
-
 
                                         {
                                             player.display_name
                                         }
 
-
                                     </div>
-
 
 
 
 
                                     <div className="review-commander">
 
-
                                         {
                                             player.commander_name
                                         }
-
 
                                     </div>
 
 
 
-                                </div>
 
+                                    {
+
+                                        player.secondary_commander_id &&
+
+                                        player.secondary_commander_name &&
+
+                                        <div className="review-secondary-commander">
+
+                                            + {
+
+                                                player.secondary_commander_name
+
+                                            }
+
+                                        </div>
+
+                                    }
+
+
+                                </div>
 
 
                             </div>
 
 
                         ))
-                    }
 
+                    }
 
 
                 </div>
 
 
-
-
-
             </div>
-
-
-
 
 
         </div>
 
     );
-
 
 }
