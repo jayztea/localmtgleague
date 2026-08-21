@@ -26,6 +26,7 @@ Database:
 /database - SQL scripts
 
 ## Feature Release & Date
+- Feature: Ability to add secondary commander types (choose background, partner, friends forever, etc.) - **08/20/2026**
 - Feature: Submit feedback form so that users can submit feedback and help to improve the app - **08/16/2026**
 - Feature: Create hamburger, and adjust global navigation - **08/14/2026**
 - Feature: Player Statistics - **08/13/2026**
@@ -41,7 +42,7 @@ Database:
 ## Feature Backlog
 
 **Upcoming in prioritized order:*
-- Feature: Add ability to have backgrounds & partner commanders
+- Feature: Integrate Secondary commander types into player & league statistics
 - Feature: Non-League Play & Exhibition Match Recording
 - Feature: Complete reset password
 - Feature: Add in season feature for league, default all existing matches in a league to S1
