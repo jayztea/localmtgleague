@@ -21,12 +21,20 @@ from "./scryfallService";
 const DEBUG_CARD =
     "Traxos, Scourge of Kroog";
 
+
 const DEBUG_FILE =
     path.join(
         process.cwd(),
         "data",
         "import-debug.log"
     );
+
+
+const EXCLUDED_RELATIONSHIP_COMMANDERS =
+    new Set([
+        "Mothers Yamazaki",
+        "The Knight of Land Drops"
+    ]);
 
 
 interface ScryfallCard {
@@ -541,6 +549,21 @@ function buildRelationshipIntents(
     for (
         const card of cards
     ) {
+
+        if (
+            EXCLUDED_RELATIONSHIP_COMMANDERS.has(
+                card.name
+            )
+        ) {
+
+            console.log(
+                `Skipping excluded commander relationship: ${card.name}`
+            );
+
+            continue;
+
+        }
+
 
         if (
             !isCommander(card)
@@ -1093,6 +1116,7 @@ export async function importCommanders() {
                 card
             );
 
+
             writeDebug(
                 "isCommander",
                 {
@@ -1208,6 +1232,7 @@ export async function importCommanders() {
      * This prevents a partially successful import
      * from leaving production with missing relationships.
      */
+
     const resolvedRelationships =
         await resolveRelationships(
             relationships,
