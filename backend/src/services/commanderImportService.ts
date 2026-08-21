@@ -95,6 +95,19 @@ interface RelationshipIntent {
 }
 
 
+interface ResolvedRelationship {
+
+    commander_id: number;
+
+    relationship_type:
+        CommanderRelationshipType;
+
+    related_commander_id:
+        number | null;
+
+}
+
+
 function writeDebug(
     message: string,
     data?: any
@@ -767,13 +780,13 @@ async function resolveCommanderIdByName(
 }
 
 
-async function importRelationships(
+async function resolveRelationships(
     relationships: RelationshipIntent[],
     cards: ScryfallCard[]
-) {
+): Promise<ResolvedRelationship[]> {
 
     console.log(
-        "Building commander relationships..."
+        "Resolving commander relationships..."
     );
 
 
@@ -793,11 +806,9 @@ async function importRelationships(
     }
 
 
-    await deleteAllCommanderRelationships();
+    const resolved:
+        ResolvedRelationship[] = [];
 
-
-    let imported =
-        0;
 
     let unresolved =
         0;
@@ -841,6 +852,11 @@ async function importRelationships(
                 );
 
 
+                console.error(
+                    `Unresolved relationship: ${relationship.commanderName} -> ${relationship.relatedCommanderName}`
+                );
+
+
                 unresolved++;
 
                 continue;
@@ -861,21 +877,86 @@ async function importRelationships(
                 `Skipping unresolved Partner With relationship: ${relationship.commanderName} -> ${relationship.relatedCommanderName ?? "unknown"}`
             );
 
+            unresolved++;
+
             continue;
+
         }
 
+
+        resolved.push({
+
+            commander_id:
+                commanderId,
+
+            relationship_type:
+                relationship.relationshipType,
+
+            related_commander_id:
+                relatedCommanderId
+
+        });
+
+    }
+
+
+    console.log(
+        `Commander relationships resolved: ${resolved.length}`
+    );
+
+
+    console.log(
+        `Commander relationships unresolved: ${unresolved}`
+    );
+
+
+    if (
+        unresolved > 0
+    ) {
+
+        throw new Error(
+            `Commander relationship resolution failed with ${unresolved} unresolved relationship(s). No existing commander relationships were deleted.`
+        );
+
+    }
+
+
+    return resolved;
+
+}
+
+
+async function importRelationships(
+    resolvedRelationships: ResolvedRelationship[]
+) {
+
+    console.log(
+        "Replacing commander relationships..."
+    );
+
+
+    await deleteAllCommanderRelationships();
+
+
+    let imported =
+        0;
+
+
+    for (
+        const relationship of resolvedRelationships
+    ) {
 
         const relationshipImport:
             CommanderRelationshipImport = {
 
                 commander_id:
-                    commanderId,
+                    relationship.commander_id,
 
                 relationship_type:
-                    relationship.relationshipType,
+                    relationship.relationship_type,
 
                 related_commander_id:
-                    relatedCommanderId
+                    relationship.related_commander_id
 
             };
 
@@ -894,49 +975,18 @@ async function importRelationships(
         `Commander relationships imported: ${imported}`
     );
 
-
-    console.log(
-        `Commander relationships unresolved: ${unresolved}`
-    );
-
-
-    if (
-        unresolved > 0
-    ) {
-
-        throw new Error(
-            `Commander relationship import completed with ${unresolved} unresolved relationship(s).`
-        );
-
-    }
-
 }
 
 
 export async function importCommanders() {
 
     if (
-        process.env.NODE_ENV !==
-        "development"
+        process.env.ALLOW_COMMANDER_IMPORT !==
+        "true"
     ) {
 
         throw new Error(
-            "Commander import is only allowed when NODE_ENV=development."
-        );
-
-    }
-
-
-    if (
-        process.env.DB_HOST !==
-            "localhost"
-        &&
-        process.env.DB_HOST !==
-            "127.0.0.1"
-    ) {
-
-        throw new Error(
-            `Refusing to run commander import against database host: ${process.env.DB_HOST}`
+            "Commander import is not enabled. Set ALLOW_COMMANDER_IMPORT=true to run this job."
         );
 
     }
@@ -1151,9 +1201,22 @@ export async function importCommanders() {
     );
 
 
+    /*
+     * Resolve every relationship before deleting
+     * the existing relationship data.
+     *
+     * This prevents a partially successful import
+     * from leaving production with missing relationships.
+     */
+    const resolvedRelationships =
+        await resolveRelationships(
+            relationships,
+            commanderCards
+        );
+
+
     await importRelationships(
-        relationships,
-        commanderCards
+        resolvedRelationships
     );
 
 
